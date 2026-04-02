@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Brixton Burger House - Premium craft burgers in the heart of South London. Fresh ingredients, bold flavours, unforgettable taste.">
+    <title>Brixton Burger House | Craft Burgers London</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP for Cinematic Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <style>
+        /* ===== CINEMATIC DESIGN SYSTEM ===== */
+        :root {
+            --bg: #0a0a0c;
+            --bg-alt: #121216;
+            --surface: #1a1a1f;
+            --text: #fafaf8;
+            --text-muted: #888890;
+            --accent: #ff6b35;
+            --accent-glow: rgba(255, 107, 53, 0.4);
+            --gold: #d4a962;
+            --border: #2a2a30;
+            --gradient-fire: linear-gradient(135deg, #ff6b35 0%, #f5a623 50%, #ff6b35 100%);
+            --gradient-dark: linear-gradient(180deg, #0a0a0c 0%, #1a1a1f 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor.hover {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-glow);
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text);
+        }
+
+        .logo-accent {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(255, 107, 53, 0.15) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+            margin-bottom: 32px;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .hero h1 .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero h1 .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+            opacity: 0;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+        }
+
+        .btn {
+            padding: 18px 42px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-fire);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ===== KINETIC MARQUEE ===== */
+        .marquee-section {
+            padding: 80px 0;
+            overflow: hidden;
+            background: var(--bg-alt);
+        }
+
+        .marquee-row {
+            display: flex;
+            white-space: nowrap;
+            will-change: transform;
+            padding: 16px 0;
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 40px;
+            flex-shrink: 0;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255,255,255,0.15);
+        }
+
+        .marquee-item .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin: 0 40px;
+        }
+
+        .marquee-row.reverse {
+            animation: marqueeReverse 30s linear infinite;
+        }
+
+        .marquee-row.forward {
+            animation: marqueeForward 30s linear infinite;
+        }
+
+        @keyframes marqueeForward {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes marqueeReverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about {
+            padding: 180px 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 120px;
+            align-items: center;
+        }
+
+        .about-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .about h2 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+        }
+
+        .about h2 .highlight {
+            color: var(--accent);
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.1);
+        }
+
+        /* ===== MENU SECTION ===== */
+        .menu {
+            padding: 180px 24px;
+            background: var(--bg-alt);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 120px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .menu-item {
+            background: var(--surface);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .menu-image {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+        }
+
+        .menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .menu-item:hover .menu-image img {
+            transform: scale(1.1);
+        }
+
+        .menu-info {
+            padding: 32px;
+        }
+
+        .menu-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .menu-desc {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .menu-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta {
+            padding: 200px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta h2 {
+            font-size: clamp(2.5rem, 6vw, 6rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 32px;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 80px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto 60px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 24px;
+            color: var(--text-muted);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== SCROLL PROGRESS ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            z-index: 1001;
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            background: var(--gradient-fire);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .about-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .nav {
+                padding: 20px 24px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cursor,
+            .cursor-dot {
+                display: none;
+            }
+
+            body {
+                cursor: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="progress-bar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="logo">Brixton<span class="logo-accent">Burger</span></a>
+        <ul class="nav-links">
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#menu" class="nav-link">Menu</a></li>
+            <li><a href="#location" class="nav-link">Location</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">★ Craft Burgers Since 2019</p>
+            <h1>
+                <span class="line"><span class="word">BRIXTON</span></span>
+                <span class="line"><span class="word">BURGER</span></span>
+                <span class="line"><span class="word">HOUSE</span></span>
+            </h1>
+            <p class="hero-subtitle">
+                Premium craft burgers made with locally sourced ingredients, 
+                bold flavours, and unforgettable taste. Welcome to South London's 
+                favourite burger destination.
+            </p>
+            <div class="hero-cta">
+                <a href="#menu" class="btn btn-primary">View Menu →</a>
+                <a href="#location" class="btn btn-secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kinetic Marquee -->
+    <section class="marquee-section">
+        <div class="marquee-row reverse">
+            <div class="marquee-item">FRESH <span class="dot"></span> LOCAL <span class="dot"></span> CRAFT <span class="dot"></span> BOLD <span class="dot"></span></div>
+            <div class="marquee-item">FRESH <span class="dot"></span> LOCAL <span class="dot"></span> CRAFT <span class="dot"></span> BOLD <span class="dot"></span></div>
+            <div class="marquee-item">FRESH <span class="dot"></span> LOCAL <span class="dot"></span> CRAFT <span class="dot"></span> BOLD <span class="dot"></span></div>
+        </div>
+        <div class="marquee-row forward">
+            <div class="marquee-item">HANDCRAFTED <span class="dot"></span> PREMIUM <span class="dot"></span> AUTHENTIC <span class="dot"></span></div>
+            <div class="marquee-item">HANDCRAFTED <span class="dot"></span> PREMIUM <span class="dot"></span> AUTHENTIC <span class="dot"></span></div>
+            <div class="marquee-item">HANDCRAFTED <span class="dot"></span> PREMIUM <span class="dot"></span> AUTHENTIC <span class="dot"></span></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-content">
+                <p class="about-label">Our Story</p>
+                <h2>
+                    Where <span class="highlight">passion</span> meets 
+                    the <span class="highlight">perfect</span> burger
+                </h2>
+                <p>
+                    Born in the heart of Brixton, we're on a mission to serve South London's 
+                    most unforgettable burgers. Every patty is hand-pressed daily, every 
+                    ingredient is locally sourced, and every burger is crafted with 
+                    obsessive attention to detail.
+                </p>
+                <p>
+                    From our signature Brixton Smash to our seasonal specials, we believe 
+                    that a great burger isn't just food — it's an experience. Come taste 
+                    the difference that passion makes.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="Premium craft burger">
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu" id="menu">
+        <div class="section-header">
+            <p class="section-label">Our Menu</p>
+            <h2>Signature Burgers</h2>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Brixton Smash Burger">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">The Brixton Smash</h3>
+                    <p class="menu-desc">Double smashed patty, American cheese, house sauce, lettuce, pickles, brioche bun</p>
+                    <div class="menu-price">£14</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80" alt="Truffle Mushroom Burger">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Truffle Mushroom</h3>
+                    <p class="menu-desc">Wagyu patty, truffle aioli, wild mushrooms, gruyère, caramelised onions</p>
+                    <div class="menu-price">£18</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80" alt="Spicy Jalapeño Burger">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Fire & Smoke</h3>
+                    <p class="menu-desc">Smoked patty, jalapeños, pepper jack, chipotle mayo, crispy onions</p>
+                    <div class="menu-price">£16</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="location">
+        <div class="cta-content">
+            <h2>Ready to Taste<br>the Difference?</h2>
+            <p>
+                Visit us in the heart of Brixton or order online for pickup 
+                and delivery across South London.
+            </p>
+            <div class="hero-cta" style="opacity: 1;">
+                <a href="tel:+442071234567" class="btn btn-primary">📞 020 7123 4567</a>
+                <a href="#contact" class="btn btn-secondary">Get Directions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Brixton<span class="logo-accent">Burger</span></h3>
+                <p>
+                    Premium craft burgers in the heart of South London. 
+                    Locally sourced, handcrafted daily, unforgettable taste.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Location</h4>
+                <ul>
+                    <li>34 Brixton Road</li>
+                    <li>London, SW9 6PE</li>
+                    <li>United Kingdom</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Hours</h4>
+                <ul>
+                    <li>Mon-Thu: 12PM - 10PM</li>
+                    <li>Fri-Sat: 12PM - 11PM</li>
+                    <li>Sunday: 12PM - 9PM</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+442071234567">020 7123 4567</a></li>
+                    <li><a href="mailto:hello@brixtonburger.com">hello@brixtonburger.com</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Brixton Burger House. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Register GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        // Cursor hover effects
+        document.querySelectorAll('a, button, .menu-item').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        });
+
+        // Hero Animation
+        const tl = gsap.timeline();
+
+        tl.to('.hero h1 .word', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: 'power4.out'
+        })
+        .to('.hero-subtitle', {
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out'
+        }, '-=0.5')
+        .to('.hero-cta', {
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out'
+        }, '-=0.5');
+
+        // About Section Animation
+        gsap.from('.about-content', {
+            scrollTrigger: {
+                trigger: '.about',
+                start: 'top 80%',
+            },
+            opacity: 0,
+            x: -50,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.about-image', {
+            scrollTrigger: {
+                trigger: '.about',
+                start: 'top 80%',
+            },
+            opacity: 0,
+            x: 50,
+            duration: 1,
+            ease: 'power3.out',
+            delay: 0.2
+        });
+
+        // Menu Items Animation
+        gsap.utils.toArray('.menu-item').forEach((item, i) => {
+            gsap.from(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 85%',
+                },
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                delay: i * 0.2,
+                ease: 'power3.out'
+            });
+        });
+
+        // CTA Section Animation
+        gsap.from('.cta-content', {
+            scrollTrigger: {
+                trigger: '.cta',
+                start: 'top 80%',
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        // Parallax effect on about image
+        gsap.to('.about-image img', {
+            scrollTrigger: {
+                trigger: '.about',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+            },
+            y: 30,
+            ease: 'none'
+        });
+    </script>
+</body>
+</html>
