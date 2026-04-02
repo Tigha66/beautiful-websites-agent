@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Food Room Brixton — Specialty coffee, artisan brunch, and homemade cakes in the heart of South London.">
+    <title>The Food Room | Brixton Cafe & Brunch</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #faf9f6;
+            --bg-alt: #f5f3ef;
+            --text: #1a1a1f;
+            --text-muted: #6b6b73;
+            --accent: #c9a962;
+            --accent-light: #f5f0e6;
+            --green: #4a7c59;
+            --gradient-warm: linear-gradient(135deg, #c9a962 0%, #e5c985 100%);
+            --gradient-earth: linear-gradient(135deg, #4a7c59 0%, #6b9b7a 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px; height: 20px;
+            border: 2px solid var(--green);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+        .cursor-dot {
+            position: fixed;
+            width: 6px; height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        .cursor.hover {
+            width: 50px; height: 50px;
+            background: rgba(74,124,89,0.2);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text);
+        }
+        .logo-accent { color: var(--green); }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .nav-link:hover { color: var(--green); }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 60px;
+            background: var(--bg);
+        }
+        .hero-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+            margin-bottom: 32px;
+        }
+        .hero h1 .line {
+            display: block;
+            overflow: hidden;
+        }
+        .hero h1 .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 18px 42px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-primary {
+            background: var(--gradient-earth);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(74,124,89,0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--text);
+        }
+        .btn-secondary:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* Marquee */
+        .marquee-section {
+            padding: 80px 0;
+            overflow: hidden;
+            background: var(--bg-alt);
+        }
+        .marquee-row {
+            display: flex;
+            white-space: nowrap;
+            padding: 16px 0;
+        }
+        .marquee-row.reverse { animation: marqueeReverse 30s linear infinite; }
+        .marquee-row.forward { animation: marqueeForward 30s linear infinite; }
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 40px;
+            flex-shrink: 0;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(26,26,31,0.2);
+        }
+        .marquee-item .dot {
+            display: inline-block;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: var(--green);
+            margin: 0 40px;
+        }
+        @keyframes marqueeForward {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes marqueeReverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* About */
+        .about {
+            padding: 180px 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 120px;
+            align-items: center;
+        }
+        .about-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 24px;
+        }
+        .about h2 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+        }
+        .about h2 .highlight {
+            color: var(--green);
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+        }
+        .about p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        .about-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+        }
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .about-image:hover img { transform: scale(1.1); }
+
+        /* Menu Preview */
+        .menu-preview {
+            padding: 180px 24px;
+            background: var(--bg-alt);
+        }
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 120px;
+        }
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 24px;
+        }
+        .section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .menu-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .menu-item:hover { transform: translateY(-10px); }
+        .menu-image {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+        }
+        .menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .menu-item:hover .menu-image img { transform: scale(1.1); }
+        .menu-info { padding: 32px; }
+        .menu-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .menu-desc {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .menu-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        /* CTA */
+        .cta {
+            padding: 200px 24px;
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: clamp(2.5rem, 6vw, 6rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 32px;
+        }
+        .cta p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 80px 24px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto 60px;
+        }
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        .footer-brand p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .footer-links h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 24px;
+            color: var(--text-muted);
+        }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--green); }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .about-grid, .footer-grid { grid-template-columns: 1fr; gap: 60px; }
+            .nav { padding: 20px 24px; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 768px) {
+            .cursor, .cursor-dot { display: none; }
+            body { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <nav class="nav">
+        <a href="#" class="logo">The Food<span class="logo-accent">Room</span></a>
+        <ul class="nav-links">
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#menu" class="nav-link">Menu</a></li>
+            <li><a href="#location" class="nav-link">Location</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <p class="hero-label">★ Specialty Coffee & Artisan Brunch</p>
+        <h1>
+            <span class="line"><span class="word">THE FOOD</span></span>
+            <span class="line"><span class="word">ROOM</span></span>
+        </h1>
+        <p class="hero-subtitle">
+            Specialty coffee, homemade cakes, and artisan brunch in the heart of Brixton. 
+            Locally sourced, lovingly prepared, always fresh.
+        </p>
+        <div class="hero-cta">
+            <a href="#menu" class="btn btn-primary">View Menu →</a>
+            <a href="#location" class="btn btn-secondary">Find Us</a>
+        </div>
+    </section>
+
+    <section class="marquee-section">
+        <div class="marquee-row reverse">
+            <div class="marquee-item">SPECIALTY COFFEE <span class="dot"></span> HOMEMADE <span class="dot"></span> FRESH <span class="dot"></span></div>
+            <div class="marquee-item">SPECIALTY COFFEE <span class="dot"></span> HOMEMADE <span class="dot"></span> FRESH <span class="dot"></span></div>
+        </div>
+        <div class="marquee-row forward">
+            <div class="marquee-item">LOCAL <span class="dot"></span> SEASONAL <span class="dot"></span> SUSTAINABLE <span class="dot"></span></div>
+            <div class="marquee-item">LOCAL <span class="dot"></span> SEASONAL <span class="dot"></span> SUSTAINABLE <span class="dot"></span></div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-content">
+                <p class="about-label">Our Story</p>
+                <h2>
+                    Where <span class="highlight">community</span> meets 
+                    <span class="highlight">quality</span>
+                </h2>
+                <p>
+                    Born in the heart of Brixton, The Food Room is a neighbourhood cafe 
+                    built on the belief that great coffee and good food bring people together.
+                </p>
+                <p>
+                    Every espresso is pulled with precision, every cake is baked fresh 
+                    daily, and every dish is made with locally sourced ingredients. 
+                    This is more than a cafe — it's your local living room.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80" alt="Specialty coffee pour-over">
+            </div>
+        </div>
+    </section>
+
+    <section class="menu-preview" id="menu">
+        <div class="section-header">
+            <p class="section-label">Our Menu</p>
+            <h2>Favourites</h2>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=600&q=80" alt="Specialty flat white">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Signature Flat White</h3>
+                    <p class="menu-desc">Double espresso, velvety microfoam, latte art. Made with Union Hand-Roasted beans.</p>
+                    <div class="menu-price">£3.80</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1525351484163-7529414395d8?w=600&q=80" alt="Avocado toast">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Brixton Avocado Toast</h3>
+                    <p class="menu-desc">Sourdough, smashed avo, poached eggs, chilli flakes, micro herbs.</p>
+                    <div class="menu-price">£9.50</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1551024601-bec0273e847e?w=600&q=80" alt="Homemade cake">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Daily Cake Selection</h3>
+                    <p class="menu-desc">Rotating selection of homemade cakes. Ask behind the counter for today's specials.</p>
+                    <div class="menu-price">£4.50</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="location">
+        <div class="cta-content">
+            <h2>Visit Us in Brixton</h2>
+            <p>
+                Join us for specialty coffee, brunch, or just a moment to relax. 
+                We're open daily and always happy to see you.
+            </p>
+            <div class="hero-cta">
+                <a href="tel:+442071234501" class="btn btn-primary">📞 020 7123 4501</a>
+                <a href="#contact" class="btn btn-secondary">Get Directions</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contact">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>The Food<span class="logo-accent">Room</span></h3>
+                <p>
+                    Specialty coffee and artisan brunch in Brixton. 
+                    Locally sourced, homemade, always fresh.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Location</h4>
+                <ul>
+                    <li>45 Brixton Road</li>
+                    <li>London, SW9 6DD</li>
+                    <li>United Kingdom</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Hours</h4>
+                <ul>
+                    <li>Mon-Fri: 7AM - 5PM</li>
+                    <li>Saturday: 8AM - 6PM</li>
+                    <li>Sunday: 9AM - 5PM</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+442071234501">020 7123 4501</a></li>
+                    <li><a href="mailto:hello@thefoodroom.london">hello@thefoodroom.london</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Food Room Brixton. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .menu-item').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Hero Animation
+        const tl = gsap.timeline();
+        tl.to('.hero h1 .word', {
+            opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power4.out'
+        })
+        .to('.hero-subtitle', { opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.5')
+        .to('.hero-cta', { opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.5');
+
+        // About Animation
+        gsap.from('.about-content', {
+            scrollTrigger: { trigger: '.about', start: 'top 80%' },
+            opacity: 0, x: -50, duration: 1, ease: 'power3.out'
+        });
+        gsap.from('.about-image', {
+            scrollTrigger: { trigger: '.about', start: 'top 80%' },
+            opacity: 0, x: 50, duration: 1, ease: 'power3.out', delay: 0.2
+        });
+
+        // Menu Animation
+        gsap.utils.toArray('.menu-item').forEach((item, i) => {
+            gsap.from(item, {
+                scrollTrigger: { trigger: item, start: 'top 85%' },
+                opacity: 0, y: 50, duration: 0.8, delay: i * 0.2, ease: 'power3.out'
+            });
+        });
+
+        // CTA Animation
+        gsap.from('.cta-content', {
+            scrollTrigger: { trigger: '.cta', start: 'top 80%' },
+            opacity: 0, y: 50, duration: 1, ease: 'power3.out'
+        });
+    </script>
+</body>
+</html>
