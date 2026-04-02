@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hot Yoga Manchester — Transform your practice in Manchester's premier hot yoga studio. Hot 40, Hot 26, Vinyasa, and Yin classes daily.">
+    <title>Hot Yoga Manchester | Transform Your Practice</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --bg-alt: #121216;
+            --text: #fafaf8;
+            --text-muted: #888890;
+            --accent: #ff4757;
+            --accent-glow: rgba(255,71,87,0.4);
+            --orange: #ffa502;
+            --gradient-fire: linear-gradient(135deg, #ff4757 0%, #ffa502 100%);
+            --gradient-dark: linear-gradient(180deg, #0a0a0c 0%, #1a1a1f 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed; width: 20px; height: 20px;
+            border: 2px solid var(--accent); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s;
+        }
+        .cursor-dot {
+            position: fixed; width: 6px; height: 6px;
+            background: var(--accent); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        .cursor.hover { width: 50px; height: 50px; background: var(--accent-glow); }
+
+        /* Navigation */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 30px 50px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
+        .logo-accent { color: var(--accent); }
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-link { color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .nav-link:hover { color: var(--accent); }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+            padding: 120px 24px 60px; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(255,71,87,0.15) 0%, transparent 60%);
+        }
+        .hero-label {
+            font-size: 0.75rem; font-weight: 400; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 10rem); font-weight: 900;
+            line-height: 0.9; letter-spacing: -0.05em; margin-bottom: 32px;
+        }
+        .hero h1 .line { display: block; overflow: hidden; }
+        .hero h1 .word { display: inline-block; opacity: 0; transform: translateY(100%); }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem); color: var(--text-muted);
+            max-width: 600px; margin: 0 auto 48px; line-height: 1.6;
+        }
+        .hero-cta { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 18px 42px; font-size: 0.9rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em; border-radius: 100px;
+            border: none; cursor: pointer; transition: all 0.3s;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 12px;
+        }
+        .btn-primary { background: var(--gradient-fire); color: var(--bg); }
+        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 20px 50px var(--accent-glow); }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid rgba(255,255,255,0.3); }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Marquee */
+        .marquee-section { padding: 80px 0; overflow: hidden; background: var(--bg-alt); }
+        .marquee-row { display: flex; white-space: nowrap; padding: 16px 0; }
+        .marquee-row.reverse { animation: marqueeReverse 30s linear infinite; }
+        .marquee-row.forward { animation: marqueeForward 30s linear infinite; }
+        .marquee-item {
+            display: inline-flex; align-items: center; padding: 0 40px; flex-shrink: 0;
+            font-size: clamp(3rem, 8vw, 8rem); font-weight: 900; letter-spacing: -0.04em;
+            color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.15);
+        }
+        .marquee-item .dot {
+            display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+            background: var(--accent); margin: 0 40px;
+        }
+        @keyframes marqueeForward { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes marqueeReverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+
+        /* Classes */
+        .classes { padding: 180px 24px; }
+        .section-header { text-align: center; max-width: 800px; margin: 0 auto 120px; }
+        .section-label {
+            font-size: 0.75rem; font-weight: 400; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--accent); margin-bottom: 24px;
+        }
+        .section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800;
+            line-height: 1.1; letter-spacing: -0.03em;
+        }
+        .classes-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px; max-width: 1400px; margin: 0 auto;
+        }
+        .class-card {
+            background: var(--bg-alt); border-radius: 20px; overflow: hidden;
+            transition: transform 0.3s; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .class-card:hover { transform: translateY(-10px); }
+        .class-image { aspect-ratio: 4/3; overflow: hidden; }
+        .class-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+        .class-card:hover .class-image img { transform: scale(1.1); }
+        .class-info { padding: 32px; }
+        .class-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .class-desc { color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+        .class-meta { display: flex; gap: 20px; font-size: 0.9rem; color: var(--text-muted); }
+        .class-meta span { display: flex; align-items: center; gap: 8px; }
+
+        /* Schedule */
+        .schedule { padding: 180px 24px; background: var(--bg-alt); }
+        .schedule-table {
+            max-width: 1200px; margin: 0 auto;
+            border-collapse: collapse; width: 100%;
+        }
+        .schedule-table th, .schedule-table td {
+            padding: 20px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .schedule-table th {
+            font-size: 0.85rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; color: var(--text-muted);
+        }
+        .schedule-table td { font-size: 1rem; }
+        .schedule-table tr:hover { background: rgba(255,255,255,0.05); }
+        .class-tag {
+            display: inline-block; padding: 6px 14px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .tag-hot { background: var(--accent); color: white; }
+        .tag-warm { background: var(--orange); color: var(--bg); }
+        .tag-gentle { background: #4a7c59; color: white; }
+
+        /* Pricing */
+        .pricing { padding: 180px 24px; }
+        .pricing-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px; max-width: 1200px; margin: 0 auto;
+        }
+        .pricing-card {
+            background: var(--bg-alt); border-radius: 20px; padding: 48px 40px;
+            text-align: center; border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        .pricing-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .pricing-card.featured { border-color: var(--accent); background: rgba(255,71,87,0.1); }
+        .pricing-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; }
+        .pricing-price { font-size: 3rem; font-weight: 900; color: var(--accent); margin-bottom: 32px; }
+        .pricing-price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+        .pricing-features { list-style: none; margin-bottom: 32px; text-align: left; }
+        .pricing-features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .pricing-features li:last-child { border-bottom: none; }
+
+        /* CTA */
+        .cta { padding: 200px 24px; text-align: center; }
+        .cta h2 {
+            font-size: clamp(2.5rem, 6vw, 6rem); font-weight: 900;
+            line-height: 1; letter-spacing: -0.04em; margin-bottom: 32px;
+        }
+        .cta p { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 48px; }
+
+        /* Footer */
+        .footer { padding: 80px 24px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer-grid {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px;
+            max-width: 1400px; margin: 0 auto 60px;
+        }
+        .footer-brand h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 16px; }
+        .footer-brand p { color: var(--text-muted); line-height: 1.6; }
+        .footer-links h4 {
+            font-size: 0.85rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.1em; margin-bottom: 24px; color: var(--text-muted);
+        }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+        .footer-bottom {
+            text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted); font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .classes-grid, .pricing-grid, .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .nav { padding: 20px 24px; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 768px) {
+            .cursor, .cursor-dot { display: none; }
+            body { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <nav class="nav">
+        <a href="#" class="logo">Hot Yoga<span class="logo-accent">Manchester</span></a>
+        <ul class="nav-links">
+            <li><a href="#classes" class="nav-link">Classes</a></li>
+            <li><a href="#schedule" class="nav-link">Schedule</a></li>
+            <li><a href="#pricing" class="nav-link">Pricing</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <p class="hero-label">★ Manchester's Premier Hot Yoga Studio</p>
+        <h1>
+            <span class="line"><span class="word">TRANSFORM</span></span>
+            <span class="line"><span class="word">YOUR</span></span>
+            <span class="line"><span class="word">PRACTICE</span></span>
+        </h1>
+        <p class="hero-subtitle">
+            Hot 40, Hot 26, Vinyasa, and Yin yoga classes in the heart of Manchester. 
+            Heat up your practice, strengthen your body, calm your mind.
+        </p>
+        <div class="hero-cta">
+            <a href="#pricing" class="btn btn-primary">Book Class →</a>
+            <a href="#schedule" class="btn btn-secondary">View Schedule</a>
+        </div>
+    </section>
+
+    <section class="marquee-section">
+        <div class="marquee-row reverse">
+            <div class="marquee-item">HOT 40 <span class="dot"></span> HOT 26 <span class="dot"></span> VINYASA <span class="dot"></span></div>
+            <div class="marquee-item">HOT 40 <span class="dot"></span> HOT 26 <span class="dot"></span> VINYASA <span class="dot"></span></div>
+        </div>
+        <div class="marquee-row forward">
+            <div class="marquee-item">STRENGTH <span class="dot"></span> FLEXIBILITY <span class="dot"></span> MINDFULNESS <span class="dot"></span></div>
+            <div class="marquee-item">STRENGTH <span class="dot"></span> FLEXIBILITY <span class="dot"></span> MINDFULNESS <span class="dot"></span></div>
+        </div>
+    </section>
+
+    <section class="classes" id="classes">
+        <div class="section-header">
+            <p class="section-label">Our Classes</p>
+            <h2>Find Your Flow</h2>
+        </div>
+        <div class="classes-grid">
+            <div class="class-card">
+                <div class="class-image">
+                    <img src="https://images.unsplash.com/photo-1599447421405-0c1a11416297?w=600&q=80" alt="Hot 40 yoga class">
+                </div>
+                <div class="class-info">
+                    <h3 class="class-name">Hot 40</h3>
+                    <p class="class-desc">Dynamic vinyasa flow in 40°C heat. Build strength, flexibility, and endurance in this challenging class.</p>
+                    <div class="class-meta">
+                        <span>🔥 40°C</span>
+                        <span>⏱️ 60 min</span>
+                        <span>📊 All Levels</span>
+                    </div>
+                </div>
+            </div>
+            <div class="class-card">
+                <div class="class-image">
+                    <img src="https://images.unsplash.com/photo-1544367563-12123d8965cd?w=600&q=80" alt="Hot 26 yoga class">
+                </div>
+                <div class="class-info">
+                    <h3 class="class-name">Hot 26</h3>
+                    <p class="class-desc">Traditional 26-posture Bikram-style practice in 40°C heat. Perfect for building foundational strength.</p>
+                    <div class="class-meta">
+                        <span>🔥 40°C</span>
+                        <span>⏱️ 90 min</span>
+                        <span>📊 Intermediate</span>
+                    </div>
+                </div>
+            </div>
+            <div class="class-card">
+                <div class="class-image">
+                    <img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=600&q=80" alt="Vinyasa yoga class">
+                </div>
+                <div class="class-info">
+                    <h3 class="class-name">Vinyasa Flow</h3>
+                    <p class="class-desc">Creative movement synchronized with breath. Room temperature class for those seeking a gentler practice.</p>
+                    <div class="class-meta">
+                        <span>🌡️ Room Temp</span>
+                        <span>⏱️ 75 min</span>
+                        <span>📊 All Levels</span>
+                    </div>
+                </div>
+            </div>
+            <div class="class-card">
+                <div class="class-image">
+                    <img src="https://images.unsplash.com/photo-1593164842264-85460449a6a6?w=600&q=80" alt="Yin yoga class">
+                </div>
+                <div class="class-info">
+                    <h3 class="class-name">Yin Yoga</h3>
+                    <p class="class-desc">Slow-paced practice with poses held for 3-5 minutes. Deep stretch and meditation for recovery and relaxation.</p>
+                    <div class="class-meta">
+                        <span>🌡️ Room Temp</span>
+                        <span>⏱️ 75 min</span>
+                        <span>📊 All Levels</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="schedule" id="schedule">
+        <div class="section-header">
+            <p class="section-label">Weekly Schedule</p>
+            <h2>Book Your Class</h2>
+        </div>
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>7:00 AM</td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-hot">Hot 26</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-hot">Hot 26</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-warm">Vinyasa</span></td>
+                    <td><span class="class-tag tag-gentle">Yin</span></td>
+                </tr>
+                <tr>
+                    <td>9:00 AM</td>
+                    <td><span class="class-tag tag-warm">Vinyasa</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-warm">Vinyasa</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-warm">Vinyasa</span></td>
+                    <td><span class="class-tag tag-hot">Hot 26</span></td>
+                    <td><span class="class-tag tag-warm">Vinyasa</span></td>
+                </tr>
+                <tr>
+                    <td>12:00 PM</td>
+                    <td><span class="class-tag tag-hot">Hot 26</span></td>
+                    <td><span class="class-tag tag-warm">Vinyasa</span></td>
+                    <td><span class="class-tag tag-hot">Hot 26</span></td>
+                    <td><span class="class-tag tag-warm">Vinyasa</span></td>
+                    <td><span class="class-tag tag-hot">Hot 26</span></td>
+                    <td><span class="class-tag tag-gentle">Yin</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                </tr>
+                <tr>
+                    <td>6:00 PM</td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-hot">Hot 40</span></td>
+                    <td><span class="class-tag tag-warm">Vinyasa</span></td>
+                    <td><span class="class-tag tag-gentle">Yin</span></td>
+                </tr>
+                <tr>
+                    <td>8:00 PM</td>
+                    <td><span class="class-tag tag-gentle">Yin</span></td>
+                    <td><span class="class-tag tag-gentle">Yin</span></td>
+                    <td><span class="class-tag tag-gentle">Yin</span></td>
+                    <td><span class="class-tag tag-gentle">Yin</span></td>
+                    <td><span class="class-tag tag-gentle">Yin</span></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <p class="section-label">Membership</p>
+            <h2>Choose Your Plan</h2>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 class="pricing-name">Drop-In</h3>
+                <div class="pricing-price">£15<span>/class</span></div>
+                <ul class="pricing-features">
+                    <li>✓ Single class access</li>
+                    <li>✓ All class types</li>
+                    <li>✓ Mat rental included</li>
+                    <li>✓ Shower facilities</li>
+                    <li>✕ No commitment</li>
+                </ul>
+                <a href="#contact" class="btn btn-secondary">Book Now</a>
+            </div>
+            <div class="pricing-card featured">
+                <h3 class="pricing-name">Unlimited</h3>
+                <div class="pricing-price">£89<span>/month</span></div>
+                <ul class="pricing-features">
+                    <li>✓ Unlimited classes</li>
+                    <li>✓ All class types</li>
+                    <li>✓ Free mat rental</li>
+                    <li>✓ Shower & locker</li>
+                    <li>✓ 1 guest pass/month</li>
+                    <li>✓ Cancel anytime</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary">Join Now</a>
+            </div>
+            <div class="pricing-card">
+                <h3 class="pricing-name">10-Class Pack</h3>
+                <div class="pricing-price">£120<span>/10 classes</span></div>
+                <ul class="pricing-features">
+                    <li>✓ 10 class credits</li>
+                    <li>✓ All class types</li>
+                    <li>✓ Valid 3 months</li>
+                    <li>✓ Mat rental included</li>
+                    <li>✓ Shareable</li>
+                </ul>
+                <a href="#contact" class="btn btn-secondary">Buy Pack</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="contact">
+        <div class="cta-content">
+            <h2>Start Your Journey Today</h2>
+            <p>
+                First class free for new students. Book now and experience 
+                Manchester's premier hot yoga studio.
+            </p>
+            <div class="hero-cta">
+                <a href="tel:+441611234567" class="btn btn-primary">📞 0161 123 4567</a>
+                <a href="mailto:hello@hotyogamanchester.com" class="btn btn-secondary">Email Us</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Hot Yoga<span class="logo-accent">Manchester</span></h3>
+                <p>
+                    Manchester's premier hot yoga studio. Transform your practice 
+                    with Hot 40, Hot 26, Vinyasa, and Yin classes daily.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Studio</h4>
+                <ul>
+                    <li>45 Deansgate</li>
+                    <li>Manchester, M3 2AY</li>
+                    <li>United Kingdom</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Hours</h4>
+                <ul>
+                    <li>Mon-Fri: 6AM - 9PM</li>
+                    <li>Saturday: 8AM - 6PM</li>
+                    <li>Sunday: 8AM - 8PM</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+441611234567">0161 123 4567</a></li>
+                    <li><a href="mailto:hello@hotyogamanchester.com">hello@hotyogamanchester.com</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Hot Yoga Manchester. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .class-card, .pricing-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        const tl = gsap.timeline();
+        tl.to('.hero h1 .word', { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power4.out' })
+        .to('.hero-subtitle', { opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.5')
+        .to('.hero-cta', { opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.5');
+
+        gsap.from('.class-card', {
+            scrollTrigger: { trigger: '.classes', start: 'top 80%' },
+            opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out'
+        });
+
+        gsap.from('.pricing-card', {
+            scrollTrigger: { trigger: '.pricing', start: 'top 80%' },
+            opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out'
+        });
+
+        gsap.from('.cta-content', {
+            scrollTrigger: { trigger: '.cta', start: 'top 80%' },
+            opacity: 0, y: 50, duration: 1, ease: 'power3.out'
+        });
+    </script>
+</body>
+</html>
