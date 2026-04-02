@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habbiibi Manchester | Mediterranean Fine Dining</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;600;700;1,400;1,600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #121212;
+            --gold: #d4af37;
+            --gold-light: #f4d03f;
+            --text: #fafaf8;
+            --text-muted: #888890;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; }
+
+        /* Custom Cursor */
+        .cursor { position: fixed; width: 20px; height: 20px; border: 2px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: all 0.3s; }
+        .cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .cursor.hover { width: 50px; height: 50px; background: rgba(212,175,55,0.2); }
+
+        /* Navigation */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(212,175,55,0.2); }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--gold); font-family: 'Playfair Display', serif; letter-spacing: -0.02em; }
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-link { color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
+        .nav-link:hover { color: var(--gold); }
+        .btn-nav { padding: 14px 32px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--bg); border-radius: 50px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; transition: all 0.3s; }
+        .btn-nav:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(212,175,55,0.4); }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 160px 24px 80px; position: relative; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, rgba(212,175,55,0.15) 0%, transparent 70%); }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1920&q=80') center/cover; opacity: 0.2; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-label { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; opacity: 0; transform: translateY(30px); }
+        .hero h1 { font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; line-height: 1; letter-spacing: -0.05em; margin-bottom: 32px; font-family: 'Playfair Display', serif; opacity: 0; transform: translateY(50px); }
+        .hero h1 span { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: clamp(1rem, 2vw, 1.5rem); color: var(--text-muted); max-width: 700px; margin: 0 auto 48px; line-height: 1.8; opacity: 0; transform: translateY(30px); }
+        .hero-cta { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; opacity: 0; transform: translateY(30px); }
+        .btn { padding: 20px 48px; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 50px; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; }
+        .btn-primary { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--bg); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(212,175,55,0.4); }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid rgba(212,175,55,0.5); }
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+
+        /* Experience Section */
+        .experience { padding: 180px 24px; max-width: 1400px; margin: 0 auto; }
+        .section-label { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 24px; }
+        .section-title { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; text-align: center; margin-bottom: 80px; font-family: 'Playfair Display', serif; line-height: 1.1; }
+        .experience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; }
+        .experience-card { position: relative; }
+        .experience-image { aspect-ratio: 4/5; border-radius: 20px; overflow: hidden; margin-bottom: 32px; position: relative; }
+        .experience-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+        .experience-card:hover .experience-image img { transform: scale(1.1); }
+        .experience-card h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; font-family: 'Playfair Display', serif; }
+        .experience-card p { color: var(--text-muted); line-height: 1.8; font-size: 1.05rem; }
+
+        /* Menu Preview */
+        .menu { padding: 180px 24px; background: var(--surface); position: relative; overflow: hidden; }
+        .menu::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(212,175,55,0.08) 0%, transparent 60%); }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+        .menu-item { background: var(--bg); border: 1px solid rgba(212,175,55,0.2); border-radius: 24px; overflow: hidden; transition: all 0.3s; }
+        .menu-item:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 20px 50px rgba(212,175,55,0.15); }
+        .menu-image { aspect-ratio: 16/10; overflow: hidden; }
+        .menu-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+        .menu-item:hover .menu-image img { transform: scale(1.1); }
+        .menu-info { padding: 32px; }
+        .menu-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; font-family: 'Playfair Display', serif; color: var(--gold); }
+        .menu-desc { color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+        .menu-price { font-size: 1.8rem; font-weight: 800; color: var(--gold); }
+
+        /* About */
+        .about { padding: 180px 24px; max-width: 1400px; margin: 0 auto; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+        .about-image { position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 4/5; }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; }
+        .about-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.8) 100%); }
+        .about-content h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; margin-bottom: 32px; font-family: 'Playfair Display', serif; line-height: 1.1; }
+        .about-content p { color: var(--text-muted); line-height: 1.9; margin-bottom: 24px; font-size: 1.1rem; }
+
+        /* Reservation */
+        .reservation { padding: 180px 24px; text-align: center; background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%); }
+        .reservation-content { max-width: 800px; margin: 0 auto; }
+        .reservation h2 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; margin-bottom: 24px; font-family: 'Playfair Display', serif; }
+        .reservation p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 48px; line-height: 1.8; }
+
+        /* Footer */
+        .footer { padding: 80px 24px; border-top: 1px solid rgba(212,175,55,0.2); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; max-width: 1400px; margin: 0 auto 60px; }
+        .footer-brand h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; color: var(--gold); font-family: 'Playfair Display', serif; }
+        .footer-brand p { color: var(--text-muted); line-height: 1.8; }
+        .footer-links h4 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 24px; color: var(--text-muted); }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 14px; }
+        .footer-links a { color: var(--text); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid rgba(212,175,55,0.2); color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 1024px) { .nav { padding: 24px 30px; } .nav-links { display: none; } .about-grid, .footer-grid { grid-template-columns: 1fr; gap: 60px; } .hero-cta { flex-direction: column; } .btn { width: 100%; justify-content: center; } }
+        @media (max-width: 768px) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <nav class="nav">
+        <a href="#" class="logo">Habbiibi</a>
+        <ul class="nav-links">
+            <li><a href="#experience" class="nav-link">Experience</a></li>
+            <li><a href="#menu" class="nav-link">Menu</a></li>
+            <li><a href="#about" class="nav-link">Story</a></li>
+            <li><a href="#reservation" class="nav-link">Reservations</a></li>
+        </ul>
+        <a href="tel:+44161234567" class="btn-nav">Book Table</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">★ Mediterranean Fine Dining</p>
+            <h1>Dubai Inspiration Meets<br><span>Mediterranean Fusion</span></h1>
+            <p>Experience the art of Mediterranean cuisine with a modern twist. Where traditional flavours meet contemporary elegance in the heart of Manchester.</p>
+            <div class="hero-cta">
+                <a href="#reservation" class="btn btn-primary">Reserve Your Table</a>
+                <a href="#menu" class="btn btn-secondary">View Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="experience" id="experience">
+        <p class="section-label">The Experience</p>
+        <h2 class="section-title">A Culinary Journey</h2>
+        <div class="experience-grid">
+            <div class="experience-card">
+                <div class="experience-image">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80" alt="Fine dining interior">
+                </div>
+                <h3>Elegant Ambience</h3>
+                <p>Immerse yourself in an atmosphere of refined elegance. Our interior design blends contemporary sophistication with Mediterranean warmth, creating the perfect setting for unforgettable dining experiences.</p>
+            </div>
+            <div class="experience-card">
+                <div class="experience-image">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?w=800&q=80" alt="Chef plating">
+                </div>
+                <h3>Masterful Cuisine</h3>
+                <p>Our chefs craft each dish with precision and passion, using the finest ingredients sourced from Mediterranean shores and local British producers. Every plate tells a story of tradition and innovation.</p>
+            </div>
+            <div class="experience-card">
+                <div class="experience-image">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Wine selection">
+                </div>
+                <h3>Curated Wines</h3>
+                <p>Explore our carefully selected wine list featuring premium labels from Mediterranean vineyards and beyond. Our sommeliers are here to guide you to the perfect pairing for your meal.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="menu" id="menu">
+        <p class="section-label">Our Menu</p>
+        <h2 class="section-title">Signature Dishes</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76690b68f11?w=800&q=80" alt="Grilled Lamb">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Mediterranean Lamb</h3>
+                    <p class="menu-desc">Slow-roasted lamb shoulder with za'atar, roasted vegetables, and pomegranate molasses.</p>
+                    <div class="menu-price">£32</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=800&q=80" alt="Seafood Platter">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Coastal Seafood Platter</h3>
+                    <p class="menu-desc">Fresh oysters, prawns, mussels, and grilled fish with lemon herb butter.</p>
+                    <div class="menu-price">£45</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1551024601-bec0273e847e?w=800&q=80" alt="Dessert">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Golden Baklava</h3>
+                    <p class="menu-desc">Layers of phyllo pastry, honey, pistachios, and rose water ice cream.</p>
+                    <div class="menu-price">£14</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" alt="Restaurant interior">
+            </div>
+            <div class="about-content">
+                <p class="section-label">Our Story</p>
+                <h2>Where Dubai Meets the Mediterranean</h2>
+                <p>Habbiibi brings the vibrant energy of Dubai's culinary scene to Manchester. Our name, meaning "my love" in Arabic, reflects our passion for food and hospitality.</p>
+                <p>Founded by chefs with experience in Michelin-starred kitchens across the Mediterranean, we blend traditional recipes with modern techniques. Every dish is a celebration of flavour, culture, and the art of bringing people together.</p>
+                <p>From our wood-fired grill to our house-made pastas, we're committed to authenticity and excellence. Join us for an unforgettable dining experience.</p>
+                <a href="#reservation" class="btn btn-primary">Book Your Experience</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="reservation" id="reservation">
+        <div class="reservation-content">
+            <h2>Reserve Your Table</h2>
+            <p>Join us for an unforgettable Mediterranean dining experience. Book your table today.</p>
+            <div class="hero-cta">
+                <a href="tel:+44161234567" class="btn btn-primary">📞 0161 234 567</a>
+                <a href="mailto:manchester@habbibi.com" class="btn btn-secondary">📧 manchester@habbibi.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Habbiibi</h3>
+                <p>Mediterranean fine dining in the heart of Manchester. Where Dubai inspiration meets culinary excellence.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Location</h4>
+                <ul>
+                    <li>XYZ Building</li>
+                    <li>Spinningfields</li>
+                    <li>Manchester, M3 3JE</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Hours</h4>
+                <ul>
+                    <li>Tue-Sun: 5PM - 10PM</li>
+                    <li>Monday: Closed</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+44161234567">0161 234 567</a></li>
+                    <li><a href="mailto:manchester@habbibi.com">manchester@habbibi.com</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Habbiibi Manchester. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button, .menu-item, .experience-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+        const tl = gsap.timeline();
+        tl.to('.hero-label', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
+          .to('.hero h1', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero p', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5');
+        gsap.from('.experience-card', { scrollTrigger: { trigger: '.experience-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+        gsap.from('.menu-item', { scrollTrigger: { trigger: '.menu-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.15, ease: 'power3.out' });
+        gsap.from('.about-content', { scrollTrigger: { trigger: '.about', start: 'top 80%' }, opacity: 0, x: 50, duration: 1, ease: 'power3.out' });
+        gsap.from('.reservation-content', { scrollTrigger: { trigger: '.reservation', start: 'top 80%' }, opacity: 0, y: 50, duration: 1, ease: 'power3.out' });
+    </script>
+</body>
+</html>
