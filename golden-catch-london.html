@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Catch | Award-Winning Fish & Chips London</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        :root {
+            --bg: #0d1b2a;
+            --surface: #1b263b;
+            --gold: #f4a261;
+            --blue: #48cae4;
+            --text: #fafaf8;
+            --text-muted: #889890;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; }
+
+        /* Custom Cursor */
+        .cursor { position: fixed; width: 20px; height: 20px; border: 2px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: all 0.3s; }
+        .cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .cursor.hover { width: 50px; height: 50px; background: rgba(244,162,97,0.2); }
+
+        /* Navigation */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(13,27,42,0.98); backdrop-filter: blur(20px); border-bottom: 2px solid var(--gold); }
+        .logo { font-size: 2rem; font-weight: 900; color: var(--gold); font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+        .logo span { color: var(--blue); }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-link { color: var(--text); text-decoration: none; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
+        .nav-link:hover { color: var(--gold); }
+        .btn-order { padding: 14px 32px; background: linear-gradient(135deg, var(--gold) 0%, #e9c46a 100%); color: var(--bg); border-radius: 50px; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; transition: all 0.3s; }
+        .btn-order:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(244,162,97,0.5); }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1579888944880-d98341245702?w=1920&q=80') center/cover; opacity: 0.2; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; opacity: 0; transform: translateY(30px); }
+        .hero h1 { font-size: clamp(3rem, 12vw, 8rem); font-weight: 900; line-height: 1; letter-spacing: -0.05em; margin-bottom: 32px; font-family: 'Bebas Neue', sans-serif; opacity: 0; transform: translateY(50px); text-transform: uppercase; }
+        .hero h1 span { color: var(--gold); }
+        .hero p { font-size: clamp(1rem, 2vw, 1.5rem); color: var(--text-muted); max-width: 700px; margin: 0 auto 48px; line-height: 1.8; opacity: 0; transform: translateY(30px); }
+        .hero-cta { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; opacity: 0; transform: translateY(30px); }
+        .btn { padding: 20px 48px; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 50px; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; }
+        .btn-primary { background: linear-gradient(135deg, var(--gold) 0%, #e9c46a 100%); color: var(--bg); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(244,162,97,0.5); }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--gold); }
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+
+        /* Menu */
+        .menu { padding: 120px 24px; background: var(--surface); }
+        .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 24px; }
+        .section-title { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; text-align: center; margin-bottom: 80px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; text-transform: uppercase; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
+        .menu-item { background: var(--bg); border: 2px solid rgba(244,162,97,0.3); border-radius: 24px; overflow: hidden; transition: all 0.3s; position: relative; }
+        .menu-item:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 20px 50px rgba(244,162,97,0.3); }
+        .menu-badge { position: absolute; top: 16px; right: 16px; background: var(--gold); color: var(--bg); padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; z-index: 10; }
+        .menu-image { aspect-ratio: 16/10; overflow: hidden; }
+        .menu-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+        .menu-item:hover .menu-image img { transform: scale(1.1); }
+        .menu-info { padding: 28px; }
+        .menu-name { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; color: var(--gold); }
+        .menu-desc { color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
+        .menu-footer { display: flex; justify-content: space-between; align-items: center; }
+        .menu-price { font-size: 2rem; font-weight: 900; color: var(--gold); }
+        .btn-add { padding: 12px 24px; background: var(--gold); color: var(--bg); border-radius: 50px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; }
+        .btn-add:hover { background: var(--blue); }
+
+        /* Awards */
+        .awards { padding: 120px 24px; max-width: 1400px; margin: 0 auto; text-align: center; }
+        .awards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .award-card { background: var(--surface); border: 1px solid rgba(244,162,97,0.2); border-radius: 24px; padding: 40px; transition: all 0.3s; }
+        .award-card:hover { transform: translateY(-8px); border-color: var(--gold); }
+        .award-icon { font-size: 4rem; margin-bottom: 24px; }
+        .award-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 16px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; color: var(--gold); }
+        .award-card p { color: var(--text-muted); line-height: 1.8; }
+
+        /* Delivery */
+        .delivery { padding: 120px 24px; background: linear-gradient(135deg, var(--gold) 0%, #e9c46a 100%); text-align: center; }
+        .delivery-content { max-width: 800px; margin: 0 auto; }
+        .delivery h2 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; margin-bottom: 24px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bg); }
+        .delivery p { font-size: 1.25rem; color: rgba(13,27,42,0.9); margin-bottom: 48px; line-height: 1.8; }
+        .delivery-platforms { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+        .platform-badge { background: var(--bg); color: var(--gold); padding: 16px 32px; border-radius: 50px; font-weight: 800; font-size: 1rem; text-transform: uppercase; }
+
+        /* Locations */
+        .locations { padding: 120px 24px; max-width: 1400px; margin: 0 auto; }
+        .location-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+        .location-card { background: var(--surface); border: 2px solid rgba(244,162,97,0.3); border-radius: 24px; padding: 40px; transition: all 0.3s; }
+        .location-card:hover { border-color: var(--gold); transform: translateY(-8px); }
+        .location-card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; color: var(--gold); }
+        .location-card p { color: var(--text-muted); line-height: 1.8; margin-bottom: 12px; }
+        .location-card strong { color: var(--blue); }
+
+        /* Footer */
+        .footer { padding: 60px 24px; border-top: 2px solid var(--gold); text-align: center; }
+        .footer p { color: var(--text-muted); }
+
+        @media (max-width: 768px) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } .nav { padding: 16px 20px; } .nav-links { display: none; } .hero-cta { flex-direction: column; } .btn { width: 100%; justify-content: center; } }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <nav class="nav">
+        <a href="#" class="logo">GOLDEN<span>CATCH</span></a>
+        <ul class="nav-links">
+            <li><a href="#menu" class="nav-link">Menu</a></li>
+            <li><a href="#awards" class="nav-link">Awards</a></li>
+            <li><a href="#delivery" class="nav-link">Delivery</a></li>
+            <li><a href="#locations" class="nav-link">Locations</a></li>
+        </ul>
+        <a href="tel:+442071234567" class="btn-order">📞 Order Now</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">★ Award-Winning Fish & Chips</p>
+            <h1>Fresh.<br><span>Crispy.</span><br>Perfect.</h1>
+            <p>Traditional British fish & chips made with sustainably sourced cod, hand-cut chips, and our secret batter recipe. Voted London's Best 2025.</p>
+            <div class="hero-cta">
+                <a href="tel:+442071234567" class="btn btn-primary">🐟 Order Now</a>
+                <a href="#menu" class="btn btn-secondary">View Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="menu" id="menu">
+        <p class="section-label">Our Menu</p>
+        <h2 class="section-title">Fresh From The Fryer</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-badge">Bestseller</div>
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1579888944880-d98341245702?w=800&q=80" alt="Classic Fish & Chips">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Classic Fish & Chips</h3>
+                    <p class="menu-desc">Fresh Atlantic cod, hand-cut chips, mushy peas, tartare sauce.</p>
+                    <div class="menu-footer">
+                        <div class="menu-price">£12.95</div>
+                        <button class="btn-add">Add to Order</button>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-badge">Large</div>
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1585032226651-759b263d753d?w=800&q=80" alt="Family Bundle">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Family Bundle</h3>
+                    <p class="menu-desc">2 fish, 2 large chips, 4 pies, 2 drinks. Perfect for sharing.</p>
+                    <div class="menu-footer">
+                        <div class="menu-price">£34.95</div>
+                        <button class="btn-add">Add to Order</button>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1626804475297-411dbe66f3eb?w=800&q=80" alt="Scampi & Chips">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Scampi & Chips</h3>
+                    <p class="menu-desc">Premium scampi, golden chips, lemon wedge, tartare sauce.</p>
+                    <div class="menu-footer">
+                        <div class="menu-price">£11.95</div>
+                        <button class="btn-add">Add to Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="awards" id="awards">
+        <p class="section-label">Our Recognition</p>
+        <h2 class="section-title">Award-Winning Quality</h2>
+        <div class="awards-grid">
+            <div class="award-card">
+                <div class="award-icon">🏆</div>
+                <h3>Best Fish & Chips London 2025</h3>
+                <p>Voted #1 by Time Out London readers. Over 10,000 votes cast.</p>
+            </div>
+            <div class="award-card">
+                <div class="award-icon">⭐</div>
+                <h3>4.9★ on Google</h3>
+                <p>Over 2,000 five-star reviews. Consistently rated London's best.</p>
+            </div>
+            <div class="award-card">
+                <div class="award-icon">🎖️</div>
+                <h3>Sustainable Seafood</h3>
+                <p>MSC certified. Only sustainably sourced fish from UK waters.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="delivery" id="delivery">
+        <div class="delivery-content">
+            <h2>Order Delivery Now</h2>
+            <p>Hot and crispy at your door in 30 minutes. Free delivery within 2 miles.</p>
+            <div class="delivery-platforms">
+                <div class="platform-badge">🍕 Just Eat</div>
+                <div class="platform-badge">🚗 Uber Eats</div>
+                <div class="platform-badge">🛵 Deliveroo</div>
+            </div>
+            <a href="tel:+442071234567" class="btn btn-secondary" style="border-color: var(--bg); color: var(--bg);">📞 020 7123 4567</a>
+        </div>
+    </section>
+
+    <section class="locations" id="locations">
+        <p class="section-label">Find Us</p>
+        <h2 class="section-title">Our Locations</h2>
+        <div class="location-grid">
+            <div class="location-card">
+                <h3>Camden Market</h3>
+                <p><strong>Address:</strong> 45 Camden High Street, London, NW1 7JE</p>
+                <p><strong>Hours:</strong> Mon-Sun: 11AM - 10PM</p>
+                <p><strong>Phone:</strong> 020 7123 4567</p>
+            </div>
+            <div class="location-card">
+                <h3>Brixton</h3>
+                <p><strong>Address:</strong> 78 Brixton Road, London, SW9 6PE</p>
+                <p><strong>Hours:</strong> Mon-Sun: 12PM - 11PM</p>
+                <p><strong>Phone:</strong> 020 7234 5678</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Golden Catch London. Award-Winning Fish & Chips Since 2018.</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button, .menu-item, .award-card, .location-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+        const tl = gsap.timeline();
+        tl.to('.hero-label', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+          .to('.hero h1', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero p', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+          .to('.hero-cta', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.5');
+        gsap.from('.menu-item', { scrollTrigger: { trigger: '.menu-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+        gsap.from('.award-card', { scrollTrigger: { trigger: '.awards-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.15, ease: 'power3.out' });
+        gsap.from('.location-card', { scrollTrigger: { trigger: '.location-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+    </script>
+</body>
+</html>
