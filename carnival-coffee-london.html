@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carnival Coffee Roasters | London Specialty Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        :root { --bg: #1a1818; --surface: #2d2a2a; --orange: #e76f51; --cream: #f4a261; --text: #fafaf8; --text-muted: #888890; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; }
+        .cursor { position: fixed; width: 20px; height: 20px; border: 2px solid var(--orange); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: all 0.3s; }
+        .cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .cursor.hover { width: 50px; height: 50px; background: rgba(231,111,81,0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(26,24,24,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(231,111,81,0.3); }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--orange); font-family: 'Playfair Display', serif; }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-link { color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
+        .nav-link:hover { color: var(--orange); }
+        .btn-nav { padding: 14px 32px; background: linear-gradient(135deg, var(--orange) 0%, var(--cream) 100%); color: var(--bg); border-radius: 50px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; transition: all 0.3s; }
+        .btn-nav:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(231,111,81,0.4); }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 160px 24px 80px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=1920&q=80') center/cover; opacity: 0.2; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-label { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: var(--cream); margin-bottom: 32px; opacity: 0; transform: translateY(30px); }
+        .hero h1 { font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; line-height: 1; letter-spacing: -0.05em; margin-bottom: 32px; font-family: 'Playfair Display', serif; opacity: 0; transform: translateY(50px); }
+        .hero h1 span { color: var(--orange); font-style: italic; }
+        .hero p { font-size: clamp(1rem, 2vw, 1.5rem); color: var(--text-muted); max-width: 700px; margin: 0 auto 48px; line-height: 1.8; opacity: 0; transform: translateY(30px); }
+        .hero-cta { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; opacity: 0; transform: translateY(30px); }
+        .btn { padding: 20px 48px; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 50px; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; }
+        .btn-primary { background: linear-gradient(135deg, var(--orange) 0%, var(--cream) 100%); color: var(--bg); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(231,111,81,0.4); }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--orange); }
+        .btn-secondary:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-3px); }
+        .coffee { padding: 120px 24px; max-width: 1400px; margin: 0 auto; }
+        .section-label { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: var(--cream); text-align: center; margin-bottom: 24px; }
+        .section-title { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; text-align: center; margin-bottom: 80px; font-family: 'Playfair Display', serif; }
+        .coffee-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+        .coffee-card { background: var(--surface); border: 1px solid rgba(231,111,81,0.2); border-radius: 24px; overflow: hidden; transition: all 0.3s; }
+        .coffee-card:hover { transform: translateY(-8px); border-color: var(--orange); box-shadow: 0 20px 50px rgba(231,111,81,0.2); }
+        .coffee-image { aspect-ratio: 4/3; overflow: hidden; }
+        .coffee-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+        .coffee-card:hover .coffee-image img { transform: scale(1.1); }
+        .coffee-info { padding: 32px; }
+        .coffee-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; font-family: 'Playfair Display', serif; color: var(--orange); }
+        .coffee-desc { color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+        .coffee-price { font-size: 1.8rem; font-weight: 800; color: var(--cream); }
+        .about { padding: 120px 24px; background: var(--surface); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1400px; margin: 0 auto; align-items: center; }
+        .about-image { aspect-ratio: 4/5; border-radius: 24px; overflow: hidden; }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; }
+        .about-content h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; margin-bottom: 32px; font-family: 'Playfair Display', serif; }
+        .about-content p { color: var(--text-muted); line-height: 1.9; margin-bottom: 24px; font-size: 1.1rem; }
+        .locations { padding: 120px 24px; max-width: 1400px; margin: 0 auto; }
+        .location-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+        .location-card { background: var(--surface); border: 2px solid rgba(231,111,81,0.3); border-radius: 24px; padding: 40px; transition: all 0.3s; }
+        .location-card:hover { border-color: var(--orange); transform: translateY(-8px); }
+        .location-card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; font-family: 'Playfair Display', serif; color: var(--orange); }
+        .location-card p { color: var(--text-muted); line-height: 1.8; margin-bottom: 12px; }
+        .location-card strong { color: var(--cream); }
+        .contact { padding: 120px 24px; text-align: center; background: linear-gradient(135deg, var(--orange) 0%, var(--cream) 100%); }
+        .contact-content { max-width: 800px; margin: 0 auto; }
+        .contact h2 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; margin-bottom: 24px; font-family: 'Playfair Display', serif; color: var(--bg); }
+        .contact p { font-size: 1.25rem; color: rgba(26,24,24,0.9); margin-bottom: 48px; line-height: 1.8; }
+        .contact-email { color: var(--bg); font-size: 1.5rem; font-weight: 700; text-decoration: none; }
+        .footer { padding: 60px 24px; border-top: 1px solid rgba(231,111,81,0.3); text-align: center; }
+        .footer p { color: var(--text-muted); }
+        @media (max-width: 1024px) { .nav { padding: 20px 30px; } .nav-links { display: none; } .about-grid, .footer-grid { grid-template-columns: 1fr; gap: 60px; } .hero-cta { flex-direction: column; } .btn { width: 100%; justify-content: center; } }
+        @media (max-width: 768px) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <nav class="nav">
+        <a href="#" class="logo">Carnival Coffee</a>
+        <ul class="nav-links">
+            <li><a href="#coffee" class="nav-link">Coffee</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#locations" class="nav-link">Locations</a></li>
+        </ul>
+        <a href="tel:+442081234567" class="btn-nav">Order Now</a>
+    </nav>
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">★ London Specialty Coffee Roasters</p>
+            <h1>Roasted with <span>Passion</span></h1>
+            <p>Small-batch coffee roasting in the heart of London. Ethically sourced beans, expertly roasted, delivered fresh to your door.</p>
+            <div class="hero-cta">
+                <a href="tel:+442081234567" class="btn btn-primary">☕ Order Coffee</a>
+                <a href="#coffee" class="btn btn-secondary">View Coffee</a>
+            </div>
+        </div>
+    </section>
+    <section class="coffee" id="coffee">
+        <p class="section-label">Our Coffee</p>
+        <h2 class="section-title">Fresh Roasts</h2>
+        <div class="coffee-grid">
+            <div class="coffee-card">
+                <div class="coffee-image">
+                    <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80" alt="Ethiopia Yirgacheffe">
+                </div>
+                <div class="coffee-info">
+                    <h3 class="coffee-name">Ethiopia Yirgacheffe</h3>
+                    <p class="coffee-desc">Floral, bergamot, lemon zest. Light roast, washed process. Perfect for filter brewing.</p>
+                    <div class="coffee-price">£14.50 / 200g</div>
+                </div>
+            </div>
+            <div class="coffee-card">
+                <div class="coffee-image">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80" alt="Colombia Huila">
+                </div>
+                <div class="coffee-info">
+                    <h3 class="coffee-name">Colombia Huila</h3>
+                    <p class="coffee-desc">Caramel, red apple, nuts. Medium roast. Versatile for espresso or filter.</p>
+                    <div class="coffee-price">£13.50 / 200g</div>
+                </div>
+            </div>
+            <div class="coffee-card">
+                <div class="coffee-image">
+                    <img src="https://images.unsplash.com/photo-1587049661391-677e3637be16?w=800&q=80" alt="House Espresso">
+                </div>
+                <div class="coffee-info">
+                    <h3 class="coffee-name">Carnival Espresso</h3>
+                    <p class="coffee-desc">Chocolate, orange, brown sugar. Our signature blend. Rich, balanced, creamy.</p>
+                    <div class="coffee-price">£12.50 / 200g</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&q=80" alt="Coffee roasting">
+            </div>
+            <div class="about-content">
+                <p class="section-label">Our Story</p>
+                <h2>Roasting Excellence Since 2018</h2>
+                <p>Carnival Coffee Roasters began with a simple mission: to bring exceptional specialty coffee to London. We source directly from farmers, roast in small batches, and deliver fresh within 48 hours of roasting.</p>
+                <p>Every bean tells a story — of its origin, its farmer, its journey. We're here to share those stories, one cup at a time. Visit our roastery in Sydenham or order online for delivery across London.</p>
+                <a href="#locations" class="btn btn-primary">Visit Us</a>
+            </div>
+        </div>
+    </section>
+    <section class="locations" id="locations">
+        <p class="section-label">Find Us</p>
+        <h2 class="section-title">Our Locations</h2>
+        <div class="location-grid">
+            <div class="location-card">
+                <h3>Roastery & Cafe</h3>
+                <p><strong>Address:</strong> 9 Central Parade, London, SE20 7TN</p>
+                <p><strong>Hours:</strong> Mon-Fri: 7AM - 4PM, Sat-Sun: 9AM - 5PM</p>
+                <p><strong>Phone:</strong> 020 8123 4567</p>
+            </div>
+            <div class="location-card">
+                <h3>Online Shop</h3>
+                <p><strong>Delivery:</strong> Free delivery across London on orders over £30</p>
+                <p><strong>Subscription:</strong> Save 15% with monthly coffee subscription</p>
+                <p><strong>Wholesale:</strong> Supplying cafes across London</p>
+            </div>
+        </div>
+    </section>
+    <section class="contact">
+        <div class="contact-content">
+            <h2>Order Fresh Coffee Today</h2>
+            <p>Roasted to order, delivered within 48 hours. Taste the Carnival difference.</p>
+            <a href="mailto:hello@carnivalcoffee.co.uk" class="contact-email">📧 hello@carnivalcoffee.co.uk</a>
+        </div>
+    </section>
+    <footer class="footer">
+        <p>© 2026 Carnival Coffee Roasters London. Specialty Coffee Since 2018.</p>
+    </footer>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button, .coffee-card, .location-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+        const tl = gsap.timeline();
+        tl.to('.hero-label', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
+          .to('.hero h1', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero p', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5');
+        gsap.from('.coffee-card', { scrollTrigger: { trigger: '.coffee-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+        gsap.from('.about-content', { scrollTrigger: { trigger: '.about', start: 'top 80%' }, opacity: 0, x: 50, duration: 1, ease: 'power3.out' });
+        gsap.from('.location-card', { scrollTrigger: { trigger: '.location-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+    </script>
+</body>
+</html>
