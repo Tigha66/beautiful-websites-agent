@@ -396,14 +396,14 @@
         /* Pricing */
         .pricing {
             padding: 140px 24px;
-            background: var(--bg-alt);
+            background: linear-gradient(180deg, #121216 0%, #0a0a0c 100%);
             position: relative;
         }
         .pricing::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 50%, rgba(201,169,98,0.05) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 50% 50%, rgba(201,169,98,0.08) 0%, transparent 60%);
         }
         .pricing-grid {
             display: grid;
@@ -415,73 +415,70 @@
             z-index: 2;
         }
         .pricing-card {
-            background: var(--surface);
-            border: 1px solid rgba(201,169,98,0.2);
+            background: linear-gradient(145deg, #1a1a1f 0%, #0f0f12 100%);
+            border: 2px solid #c9a962;
             border-radius: 24px;
             padding: 48px 40px;
             text-align: center;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
-        .pricing-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent, rgba(201,169,98,0.05), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .pricing-card:hover::after { opacity: 1; }
         .pricing-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(201,169,98,0.2);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(201,169,98,0.3);
         }
         .pricing-card.featured {
-            border-color: var(--accent);
-            background: rgba(201,169,98,0.05);
-            transform: scale(1.05);
+            border-width: 3px;
+            background: linear-gradient(145deg, #1f1f26 0%, #121216 100%);
+            transform: scale(1.08);
         }
-        .pricing-card.featured:hover { transform: scale(1.05) translateY(-8px); }
+        .pricing-card.featured:hover {
+            transform: scale(1.08) translateY(-12px);
+        }
         .pricing-badge {
             position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--gradient-gold);
-            color: var(--bg);
-            padding: 8px 20px;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #c9a962 0%, #f5c776 100%);
+            color: #0a0a0c;
+            padding: 8px 16px;
             border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            font-size: 0.7rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             z-index: 10;
         }
         .pricing-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 16px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fafaf8;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             position: relative;
             z-index: 2;
         }
         .pricing-price {
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 900;
-            color: #c9a962;
+            color: #ffffff;
             margin-bottom: 8px;
             position: relative;
             z-index: 2;
-            text-shadow: 0 0 30px rgba(201,169,98,0.5);
+            text-shadow: 0 0 40px rgba(201,169,98,0.6);
         }
         .pricing-price span {
-            font-size: 1rem;
-            color: #888890;
-            font-weight: 400;
+            font-size: 1.2rem;
+            color: #c9a962;
+            font-weight: 600;
+            display: block;
+            margin-top: 8px;
         }
         .pricing-description {
-            color: var(--text-muted);
+            color: #888890;
             margin-bottom: 32px;
             line-height: 1.6;
             position: relative;
@@ -493,33 +490,39 @@
             text-align: left;
             position: relative;
             z-index: 2;
+            background: rgba(201,169,98,0.05);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(201,169,98,0.1);
         }
         .pricing-features li {
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(201,169,98,0.15);
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
+            gap: 14px;
+            font-size: 1rem;
+            color: #fafaf8;
         }
         .pricing-features li:last-child { border-bottom: none; }
+        .feature-check {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #c9a962 0%, #f5c776 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a0a0c;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            font-weight: 900;
+        }
         .pricing-cta {
             width: 100%;
             justify-content: center;
             position: relative;
             z-index: 2;
-        }
-
-        /* Portfolio */
-        .portfolio {
-            padding: 140px 24px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 32px;
         }
         .portfolio-card {
             background: var(--bg-alt);
