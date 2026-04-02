@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yane 屋根 | Authentic Japanese Restaurant Manchester</title>
+    <meta name="description" content="Authentic Japanese restaurant in Manchester specialising in donburi, katsu kare, and homemade tsukemono. Visit us at 516 Wilbraham Road.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        :root { --bg: #0d0d0f; --surface: #1a1a1f; --red: #c92a2a; --gold: #d4af37; --text: #fafaf8; --text-muted: #888890; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(13,13,15,0.95); backdrop-filter: blur(20px); border-bottom: 2px solid var(--red); }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--gold); font-family: 'Noto Serif JP', serif; }
+        .logo span { color: var(--red); }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-link { color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
+        .nav-link:hover { color: var(--gold); }
+        .btn-order { padding: 14px 32px; background: linear-gradient(135deg, var(--red) 0%, #e03131 100%); color: #fff; border-radius: 50px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; transition: all 0.3s; }
+        .btn-order:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(201,42,42,0.4); }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1580476262798-bddd9dd90d3e?w=1920&q=80') center/cover; opacity: 0.2; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; opacity: 0; transform: translateY(30px); }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px; font-family: 'Noto Serif JP', serif; opacity: 0; transform: translateY(50px); }
+        .hero h1 span { color: var(--red); }
+        .hero h1 .jp { font-size: 0.6em; display: block; margin-top: 16px; }
+        .hero p { font-size: clamp(1rem, 2vw, 1.5rem); color: var(--text-muted); max-width: 700px; margin: 0 auto 48px; line-height: 1.8; opacity: 0; transform: translateY(30px); }
+        .hero-cta { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; opacity: 0; transform: translateY(30px); }
+        .btn { padding: 18px 42px; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 50px; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; }
+        .btn-primary { background: linear-gradient(135deg, var(--red) 0%, #e03131 100%); color: #fff; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(201,42,42,0.4); }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--gold); }
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+        .menu { padding: 120px 24px; background: var(--surface); }
+        .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 24px; }
+        .section-title { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; text-align: center; margin-bottom: 80px; font-family: 'Noto Serif JP', serif; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
+        .menu-item { background: var(--bg); border: 2px solid rgba(201,42,42,0.3); border-radius: 24px; overflow: hidden; transition: all 0.3s; }
+        .menu-item:hover { transform: translateY(-8px); border-color: var(--red); box-shadow: 0 20px 50px rgba(201,42,42,0.3); }
+        .menu-image { aspect-ratio: 16/10; overflow: hidden; }
+        .menu-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+        .menu-item:hover .menu-image img { transform: scale(1.1); }
+        .menu-info { padding: 28px; }
+        .menu-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; font-family: 'Noto Serif JP', serif; color: var(--gold); }
+        .menu-desc { color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+        .menu-price { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
+        .about { padding: 120px 24px; max-width: 1400px; margin: 0 auto; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-image { aspect-ratio: 4/5; border-radius: 24px; overflow: hidden; }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; }
+        .about-content h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; margin-bottom: 32px; font-family: 'Noto Serif JP', serif; }
+        .about-content p { color: var(--text-muted); line-height: 1.9; margin-bottom: 24px; font-size: 1.1rem; }
+        .info { padding: 120px 24px; background: var(--surface); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
+        .info-card { background: var(--bg); border: 2px solid rgba(201,42,42,0.3); border-radius: 24px; padding: 40px; transition: all 0.3s; }
+        .info-card:hover { border-color: var(--red); transform: translateY(-8px); }
+        .info-card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; font-family: 'Noto Serif JP', serif; color: var(--gold); }
+        .info-card p { color: var(--text-muted); line-height: 1.8; margin-bottom: 12px; }
+        .info-card strong { color: var(--red); }
+        .footer { padding: 60px 24px; border-top: 2px solid var(--red); text-align: center; }
+        .footer p { color: var(--text-muted); }
+        @media (max-width: 1024px) { .nav { padding: 16px 20px; } .nav-links { display: none; } .about-grid, .info-grid { grid-template-columns: 1fr; gap: 60px; } .hero-cta { flex-direction: column; } .btn { width: 100%; justify-content: center; } }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="#" class="logo">Yane<span>屋根</span></a>
+        <ul class="nav-links">
+            <li><a href="#menu" class="nav-link">Menu</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#info" class="nav-link">Visit</a></li>
+        </ul>
+        <a href="tel:+441616372390" class="btn-order">📞 0161 637 2390</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">★ Authentic Japanese Cuisine Manchester</p>
+            <h1>Seasonal <span>Japanese</span><span class="jp">四季の変化</span></h1>
+            <p>Authentic Japanese restaurant in Chorlton, Manchester specialising in donburi, katsu kare, and homemade tsukemono. Experience the changing seasons through traditional Japanese flavours.</p>
+            <div class="hero-cta">
+                <a href="tel:+441616372390" class="btn btn-primary">🍱 Book Table</a>
+                <a href="#menu" class="btn btn-secondary">View Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="menu" id="menu">
+        <p class="section-label">Our Menu</p>
+        <h2 class="section-title">Signature Dishes</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80" alt="Donburi Bowl">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Donburi Bowls</h3>
+                    <p class="menu-desc">Rice bowls topped with seasonal ingredients. Chicken katsu, salmon teriyaki, or beef gyudon.</p>
+                    <div class="menu-price">From £12.95</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=800&q=80" alt="Katsu Curry">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Katsu Kare</h3>
+                    <p class="menu-desc">Homemade Japanese curry with crispy breaded cutlet. Mild, medium, or hot spice levels.</p>
+                    <div class="menu-price">£13.95</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="https://images.unsplash.com/photo-1626804475297-411dbe66f3eb?w=800&q=80" alt="Tsukemono">
+                </div>
+                <div class="menu-info">
+                    <h3 class="menu-name">Homemade Tsukemono</h3>
+                    <p class="menu-desc">Traditional Japanese pickles made in-house. Seasonal vegetables pickled using traditional methods.</p>
+                    <div class="menu-price">£4.95</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Yane restaurant interior">
+            </div>
+            <div class="about-content">
+                <p class="section-label">Our Philosophy</p>
+                <h2>Changing Seasons 四季の変化</h2>
+                <p>Yane (屋根) means "roof" in Japanese - a place of shelter and warmth. We bring authentic Japanese home cooking to Manchester, focusing on seasonal ingredients and traditional preparation methods.</p>
+                <p>Our menu changes with the seasons, featuring donburi rice bowls, katsu curry, and our signature homemade tsukemono pickles. Every dish is prepared with care and attention to detail, staying true to Japanese culinary traditions.</p>
+                <p>We're proud to be recognised as one of Manchester's most authentic Japanese restaurants, with 4.7/5 stars on TripAdvisor.</p>
+                <a href="tel:+441616372390" class="btn btn-primary">Reserve Your Table</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="info" id="info">
+        <p class="section-label">Find Us</p>
+        <h2 class="section-title">Visit Yane</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Opening Hours</h3>
+                <p><strong>Tuesday - Sunday</strong><br>12:00 PM - 3:00 PM, 5:00 PM - 9:00 PM</p>
+                <p><strong>Monday</strong><br>Closed</p>
+            </div>
+            <div class="info-card">
+                <h3>Location</h3>
+                <p><strong>Address:</strong><br>516 Wilbraham Road<br>Manchester, M21 9AW</p>
+                <p><strong>Phone:</strong><br>0161 637 2390</p>
+            </div>
+            <div class="info-card">
+                <h3>Reservations</h3>
+                <p><strong>Walk-ins:</strong><br>Subject to availability</p>
+                <p><strong>Groups:</strong><br>Call to book 6+ guests</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Yane 屋根 Manchester. Authentic Japanese Cuisine.</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        const tl = gsap.timeline();
+        tl.to('.hero-label', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+          .to('.hero h1', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero p', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5');
+        gsap.from('.menu-item', { scrollTrigger: { trigger: '.menu-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+        gsap.from('.about-content', { scrollTrigger: { trigger: '.about', start: 'top 80%' }, opacity: 0, x: 50, duration: 1, ease: 'power3.out' });
+        gsap.from('.info-card', { scrollTrigger: { trigger: '.info-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+    </script>
+</body>
+</html>
