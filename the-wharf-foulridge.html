@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wharf at Foulridge — Canal-Side Venue</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root{--bg:#09090b;--surface:#111114;--surface2:#161619;--text:#eae7e2;--muted:#5a5a5e;--border:#1e1e22;--accent:#4a90d9;--r:16px}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .header{padding:120px 24px 80px;text-align:center;max-width:900px;margin:0 auto}
+  .header .label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+  .header h1{font-size:clamp(40px,7vw,80px);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin-bottom:20px}
+  .header h1 span{background:linear-gradient(135deg,#4a90d9,#67a7e8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .header p{font-size:18px;color:var(--muted);line-height:1.6;max-width:600px;margin:0 auto}
+  .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:24px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(9,9,11,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+  .logo{font-size:1.5rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
+  .logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:32px;list-style:none}
+  .nav-link{color:var(--text);text-decoration:none;font-weight:500;font-size:.9rem;text-transform:uppercase;letter-spacing:.1em;transition:color .3s}
+  .nav-link:hover{color:var(--accent)}
+  .btn-order{padding:14px 32px;background:linear-gradient(135deg,var(--accent) 0%,#67a7e8 100%);color:#fff;border-radius:50px;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;text-decoration:none;transition:all .3s}
+  .btn-order:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(74,144,217,0.4)}
+  .section{max-width:1200px;margin:0 auto 100px;padding:0 24px}
+  .section-head{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+  .section-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .section-title{font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:16px}
+  .menu-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .3s,transform .3s cubic-bezier(.16,1,.3,1)}
+  .menu-card:hover{border-color:#2a2a30;transform:translateY(-4px)}
+  .menu-image{aspect-ratio:16/10;overflow:hidden}
+  .menu-image img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+  .menu-card:hover .menu-image img{transform:scale(1.05)}
+  .menu-info{padding:24px}
+  .menu-name{font-size:20px;font-weight:600;letter-spacing:-.01em;margin-bottom:8px;color:var(--accent)}
+  .menu-desc{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+  .menu-price{font-size:22px;font-weight:700;color:var(--accent)}
+  .marquee-section{padding:60px 0;overflow:hidden;background:var(--surface)}
+  .marquee-row{display:flex;white-space:nowrap;padding:12px 0}
+  .marquee-row.reverse{animation:marqueeReverse 30s linear infinite}
+  .marquee-row.forward{animation:marqueeForward 30s linear infinite}
+  .marquee-item{display:inline-flex;align-items:center;padding:0 40px;font-size:clamp(48px,10vw,120px);font-weight:800;letter-spacing:-.04em;color:var(--text)}
+  .marquee-item .dot{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--accent);margin:0 32px;opacity:.3}
+  @keyframes marqueeForward{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  @keyframes marqueeReverse{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .about-image{aspect-ratio:4/5;border-radius:var(--r);overflow:hidden}
+  .about-image img{width:100%;height:100%;object-fit:cover}
+  .about-content h2{font-size:clamp(32px,5vw,56px);font-weight:700;letter-spacing:-.03em;margin-bottom:24px}
+  .about-content p{font-size:17px;color:var(--muted);line-height:1.6;margin-bottom:24px}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .info-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:32px;transition:border-color .3s}
+  .info-card:hover{border-color:var(--accent)}
+  .info-card h3{font-size:18px;font-weight:600;margin-bottom:16px;color:var(--accent)}
+  .info-card p{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+  .info-card strong{color:var(--text)}
+  .cta{padding:120px 24px;text-align:center;background:linear-gradient(180deg,var(--surface) 0%,var(--bg) 100%)}
+  .cta h2{font-size:clamp(32px,6vw,64px);font-weight:700;margin-bottom:24px}
+  .cta p{font-size:18px;color:var(--muted);max-width:600px;margin:0 auto 40px}
+  .footer{padding:60px 24px;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:14px}
+  @media(max-width:1024px){.nav{padding:20px 24px}.nav-links{display:none}.about-grid,.info-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="#" class="logo">The Wharf<span>Foulridge</span></a>
+    <ul class="nav-links">
+      <li><a href="#menu" class="nav-link">Menu</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#info" class="nav-link">Visit</a></li>
+    </ul>
+    <a href="tel:01282788200" class="btn-order">📞 01282 788200</a>
+  </nav>
+  <header class="header">
+    <p class="label">★ Canal-Side Venue Lancashire</p>
+    <h1>Food, Drinks & <span>Live Music</span></h1>
+    <p>Stunning venue alongside the picturesque Leeds & Liverpool Canal. Great food, real ales, and regular live music events in the heart of Foulridge.</p>
+  </header>
+  <section class="marquee-section">
+    <div class="marquee-row reverse">
+      <div class="marquee-item">CANAL VIEWS <span class="dot"></span> LIVE MUSIC <span class="dot"></span> REAL ALES <span class="dot"></span></div>
+      <div class="marquee-item">CANAL VIEWS <span class="dot"></span> LIVE MUSIC <span class="dot"></span> REAL ALES <span class="dot"></span></div>
+    </div>
+    <div class="marquee-row forward">
+      <div class="marquee-item">GREAT FOOD <span class="dot"></span> FAMILY FRIENDLY <span class="dot"></span> OUTDOOR SEATING <span class="dot"></span></div>
+      <div class="marquee-item">GREAT FOOD <span class="dot"></span> FAMILY FRIENDLY <span class="dot"></span> OUTDOOR SEATING <span class="dot"></span></div>
+    </div>
+  </section>
+  <section class="section" id="menu">
+    <div class="section-head">
+      <div class="section-dot"></div>
+      <p class="section-title">Our Offerings</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-image">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Pub Food">
+        </div>
+        <div class="menu-info">
+          <h3 class="menu-name">Classic Pub Food</h3>
+          <p class="menu-desc">Homemade classics, Sunday roasts, and daily specials. Fresh, local ingredients.</p>
+          <div class="menu-price">From £8.95</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-image">
+          <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80" alt="Real Ales">
+        </div>
+        <div class="menu-info">
+          <h3 class="menu-name">Real Ales & Drinks</h3>
+          <p class="menu-desc">Rotating selection of local ales, fine wines, and premium spirits.</p>
+          <div class="menu-price">From £4.50</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-image">
+          <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&q=80" alt="Live Music">
+        </div>
+        <div class="menu-info">
+          <h3 class="menu-name">Live Music Events</h3>
+          <p class="menu-desc">Regular live music nights, quiz nights, and special events throughout the year.</p>
+          <div class="menu-price">Check Listings</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="about">
+    <div class="about-grid">
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1572117618179-29d574458076?w=800&q=80" alt="Canal view">
+      </div>
+      <div class="about-content">
+        <p class="label" style="color:var(--accent);margin-bottom:16px">Our Venue</p>
+        <h2>Canal-Side Dining & Drinks</h2>
+        <p>The Wharf at Foulridge is a stunning venue located alongside the Leeds & Liverpool Canal. We offer a unique setting for dining, drinks, and events with beautiful canal views.</p>
+        <p>Whether you're looking for a family-friendly pub, a venue for live music, or a picturesque spot for a Sunday roast, The Wharf has something for everyone. Our outdoor seating area is perfect for sunny days by the canal.</p>
+        <p>We host regular events including live music nights, quiz nights, and special celebrations. Check our social media for upcoming events.</p>
+        <a href="tel:01282788200" class="btn-order" style="display:inline-block;margin-top:24px">Book a Table</a>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="info">
+    <div class="section-head">
+      <div class="section-dot"></div>
+      <p class="section-title">Find Us</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Opening Hours</h3>
+        <p><strong>Monday - Thursday</strong><br>12:00 PM - 10:00 PM</p>
+        <p><strong>Friday - Saturday</strong><br>12:00 PM - 11:00 PM</p>
+        <p><strong>Sunday</strong><br>12:00 PM - 9:00 PM</p>
+      </div>
+      <div class="info-card">
+        <h3>Location</h3>
+        <p><strong>Address:</strong><br>Foulridge Canal Wharf<br>Warehouse Lane<br>Foulridge, BB8 7PP</p>
+        <p><strong>Phone:</strong><br>01282 788200</p>
+      </div>
+      <div class="info-card">
+        <h3>Events</h3>
+        <p><strong>Live Music:</strong><br>Regular weekend events</p>
+        <p><strong>Private Hire:</strong><br>Available for parties</p>
+      </div>
+    </div>
+  </section>
+  <section class="cta">
+    <h2>Visit Us Today</h2>
+    <p>Join us for great food, drinks, and canal-side views. Book your table or enquire about events.</p>
+    <a href="tel:01282788200" class="btn-order">📞 01282 788200</a>
+  </section>
+  <footer class="footer">
+    <p>© 2026 The Wharf at Foulridge. Canal-Side Venue Lancashire.</p>
+  </footer>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from('.header .label', {opacity:0, y:30, duration:1, ease:'power3.out'});
+    gsap.from('.header h1', {opacity:0, y:50, duration:1, delay:0.3, ease:'power3.out'});
+    gsap.from('.header p', {opacity:0, y:30, duration:1, delay:0.5, ease:'power3.out'});
+    gsap.utils.toArray('.menu-card').forEach((card,i) => {
+      gsap.from(card, {scrollTrigger:{trigger:card, start:'top 85%'}, opacity:0, y:50, duration:0.8, delay:i*0.15, ease:'power3.out'});
+    });
+    gsap.from('.about-image', {scrollTrigger:{trigger:'.about-grid', start:'top 80%'}, opacity:0, x:-50, duration:1, ease:'power3.out'});
+    gsap.from('.about-content', {scrollTrigger:{trigger:'.about-grid', start:'top 80%'}, opacity:0, x:50, duration:1, delay:0.2, ease:'power3.out'});
+    gsap.utils.toArray('.info-card').forEach((card,i) => {
+      gsap.from(card, {scrollTrigger:{trigger:card, start:'top 85%'}, opacity:0, y:50, duration:0.8, delay:i*0.15, ease:'power3.out'});
+    });
+  </script>
+</body>
+</html>
