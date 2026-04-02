@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felt Bakery | Artisan Bakery Wimbledon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+        :root {
+            --bg: #faf9f6;
+            --text: #1a1a1f;
+            --accent: #d4a574;
+            --accent-light: #f5e6d3;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+
+        /* Navigation */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(250,249,246,0.95); backdrop-filter: blur(20px); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--text); font-family: 'Playfair Display', serif; }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-link { color: var(--text); text-decoration: none; font-weight: 500; }
+        .btn-nav { padding: 12px 28px; background: var(--accent); color: #fff; border-radius: 50px; font-weight: 600; text-decoration: none; }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 60px; background: linear-gradient(180deg, #faf9f6 0%, #f5e6d3 100%); }
+        .hero-label { font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; margin-bottom: 24px; font-family: 'Playfair Display', serif; }
+        .hero p { font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto 40px; }
+        .btn { padding: 18px 42px; background: var(--accent); color: #fff; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+
+        /* Menu Preview */
+        .menu { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
+        .section-label { font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); text-align: center; margin-bottom: 16px; }
+        .section-title { font-size: 2.5rem; font-weight: 900; text-align: center; margin-bottom: 60px; font-family: 'Playfair Display', serif; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+        .menu-item { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s; }
+        .menu-item:hover { transform: translateY(-8px); }
+        .menu-item img { width: 100%; height: 250px; object-fit: cover; }
+        .menu-info { padding: 24px; }
+        .menu-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+        .menu-desc { color: #666; margin-bottom: 16px; }
+        .menu-price { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+
+        /* About */
+        .about { padding: 100px 24px; background: var(--accent-light); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; align-items: center; }
+        .about img { width: 100%; border-radius: 20px; }
+        .about-content h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 24px; font-family: 'Playfair Display', serif; }
+        .about-content p { color: #666; line-height: 1.8; margin-bottom: 24px; }
+
+        /* Hours & Location */
+        .info { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .info-card { background: #fff; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid var(--accent); }
+        .info-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 24px; font-family: 'Playfair Display', serif; }
+        .info-card p { color: #666; line-height: 1.8; }
+
+        /* Contact */
+        .contact { padding: 100px 24px; text-align: center; background: var(--accent); color: #fff; }
+        .contact h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 24px; font-family: 'Playfair Display', serif; }
+        .contact p { margin-bottom: 40px; opacity: 0.9; }
+        .contact-email { color: #fff; font-size: 1.5rem; font-weight: 700; text-decoration: none; }
+
+        /* Footer */
+        .footer { padding: 40px 24px; text-align: center; border-top: 1px solid #ddd; color: #666; }
+
+        @media (max-width: 768px) { .nav-links { display: none; } .about-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="#" class="logo">Felt Bakery</a>
+        <ul class="nav-links">
+            <li><a href="#menu" class="nav-link">Menu</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#info" class="nav-link">Visit</a></li>
+        </ul>
+        <a href="#contact" class="btn-nav">Order Now →</a>
+    </nav>
+
+    <section class="hero">
+        <div>
+            <p class="hero-label">★ Artisan Bakery in Wimbledon</p>
+            <h1>Handcrafted Pastries & Fresh Bread Daily</h1>
+            <p>Small-batch baking using traditional techniques and the finest ingredients. Every morning, fresh from our oven to your table.</p>
+            <a href="#menu" class="btn">View Menu →</a>
+        </div>
+    </section>
+
+    <section class="menu" id="menu">
+        <p class="section-label">Our Menu</p>
+        <h2 class="section-title">Fresh From the Oven</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80" alt="Croissants">
+                <div class="menu-info">
+                    <h3 class="menu-name">Classic Croissants</h3>
+                    <p class="menu-desc">Buttery, flaky, golden perfection. Made with French butter and laminated by hand.</p>
+                    <div class="menu-price">£3.50</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80" alt="Sourdough Bread">
+                <div class="menu-info">
+                    <h3 class="menu-name">Artisan Sourdough</h3>
+                    <p class="menu-desc">Naturally leavened, 48-hour fermentation. Crusty exterior, soft tangy interior.</p>
+                    <div class="menu-price">£5.50</div>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=600&q=80" alt="Cakes">
+                <div class="menu-info">
+                    <h3 class="menu-name">Specialty Cakes</h3>
+                    <p class="menu-desc">Seasonal flavours, beautifully decorated. Perfect for celebrations.</p>
+                    <div class="menu-price">From £28</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-grid">
+            <img src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?w=800&q=80" alt="Bakery interior">
+            <div class="about-content">
+                <p class="section-label">Our Story</p>
+                <h2>Baked with Love in Wimbledon</h2>
+                <p>Felt Bakery began with a simple mission: to bring authentic, handcrafted baked goods to the Wimbledon community. Every morning at 4am, we start fresh — mixing, kneading, and baking with traditional techniques passed down through generations.</p>
+                <p>We source our flour from local mills, our butter from British dairies, and our ingredients from trusted suppliers who share our commitment to quality. The result? Pastries that melt in your mouth and bread that makes every meal special.</p>
+                <a href="#contact" class="btn">Visit Us Today</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="info" id="info">
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Opening Hours</h3>
+                <p><strong>Tuesday - Friday</strong><br>7:00 AM - 4:00 PM</p>
+                <p><strong>Saturday - Sunday</strong><br>8:00 AM - 4:00 PM</p>
+                <p><strong>Monday</strong><br>Closed</p>
+            </div>
+            <div class="info-card">
+                <h3>Find Us</h3>
+                <p><strong>Address</strong><br>156 Arthur Road<br>Wimbledon, SW19 8AQ</p>
+                <p><strong>Phone</strong><br>020 8123 4567</p>
+            </div>
+            <div class="info-card">
+                <h3>Order Ahead</h3>
+                <p>Skip the queue! Order online or call ahead for pickup.</p>
+                <p>Perfect for morning meetings, weekend brunch, or special occasions.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>Ready to Taste the Difference?</h2>
+        <p>Visit us in Wimbledon or order ahead for pickup.</p>
+        <a href="mailto:hello@feltbakery.co.uk" class="contact-email">📧 hello@feltbakery.co.uk</a>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Felt Bakery Wimbledon. All rights reserved.</p>
+    </footer>
+
+    <script>
+        gsap.from('.hero h1', { opacity: 0, y: 50, duration: 1 });
+        gsap.from('.menu-item', { opacity: 0, y: 50, duration: 0.8, stagger: 0.2, scrollTrigger: { trigger: '.menu-grid', start: 'top 80%' } });
+        gsap.from('.about-content', { opacity: 0, x: 50, duration: 1, scrollTrigger: { trigger: '.about', start: 'top 80%' } });
+    </script>
+</body>
+</html>
