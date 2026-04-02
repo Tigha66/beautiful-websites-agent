@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Manor | Luxury Boutique Hotel Cotswolds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;600;700;1,400;1,600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg: #0d0f0e;
+            --surface: #1a1f1d;
+            --sage: #9caf88;
+            --cream: #f5f1e8;
+            --text: #fafaf8;
+            --text-muted: #889890;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; }
+
+        /* Custom Cursor */
+        .cursor { position: fixed; width: 20px; height: 20px; border: 2px solid var(--sage); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: all 0.3s; }
+        .cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--sage); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+        .cursor.hover { width: 50px; height: 50px; background: rgba(156,175,136,0.2); }
+
+        /* Navigation */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(13,15,14,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(156,175,136,0.2); }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--sage); font-family: 'Playfair Display', serif; letter-spacing: -0.02em; }
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-link { color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
+        .nav-link:hover { color: var(--sage); }
+        .btn-nav { padding: 14px 32px; background: linear-gradient(135deg, var(--sage) 0%, #b8c9a8 100%); color: var(--bg); border-radius: 50px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; transition: all 0.3s; }
+        .btn-nav:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(156,175,136,0.4); }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 160px 24px 80px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&q=80') center/cover; opacity: 0.3; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-label { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: var(--sage); margin-bottom: 32px; opacity: 0; transform: translateY(30px); }
+        .hero h1 { font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; line-height: 1; letter-spacing: -0.05em; margin-bottom: 32px; font-family: 'Playfair Display', serif; opacity: 0; transform: translateY(50px); }
+        .hero h1 span { color: var(--sage); font-style: italic; }
+        .hero p { font-size: clamp(1rem, 2vw, 1.5rem); color: var(--text-muted); max-width: 700px; margin: 0 auto 48px; line-height: 1.8; opacity: 0; transform: translateY(30px); }
+        .hero-cta { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; opacity: 0; transform: translateY(30px); }
+        .btn { padding: 20px 48px; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 50px; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; }
+        .btn-primary { background: linear-gradient(135deg, var(--sage) 0%, #b8c9a8 100%); color: var(--bg); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(156,175,136,0.4); }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid rgba(156,175,136,0.5); }
+        .btn-secondary:hover { border-color: var(--sage); color: var(--sage); transform: translateY(-3px); }
+
+        /* Rooms */
+        .rooms { padding: 180px 24px; max-width: 1400px; margin: 0 auto; }
+        .section-label { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: var(--sage); text-align: center; margin-bottom: 24px; }
+        .section-title { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; text-align: center; margin-bottom: 80px; font-family: 'Playfair Display', serif; line-height: 1.1; }
+        .rooms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; }
+        .room-card { position: relative; }
+        .room-image { aspect-ratio: 4/5; border-radius: 20px; overflow: hidden; margin-bottom: 32px; position: relative; }
+        .room-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+        .room-card:hover .room-image img { transform: scale(1.1); }
+        .room-card h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; font-family: 'Playfair Display', serif; color: var(--sage); }
+        .room-card p { color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+        .room-price { font-size: 1.5rem; font-weight: 700; color: var(--sage); }
+
+        /* Dining */
+        .dining { padding: 180px 24px; background: var(--surface); position: relative; overflow: hidden; }
+        .dining::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(156,175,136,0.08) 0%, transparent 60%); }
+        .dining-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; align-items: center; }
+        .dining-image { aspect-ratio: 4/3; border-radius: 24px; overflow: hidden; }
+        .dining-image img { width: 100%; height: 100%; object-fit: cover; }
+        .dining-content h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; margin-bottom: 32px; font-family: 'Playfair Display', serif; line-height: 1.1; }
+        .dining-content p { color: var(--text-muted); line-height: 1.9; margin-bottom: 24px; font-size: 1.1rem; }
+
+        /* Spa */
+        .spa { padding: 180px 24px; max-width: 1400px; margin: 0 auto; }
+        .spa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .spa-card { background: var(--surface); border: 1px solid rgba(156,175,136,0.2); border-radius: 24px; padding: 40px; text-align: center; transition: all 0.3s; }
+        .spa-card:hover { transform: translateY(-8px); border-color: var(--sage); box-shadow: 0 20px 50px rgba(156,175,136,0.15); }
+        .spa-icon { font-size: 3rem; margin-bottom: 24px; }
+        .spa-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; color: var(--sage); }
+        .spa-card p { color: var(--text-muted); line-height: 1.8; }
+
+        /* About */
+        .about { padding: 180px 24px; max-width: 1400px; margin: 0 auto; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+        .about-image { position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 4/5; }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; }
+        .about-content h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; margin-bottom: 32px; font-family: 'Playfair Display', serif; line-height: 1.1; }
+        .about-content p { color: var(--text-muted); line-height: 1.9; margin-bottom: 24px; font-size: 1.1rem; }
+
+        /* Booking */
+        .booking { padding: 180px 24px; text-align: center; background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%); }
+        .booking-content { max-width: 800px; margin: 0 auto; }
+        .booking h2 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; margin-bottom: 24px; font-family: 'Playfair Display', serif; }
+        .booking p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 48px; line-height: 1.8; }
+
+        /* Footer */
+        .footer { padding: 80px 24px; border-top: 1px solid rgba(156,175,136,0.2); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; max-width: 1400px; margin: 0 auto 60px; }
+        .footer-brand h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; color: var(--sage); font-family: 'Playfair Display', serif; }
+        .footer-brand p { color: var(--text-muted); line-height: 1.8; }
+        .footer-links h4 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 24px; color: var(--text-muted); }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 14px; }
+        .footer-links a { color: var(--text); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--sage); }
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid rgba(156,175,136,0.2); color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 1024px) { .nav { padding: 24px 30px; } .nav-links { display: none; } .dining-grid, .about-grid, .footer-grid { grid-template-columns: 1fr; gap: 60px; } .hero-cta { flex-direction: column; } .btn { width: 100%; justify-content: center; } }
+        @media (max-width: 768px) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <nav class="nav">
+        <a href="#" class="logo">The Manor</a>
+        <ul class="nav-links">
+            <li><a href="#rooms" class="nav-link">Rooms</a></li>
+            <li><a href="#dining" class="nav-link">Dining</a></li>
+            <li><a href="#spa" class="nav-link">Spa</a></li>
+            <li><a href="#about" class="nav-link">Story</a></li>
+            <li><a href="#booking" class="nav-link">Book</a></li>
+        </ul>
+        <a href="tel:+441234567890" class="btn-nav">Reserve</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">★ Luxury Boutique Hotel Cotswolds</p>
+            <h1>Escape to <span>Tranquility</span></h1>
+            <p>A historic manor house reimagined for the modern traveller. Experience timeless elegance, Michelin-starred dining, and unparalleled serenity in the heart of the Cotswolds.</p>
+            <div class="hero-cta">
+                <a href="#booking" class="btn btn-primary">Book Your Stay</a>
+                <a href="#rooms" class="btn btn-secondary">Explore Rooms</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="rooms" id="rooms">
+        <p class="section-label">Accommodations</p>
+        <h2 class="section-title">Luxury Suites & Rooms</h2>
+        <div class="rooms-grid">
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80" alt="Master Suite">
+                </div>
+                <h3>The Master Suite</h3>
+                <p>Panoramic countryside views, king-size bed, private terrace, freestanding bathtub, and butler service.</p>
+                <div class="room-price">From £450/night</div>
+            </div>
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&q=80" alt="Garden Room">
+                </div>
+                <h3>Garden Room</h3>
+                <p>Ground floor retreat with direct garden access, queen bed, rainfall shower, and private patio.</p>
+                <div class="room-price">From £320/night</div>
+            </div>
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80" alt="Heritage Room">
+                </div>
+                <h3>Heritage Room</h3>
+                <p>Period features meet modern luxury. Four-poster bed, original fireplace, and countryside views.</p>
+                <div class="room-price">From £280/night</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dining" id="dining">
+        <div class="dining-grid">
+            <div class="dining-image">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Fine dining restaurant">
+            </div>
+            <div class="dining-content">
+                <p class="section-label">Culinary Excellence</p>
+                <h2>Michelin-Starred Dining</h2>
+                <p>Our restaurant showcases the finest seasonal ingredients from Cotswolds farms and artisan producers. Each dish is a celebration of British cuisine with contemporary flair.</p>
+                <p>From intimate chef's table experiences to relaxed garden dining, we offer multiple venues to suit every occasion. Our sommelier curates an award-winning wine list featuring rare vintages and boutique labels.</p>
+                <a href="#booking" class="btn btn-primary">Reserve a Table</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="spa" id="spa">
+        <p class="section-label">Wellness</p>
+        <h2 class="section-title">The Spa at The Manor</h2>
+        <div class="spa-grid">
+            <div class="spa-card">
+                <div class="spa-icon">🧖</div>
+                <h3>Thermal Suite</h3>
+                <p>Experience our heated thermal pool, sauna, steam room, and ice fountain for ultimate relaxation.</p>
+            </div>
+            <div class="spa-card">
+                <div class="spa-icon">💆</div>
+                <h3>Treatment Rooms</h3>
+                <p>Indulge in bespoke facials, massages, and body treatments using organic Cotswolds botanicals.</p>
+            </div>
+            <div class="spa-card">
+                <div class="spa-icon">🧘</div>
+                <h3>Yoga Pavilion</h3>
+                <p>Daily yoga and meditation classes in our purpose-built pavilion overlooking the gardens.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=80" alt="Manor house exterior">
+            </div>
+            <div class="about-content">
+                <p class="section-label">Our Heritage</p>
+                <h2>A Historic Manor Reborn</h2>
+                <p>Built in 1720, The Manor has been lovingly restored to become the Cotswolds' premier boutique hotel. Every detail honours our heritage while embracing contemporary luxury.</p>
+                <p>Set within 15 acres of award-winning gardens, The Manor offers a sanctuary from the modern world. Whether you're here for a romantic escape, a culinary adventure, or a wellness retreat, we promise an unforgettable experience.</p>
+                <a href="#booking" class="btn btn-primary">Plan Your Visit</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="booking" id="booking">
+        <div class="booking-content">
+            <h2>Reserve Your Escape</h2>
+            <p>Experience the epitome of Cotswolds luxury. Book your stay or enquire about special packages.</p>
+            <div class="hero-cta">
+                <a href="tel:+441234567890" class="btn btn-primary">📞 01234 567 890</a>
+                <a href="mailto:reservations@themanor-cotswolds.co.uk" class="btn btn-secondary">📧 Reservations</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>The Manor</h3>
+                <p>Luxury boutique hotel in the Cotswolds. Historic elegance meets modern sophistication.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Location</h4>
+                <ul>
+                    <li>Manor Lane</li>
+                    <li>Chipping Campden</li>
+                    <li>Cotswolds, GL55 6HB</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+441234567890">01234 567 890</a></li>
+                    <li><a href="mailto:reservations@themanor-cotswolds.co.uk">reservations@themanor-cotswolds.co.uk</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Follow</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 The Manor Cotswolds. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button, .room-card, .spa-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+        const tl = gsap.timeline();
+        tl.to('.hero-label', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
+          .to('.hero h1', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero p', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.5')
+          .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5');
+        gsap.from('.room-card', { scrollTrigger: { trigger: '.rooms-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+        gsap.from('.dining-content', { scrollTrigger: { trigger: '.dining', start: 'top 80%' }, opacity: 0, x: 50, duration: 1, ease: 'power3.out' });
+        gsap.from('.spa-card', { scrollTrigger: { trigger: '.spa-grid', start: 'top 80%' }, opacity: 0, y: 50, duration: 0.8, stagger: 0.15, ease: 'power3.out' });
+        gsap.from('.about-content', { scrollTrigger: { trigger: '.about', start: 'top 80%' }, opacity: 0, x: 50, duration: 1, ease: 'power3.out' });
+        gsap.from('.booking-content', { scrollTrigger: { trigger: '.booking', start: 'top 80%' }, opacity: 0, y: 50, duration: 1, ease: 'power3.out' });
+    </script>
+</body>
+</html>
