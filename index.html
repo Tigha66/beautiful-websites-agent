@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional plumbing services in Shoreditch, London. Emergency repairs, installations, and maintenance. Call us today!">
+    <title>Shoreditch Plumbing Co - Professional Plumbers in London</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1e40af;
+            --secondary: #f59e0b;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .cta-button {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(30, 64, 175, 0.9), rgba(30, 64, 175, 0.8)), 
+                        url('https://images.unsplash.com/photo-1581244277943-fe4a92921d17?w=1200');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 180px 2rem 120px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: 2px solid var(--white);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* About */
+        .about {
+            background: var(--light);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        
+        .contact-info {
+            background: var(--primary);
+            color: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+        }
+        
+        .contact-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-item strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .contact-form {
+            background: var(--light);
+            padding: 3rem;
+            border-radius: 12px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        /* Chatbot */
+        .chatbot-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: var(--white);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+            font-size: 1.5rem;
+            border: none;
+        }
+        
+        .chatbot-window {
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            width: 350px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 999;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .chatbot-header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .chatbot-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f9fafb;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+        
+        .message.bot {
+            background: var(--light);
+            margin-right: auto;
+        }
+        
+        .message.user {
+            background: var(--primary);
+            color: var(--white);
+            margin-left: auto;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            outline: none;
+        }
+        
+        .chatbot-input button {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+        }
+        
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .quick-reply {
+            background: var(--white);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .quick-reply:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .about-content,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chatbot-window {
+                width: calc(100% - 2rem);
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">🔧 Shoreditch Plumbing Co</div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="tel:+442071234567" class="cta-button">📞 Call Now</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Professional Plumbing Services in Shoreditch</h1>
+        <p>Reliable, affordable, and trusted plumbers serving London E1 and surrounding areas. Emergency service available.</p>
+        <div class="hero-buttons">
+            <a href="tel:+442071234567" class="btn-primary">📞 Call 020 7123 4567</a>
+            <a href="#contact" class="btn-secondary">Get a Quote</a>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Professional plumbing solutions for homes and businesses</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🚨</div>
+                <h3>Emergency Repairs</h3>
+                <p>24/7 emergency plumbing service for burst pipes, leaks, and urgent repairs.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>Installations</h3>
+                <p>Professional installation of taps, toilets, showers, boilers, and more.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📋</div>
+                <h3>Maintenance</h3>
+                <p>Regular maintenance and inspections to prevent costly repairs.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🚿</div>
+                <h3>Bathroom Fitting</h3>
+                <p>Complete bathroom installations and renovations.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔥</div>
+                <h3>Boiler Service</h3>
+                <p>Boiler repairs, servicing, and installations by certified engineers.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💧</div>
+                <h3>Drain Cleaning</h3>
+                <p>Professional drain unblocking and cleaning services.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+        <h2 class="section-title">About Us</h2>
+        <p class="section-subtitle">Your trusted local plumbers in Shoreditch</p>
+        <div class="about-content">
+            <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600" alt="Plumber at work" class="about-image">
+            <div>
+                <h3>4.8 ★ Rating (87 Reviews)</h3>
+                <p style="margin: 1rem 0;">Shoreditch Plumbing Co has been serving the London community with professional plumbing services. Our team of certified plumbers is dedicated to providing high-quality workmanship at fair prices.</p>
+                <p style="margin: 1rem 0;"><strong>Service Areas:</strong> Shoreditch, Hoxton, Hackney, Islington, and all of Central London.</p>
+                <p style="margin: 1rem 0;"><strong>Hours:</strong> Mon-Fri 7AM-6PM, Sat 8AM-2PM</p>
+                <p style="margin: 1rem 0;"><strong>Emergency Service:</strong> Available 24/7 for urgent plumbing issues.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <h2 class="section-title">Contact Us</h2>
+        <p class="section-subtitle">Get in touch for a free quote</p>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>📍 Address</strong>
+                    45 Shoreditch High Street<br>London, E1 6PQ
+                </div>
+                <div class="contact-item">
+                    <strong>📞 Phone</strong>
+                    <a href="tel:+442071234567" style="color: white;">020 7123 4567</a>
+                </div>
+                <div class="contact-item">
+                    <strong>📧 Email</strong>
+                    <a href="mailto:info@shoreditchplumbing.co.uk" style="color: white;">info@shoreditchplumbing.co.uk</a>
+                </div>
+                <div class="contact-item">
+                    <strong>🕐 Hours</strong>
+                    Mon-Fri: 7AM - 6PM<br>
+                    Saturday: 8AM - 2PM<br>
+                    Sunday: Emergency Only
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="quote-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">How Can We Help?</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Shoreditch Plumbing Co. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">45 Shoreditch High Street, London, E1 6PQ | 020 7123 4567</p>
+    </footer>
+
+    <!-- Chatbot Button -->
+    <button class="chatbot-button" onclick="toggleChatbot()">💬</button>
+
+    <!-- Chatbot Window -->
+    <div class="chatbot-window" id="chatbot">
+        <div class="chatbot-header">
+            <div>
+                <strong>Shoreditch Plumbing Co</strong><br>
+                <small>Online - Ready to help</small>
+            </div>
+            <button class="chatbot-close" onclick="toggleChatbot()">×</button>
+        </div>
+        <div class="chatbot-messages" id="chat-messages">
+            <div class="message bot">
+                Hi! Welcome to Shoreditch Plumbing Co. How can we help you today?
+            </div>
+            <div class="quick-replies">
+                <button class="quick-reply" onclick="sendQuickReply('Do you offer emergency service?')">Emergency Service?</button>
+                <button class="quick-reply" onclick="sendQuickReply('What areas do you cover?')">Service Areas?</button>
+                <button class="quick-reply" onclick="sendQuickReply('How do I get a quote?')">Get a Quote</button>
+                <button class="quick-reply" onclick="sendQuickReply('Call me back')">Request Callback</button>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Chatbot functionality
+        function toggleChatbot() {
+            const chatbot = document.getElementById('chatbot');
+            chatbot.style.display = chatbot.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                setTimeout(() => botReply(message), 1000);
+            }
+        }
+
+        function sendQuickReply(message) {
+            addMessage(message, 'user');
+            setTimeout(() => botReply(message), 1000);
+        }
+
+        function addMessage(text, sender) {
+            const messages = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            div.textContent = text;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function botReply(userMessage) {
+            const replies = {
+                'emergency': 'Yes! We offer 24/7 emergency plumbing services. Call us now at 020 7123 4567 for immediate assistance.',
+                'areas': 'We serve Shoreditch, Hoxton, Hackney, Islington, and all of Central London (E1, E2, N1, EC1, EC2 postcodes).',
+                'quote': 'You can get a free quote by calling 020 7123 4567 or filling out the contact form on this page. We usually respond within 2 hours during business hours.',
+                'callback': 'Great! Please leave your name and phone number, and we\'ll call you back within 30 minutes during business hours.',
+                'price': 'Our prices start from £45 for a call-out. Final pricing depends on the job - we always provide a quote before starting work.',
+                'hours': 'We\'re open Mon-Fri 7AM-6PM, Sat 8AM-2PM. Emergency service is available 24/7.'
+            };
+
+            const lowerMessage = userMessage.toLowerCase();
+            let reply = replies['quote']; // Default
+
+            if (lowerMessage.includes('emergency')) reply = replies['emergency'];
+            else if (lowerMessage.includes('area') || lowerMessage.includes('cover')) reply = replies['areas'];
+            else if (lowerMessage.includes('quote') || lowerMessage.includes('price') || lowerMessage.includes('cost')) reply = replies['quote'];
+            else if (lowerMessage.includes('call') || lowerMessage.includes('callback')) reply = replies['callback'];
+            else if (lowerMessage.includes('hour') || lowerMessage.includes('open')) reply = replies['hours'];
+
+            addMessage(reply, 'bot');
+        }
+
+        // Form handling
+        document.getElementById('quote-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you! Your message has been sent. We\'ll get back to you within 2 hours during business hours.');
+            this.reset();
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
