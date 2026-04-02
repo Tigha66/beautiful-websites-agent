@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Websites Agent — Client Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --bg-alt: #121216;
+            --surface: #1a1a1f;
+            --text: #fafaf8;
+            --text-muted: #888890;
+            --accent: #c9a962;
+            --accent-glow: rgba(201,169,98,0.3);
+            --green: #4ade80;
+            --red: #f87171;
+            --yellow: #fbbf24;
+            --gradient-gold: linear-gradient(135deg, #c9a962 0%, #f5c776 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            padding: 80px 24px 60px;
+            text-align: center;
+            background: var(--gradient-gold);
+            color: var(--bg);
+        }
+        .header-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+        .header h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 16px;
+        }
+        .header p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: -40px auto 60px;
+            padding: 0 24px;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Comparison Cards */
+        .comparison-grid {
+            display: grid;
+            gap: 40px;
+        }
+        .comparison-card {
+            background: var(--bg-alt);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        .comparison-header {
+            padding: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .business-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .business-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .business-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .status-live {
+            background: rgba(74,222,128,0.15);
+            color: var(--green);
+        }
+        .status-pending {
+            background: rgba(251,191,36,0.15);
+            color: var(--yellow);
+        }
+        .status-building {
+            background: rgba(201,169,98,0.15);
+            color: var(--accent);
+        }
+
+        /* Website Comparison */
+        .website-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        .website-side {
+            padding: 32px;
+        }
+        .website-side:first-child {
+            border-right: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.3);
+        }
+        .website-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .website-preview {
+            aspect-ratio: 16/10;
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .website-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .website-preview-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+        }
+        .website-url {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            word-break: break-all;
+        }
+        .website-features {
+            list-style: none;
+        }
+        .website-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+        .website-features li:last-child {
+            border-bottom: none;
+        }
+        .feature-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .feature-check.yes {
+            background: rgba(74,222,128,0.2);
+            color: var(--green);
+        }
+        .feature-check.no {
+            background: rgba(248,113,113,0.2);
+            color: var(--red);
+        }
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .btn {
+            padding: 14px 28px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: var(--bg);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Pipeline */
+        .pipeline {
+            background: var(--bg-alt);
+            padding: 80px 24px;
+            margin-top: 80px;
+        }
+        .pipeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .pipeline-card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .pipeline-stage {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .pipeline-count {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        .pipeline-label {
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+        .pipeline-list {
+            list-style: none;
+        }
+        .pipeline-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.95rem;
+        }
+        .pipeline-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .website-comparison {
+                grid-template-columns: 1fr;
+            }
+            .website-side:first-child {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+        }
+        @media (max-width: 768px) {
+            .comparison-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .business-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <p class="header-label">★ Beautiful Websites Agent Dashboard</p>
+        <h1>UK Food Business Transformations</h1>
+        <p>Cinematic websites built on autopilot for restaurants, cafes, and coffee shops</p>
+    </header>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number">50</div>
+            <div class="stat-label">Leads Identified</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Websites Live</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Emails Sent</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">£15K</div>
+            <div class="stat-label">Pipeline Value</div>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <h2 class="section-title">Website Comparisons</h2>
+        
+        <div class="comparison-grid">
+            <!-- The Food Room -->
+            <div class="comparison-card">
+                <div class="comparison-header">
+                    <div class="business-info">
+                        <h3>The Food Room Brixton</h3>
+                        <div class="business-meta">
+                            <span>☕ Cafe & Brunch</span>
+                            <span>📍 Brixton, London</span>
+                            <span>📧 hello@thefoodroom.london</span>
+                        </div>
+                    </div>
+                    <div class="status-badge status-live">
+                        ✅ Live
+                    </div>
+                </div>
+                <div class="website-comparison">
+                    <div class="website-side">
+                        <p class="website-label">❌ Original</p>
+                        <div class="website-preview">
+                            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--surface);color:var(--text-muted);font-size:1.5rem;">
+                                No Website
+                            </div>
+                        </div>
+                        <ul class="website-features">
+                            <li><span class="feature-check no">✕</span> No website</li>
+                            <li><span class="feature-check no">✕</span> Instagram only</li>
+                            <li><span class="feature-check no">✕</span> No online menu</li>
+                            <li><span class="feature-check no">✕</span> No booking system</li>
+                            <li><span class="feature-check no">✕</span> No mobile optimization</li>
+                        </ul>
+                    </div>
+                    <div class="website-side">
+                        <p class="website-label">✅ Cinematic Website</p>
+                        <div class="website-preview">
+                            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80" alt="The Food Room website">
+                            <div class="website-preview-overlay">
+                                <span class="website-url">tigha66.github.io/beautiful-websites-agent/the-food-room.html</span>
+                            </div>
+                        </div>
+                        <ul class="website-features">
+                            <li><span class="feature-check yes">✓</span> Custom magnetic cursor</li>
+                            <li><span class="feature-check yes">✓</span> GSAP scroll animations</li>
+                            <li><span class="feature-check yes">✓</span> Kinetic typography marquee</li>
+                            <li><span class="feature-check yes">✓</span> Mobile-optimized menu</li>
+                            <li><span class="feature-check yes">✓</span> Click-to-call CTAs</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <a href="https://tigha66.github.io/beautiful-websites-agent/the-food-room.html" target="_blank" class="btn btn-primary">
+                                🚀 View Live Site
+                            </a>
+                            <a href="mailto:hello@thefoodroom.london" class="btn btn-secondary">
+                                📧 Contact Business
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clapham Coffee Co -->
+            <div class="comparison-card">
+                <div class="comparison-header">
+                    <div class="business-info">
+                        <h3>Clapham Coffee Co</h3>
+                        <div class="business-meta">
+                            <span>☕ Specialty Coffee</span>
+                            <span>📍 Clapham, London</span>
+                            <span>📧 hi@claphamcoffee.co.uk</span>
+                        </div>
+                    </div>
+                    <div class="status-badge status-live">
+                        ✅ Live
+                    </div>
+                </div>
+                <div class="website-comparison">
+                    <div class="website-side">
+                        <p class="website-label">❌ Original</p>
+                        <div class="website-preview">
+                            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--surface);color:var(--text-muted);font-size:1.5rem;">
+                                No Website
+                            </div>
+                        </div>
+                        <ul class="website-features">
+                            <li><span class="feature-check no">✕</span> No website</li>
+                            <li><span class="feature-check no">✕</span> Instagram only</li>
+                            <li><span class="feature-check no">✕</span> No online shop</li>
+                            <li><span class="feature-check no">✕</span> No bean sales</li>
+                            <li><span class="feature-check no">✕</span> No location info</li>
+                        </ul>
+                    </div>
+                    <div class="website-side">
+                        <p class="website-label">✅ Cinematic Website</p>
+                        <div class="website-preview">
+                            <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&q=80" alt="Clapham Coffee website">
+                            <div class="website-preview-overlay">
+                                <span class="website-url">tigha66.github.io/beautiful-websites-agent/clapham-coffee.html</span>
+                            </div>
+                        </div>
+                        <ul class="website-features">
+                            <li><span class="feature-check yes">✓</span> Dark premium theme</li>
+                            <li><span class="feature-check yes">✓</span> Product showcase</li>
+                            <li><span class="feature-check yes">✓</span> Coffee origin stories</li>
+                            <li><span class="feature-check yes">✓</span> E-commerce ready</li>
+                            <li><span class="feature-check yes">✓</span> Roastery info</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <a href="https://tigha66.github.io/beautiful-websites-agent/clapham-coffee.html" target="_blank" class="btn btn-primary">
+                                🚀 View Live Site
+                            </a>
+                            <a href="mailto:hi@claphamcoffee.co.uk" class="btn btn-secondary">
+                                📧 Contact Business
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brixton Burger House -->
+            <div class="comparison-card">
+                <div class="comparison-header">
+                    <div class="business-info">
+                        <h3>Brixton Burger House</h3>
+                        <div class="business-meta">
+                            <span>🍔 Restaurant</span>
+                            <span>📍 Brixton, London</span>
+                            <span>📧 orders@brixtonburger.com</span>
+                        </div>
+                    </div>
+                    <div class="status-badge status-live">
+                        ✅ Live
+                    </div>
+                </div>
+                <div class="website-comparison">
+                    <div class="website-side">
+                        <p class="website-label">❌ Original</p>
+                        <div class="website-preview">
+                            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--surface);color:var(--text-muted);font-size:1.5rem;">
+                                No Website
+                            </div>
+                        </div>
+                        <ul class="website-features">
+                            <li><span class="feature-check no">✕</span> No website</li>
+                            <li><span class="feature-check no">✕</span> Deliveroo only</li>
+                            <li><span class="feature-check no">✕</span> No menu display</li>
+                            <li><span class="feature-check no">✕</span> No booking system</li>
+                            <li><span class="feature-check no">✕</span> No brand identity</li>
+                        </ul>
+                    </div>
+                    <div class="website-side">
+                        <p class="website-label">✅ Cinematic Website</p>
+                        <div class="website-preview">
+                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="Brixton Burger website">
+                            <div class="website-preview-overlay">
+                                <span class="website-url">tigha66.github.io/beautiful-websites-agent/brixton-burger.html</span>
+                            </div>
+                        </div>
+                        <ul class="website-features">
+                            <li><span class="feature-check yes">✓</span> Fire orange theme</li>
+                            <li><span class="feature-check yes">✓</span> Menu showcase</li>
+                            <li><span class="feature-check yes">✓</span> Reservation CTA</li>
+                            <li><span class="feature-check yes">✓</span> Instagram integration</li>
+                            <li><span class="feature-check yes">✓</span> Mobile ordering ready</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <a href="https://tigha66.github.io/beautiful-websites-agent/brixton-burger.html" target="_blank" class="btn btn-primary">
+                                🚀 View Live Site
+                            </a>
+                            <a href="mailto:orders@brixtonburger.com" class="btn btn-secondary">
+                                📧 Contact Business
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="pipeline">
+        <h2 class="section-title">Build Pipeline</h2>
+        <div class="pipeline-grid">
+            <div class="pipeline-card">
+                <p class="pipeline-stage">🚀 Live & Sent</p>
+                <div class="pipeline-count">3</div>
+                <p class="pipeline-label">Websites deployed, emails sent</p>
+                <ul class="pipeline-list">
+                    <li>✓ The Food Room Brixton</li>
+                    <li>✓ Clapham Coffee Co</li>
+                    <li>✓ Brixton Burger House</li>
+                </ul>
+            </div>
+            <div class="pipeline-card">
+                <p class="pipeline-stage">🔨 Building This Week</p>
+                <div class="pipeline-count">4</div>
+                <p class="pipeline-label">In production</p>
+                <ul class="pipeline-list">
+                    <li>⏳ Notting Hill Bistro</li>
+                    <li>⏳ Shoreditch Kitchen</li>
+                    <li>⏳ Off The Press Manchester</li>
+                    <li>⏳ Pink Lantern Birmingham</li>
+                </ul>
+            </div>
+            <div class="pipeline-card">
+                <p class="pipeline-stage">📋 Queue (Next Week)</p>
+                <div class="pipeline-count">10</div>
+                <p class="pipeline-label">Scheduled for build</p>
+                <ul class="pipeline-list">
+                    <li>⏱ Borough Market Bistro</li>
+                    <li>⏱ Blackwood Coffee Edinburgh</li>
+                    <li>⏱ Tapps Wine Bar Bristol</li>
+                    <li>⏱ House Eleven Birmingham</li>
+                    <li>⏱ +6 more...</li>
+                </ul>
+            </div>
+            <div class="pipeline-card">
+                <p class="pipeline-stage">📊 Total Pipeline</p>
+                <div class="pipeline-count">50</div>
+                <p class="pipeline-label">Food business leads</p>
+                <ul class="pipeline-list">
+                    <li>London: 20 leads</li>
+                    <li>Manchester: 10 leads</li>
+                    <li>Birmingham: 8 leads</li>
+                    <li>Bristol: 6 leads</li>
+                    <li>Edinburgh: 6 leads</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Beautiful Websites Agent Toolkit — Cinematic websites built on autopilot</p>
+        <p style="margin-top: 12px; opacity: 0.6;">Dashboard updated: April 2, 2026</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate stats
+        gsap.from('.stat-card', {
+            scrollTrigger: { trigger: '.stats', start: 'top 80%' },
+            opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out'
+        });
+
+        // Animate comparison cards
+        gsap.from('.comparison-card', {
+            scrollTrigger: { trigger: '.comparison-grid', start: 'top 80%' },
+            opacity: 0, y: 50, duration: 1, stagger: 0.3, ease: 'power3.out'
+        });
+
+        // Animate pipeline cards
+        gsap.from('.pipeline-card', {
+            scrollTrigger: { trigger: '.pipeline-grid', start: 'top 80%' },
+            opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out'
+        });
+    </script>
+</body>
+</html>
