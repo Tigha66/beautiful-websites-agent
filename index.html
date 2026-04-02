@@ -3,120 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Beautiful Websites Agent — Cinematic websites built on autopilot for UK restaurants, cafes, and food businesses. From £499.">
-    <title>Beautiful Websites Agent | Transform Your Website to Cinematic</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    
+    <title>Beautiful Websites Agent | Cinematic Websites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0a0a0c;
-            --bg-alt: #121216;
-            --surface: #1a1a1f;
-            --text: #fafaf8;
-            --text-muted: #888890;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59,130,246,0.3);
-            --gradient-gold: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --gradient-dark: linear-gradient(180deg, #0a0a0c 0%, #1a1a1f 100%);
-            --gradient-hero: radial-gradient(ellipse at 50% 30%, rgba(59,130,246,0.2) 0%, transparent 60%);
-        }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
         body {
-            background: var(--bg);
-            color: var(--text);
+            background: #000;
+            color: #fff;
             font-family: 'Outfit', sans-serif;
-            -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
         }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .bg-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 20s infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-            50% { transform: translateY(-100px) translateX(50px); opacity: 0.6; }
-        }
-
-        /* Navigation */
-        .nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            padding: 24px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10,10,12,0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(201,169,98,0.2);
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
-        .nav-link {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-            position: relative;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-gold);
-            transition: width 0.3s;
-        }
-        .nav-link:hover::after { width: 100%; }
-        .nav-link:hover { color: var(--accent); }
-        .btn-nav {
-            padding: 12px 28px;
-            background: var(--gradient-gold);
-            color: var(--bg);
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .btn-nav:hover { transform: scale(1.05); box-shadow: 0 10px 30px var(--accent-glow); }
 
         /* Hero */
         .hero {
@@ -126,1026 +22,327 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 160px 24px 80px;
-            background: var(--gradient-dark);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gradient-hero);
-            animation: pulse 4s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-        .hero-label {
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 2;
-            animation: fadeInUp 1s ease 0.2s both;
+            padding: 120px 24px 60px;
+            background: linear-gradient(180deg, #0a0a0f 0%, #000 100%);
         }
         .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.04em;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 2;
-        }
-        .hero h1 .highlight {
-            background: var(--gradient-gold);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2fff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: inline-block;
-            animation: shimmer 3s linear infinite;
         }
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-        .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 48px;
-            line-height: 1.6;
-            position: relative;
-            z-index: 2;
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-        .hero-cta {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 2;
-            animation: fadeInUp 1s ease 0.6s both;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .hero p {
+            font-size: 1.2rem;
+            color: #888;
+            max-width: 600px;
+            margin-bottom: 40px;
         }
         .btn {
-            padding: 18px 42px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border-radius: 100px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2fff 100%);
+            color: #000;
             border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .btn-primary {
-            background: var(--gradient-gold);
-            color: var(--bg);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-        }
-        .btn-primary:hover::before { transform: translateX(100%); }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 50px var(--accent-glow);
-        }
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            border: 2px solid rgba(201,169,98,0.5);
-        }
-        .btn-secondary:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-3px);
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            background: var(--surface);
-            border-top: 1px solid rgba(201,169,98,0.2);
-            border-bottom: 1px solid rgba(201,169,98,0.2);
-            padding: 40px 24px;
-            position: relative;
-        }
-        .stats-bar::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(201,169,98,0.05), transparent);
-            animation: shimmer 3s linear infinite;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 900;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        /* Services */
-        .services {
-            padding: 140px 24px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .section-header {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 80px;
-        }
-        .section-label {
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 16px;
-        }
-        .section-header h2 {
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
-        }
-        .section-header p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 32px;
-        }
-        .service-card {
-            background: var(--bg-alt);
-            border: 1px solid rgba(201,169,98,0.2);
-            border-radius: 20px;
-            padding: 48px 40px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 4px;
-            background: var(--gradient-gold);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-        .service-card:hover::before { transform: scaleX(1); }
-        .service-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(201,169,98,0.15);
-        }
-        .service-icon {
-            width: 70px;
-            height: 70px;
-            background: rgba(201,169,98,0.15);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 28px;
-            transition: transform 0.3s;
-        }
-        .service-card:hover .service-icon { transform: scale(1.1) rotate(5deg); }
-        .service-card h3 {
-            font-size: 1.5rem;
+            border-radius: 50px;
             font-weight: 700;
-            margin-bottom: 16px;
-        }
-        .service-card p {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-        .service-features {
-            list-style: none;
-            margin-bottom: 32px;
-        }
-        .service-features li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
-        }
-        .service-features li:last-child { border-bottom: none; }
-        .feature-check {
-            width: 20px;
-            height: 20px;
-            background: rgba(201,169,98,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            flex-shrink: 0;
-            font-size: 0.75rem;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        /* Pricing */
+        /* PRICING - SUPER VISIBLE */
         .pricing {
-            padding: 140px 24px;
-            background: linear-gradient(180deg, #121216 0%, #0a0a0c 100%);
-            position: relative;
+            padding: 100px 24px;
+            background: #050508;
         }
-        .pricing::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 50%, rgba(201,169,98,0.08) 0%, transparent 60%);
+        .pricing h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 60px;
+            color: #fff;
         }
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
-            position: relative;
-            z-index: 2;
         }
         .pricing-card {
-            background: linear-gradient(145deg, #1a1a1f 0%, #0f0f12 100%);
-            border: 2px solid #3b82f6;
-            border-radius: 24px;
-            padding: 48px 40px;
+            background: linear-gradient(145deg, #111 0%, #0a0a0f 100%);
+            border: 3px solid #00d4ff;
+            border-radius: 20px;
+            padding: 40px 30px;
             text-align: center;
-            transition: all 0.3s;
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        }
-        .pricing-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 60px rgba(59,130,246,0.3);
         }
         .pricing-card.featured {
-            border-width: 3px;
-            background: linear-gradient(145deg, #1f1f26 0%, #121216 100%);
-            transform: scale(1.08);
+            border-width: 4px;
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(0,212,255,0.3);
         }
-        .pricing-card.featured:hover {
-            transform: scale(1.08) translateY(-12px);
-        }
-        .pricing-badge {
+        .badge {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 100px;
-            font-size: 0.7rem;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2fff 100%);
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 50px;
             font-weight: 800;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            z-index: 10;
         }
-        .pricing-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #fafaf8;
-            margin-bottom: 24px;
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            position: relative;
-            z-index: 2;
         }
-        .pricing-price {
+        .price {
             font-size: 5rem;
             font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 0 40px rgba(59,130,246,0.6);
+            color: #00d4ff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0,212,255,0.5);
         }
-        .pricing-price span {
+        .price span {
             font-size: 1.2rem;
-            color: #3b82f6;
+            color: #7b2fff;
             font-weight: 600;
             display: block;
-            margin-top: 8px;
         }
-        .pricing-description {
-            color: #888890;
-            margin-bottom: 32px;
-            line-height: 1.6;
-            position: relative;
-            z-index: 2;
-        }
-        .pricing-features {
+        .features {
             list-style: none;
-            margin-bottom: 40px;
+            margin: 30px 0;
             text-align: left;
-            position: relative;
-            z-index: 2;
-            background: rgba(59,130,246,0.08);
-            padding: 24px;
-            border-radius: 16px;
-            border: 1px solid rgba(59,130,246,0.2);
+            background: rgba(0,212,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(0,212,255,0.2);
         }
-        .pricing-features li {
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(59,130,246,0.2);
+        .features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,212,255,0.15);
+            color: #fff;
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 14px;
-            font-size: 1rem;
-            color: #fafaf8;
+            gap: 12px;
         }
-        .pricing-features li:last-child { border-bottom: none; }
-        .feature-check {
+        .features li:last-child { border-bottom: none; }
+        .check {
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2fff 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
-            flex-shrink: 0;
-            font-size: 0.8rem;
+            color: #000;
             font-weight: 900;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
-        .pricing-cta {
+        .pricing-card .btn {
             width: 100%;
-            justify-content: center;
-            position: relative;
-            z-index: 2;
+            margin-top: 20px;
         }
-        .portfolio-card {
-            background: var(--bg-alt);
-            border: 1px solid rgba(201,169,98,0.2);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-        .portfolio-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(201,169,98,0.15);
-        }
-        .portfolio-image {
-            aspect-ratio: 16/10;
-            overflow: hidden;
-            position: relative;
-        }
-        .portfolio-image::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.8) 100%);
-        }
-        .portfolio-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s;
-        }
-        .portfolio-card:hover .portfolio-image img { transform: scale(1.1); }
-        .portfolio-info {
-            padding: 32px;
-        }
-        .portfolio-info h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .portfolio-info p {
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-        .portfolio-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--accent);
-            font-weight: 600;
-            text-decoration: none;
-            transition: gap 0.3s;
-        }
-        .portfolio-link:hover { gap: 12px; }
 
-        /* Process */
-        .process {
-            padding: 140px 24px;
-            background: var(--bg-alt);
+        /* Portfolio */
+        .portfolio {
+            padding: 100px 24px;
+            background: #000;
         }
-        .process-steps {
+        .portfolio h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 60px;
+            color: #fff;
+        }
+        .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        .process-step {
-            text-align: center;
-        }
-        .process-number {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-gold);
-            color: var(--bg);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 900;
-            margin: 0 auto 24px;
-            transition: transform 0.3s;
-        }
-        .process-step:hover .process-number { transform: scale(1.1) rotate(360deg); }
-        .process-step h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .process-step p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* CTA */
-        .cta {
-            padding: 140px 24px;
-            text-align: center;
-            background: var(--gradient-dark);
-            position: relative;
+        .portfolio-card {
+            background: #0a0a0f;
+            border: 2px solid #333;
+            border-radius: 20px;
             overflow: hidden;
         }
-        .cta::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 50%, rgba(201,169,98,0.1) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
+        .portfolio-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
         }
-        .cta-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            margin: 0 auto;
+        .portfolio-info {
+            padding: 25px;
         }
-        .cta h2 {
-            font-size: clamp(2rem, 6vw, 4.5rem);
+        .portfolio-info h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .portfolio-info p {
+            color: #888;
+            margin-bottom: 15px;
+        }
+        .portfolio-link {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Contact */
+        .contact {
+            padding: 100px 24px;
+            text-align: center;
+            background: linear-gradient(180deg, #000 0%, #0a0a0f 100%);
+        }
+        .contact h2 {
+            font-size: 2.5rem;
             font-weight: 900;
-            line-height: 1;
-            letter-spacing: -0.04em;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            color: #fff;
         }
-        .cta p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            margin-bottom: 48px;
-            line-height: 1.6;
+        .contact p {
+            color: #888;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+        .contact-email {
+            font-size: 1.5rem;
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 700;
         }
 
         /* Footer */
         .footer {
-            padding: 80px 24px;
-            border-top: 1px solid rgba(201,169,98,0.2);
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 60px;
-            max-width: 1400px;
-            margin: 0 auto 60px;
-        }
-        .footer-brand h3 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .footer-brand p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-        .footer-links h4 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 24px;
-            color: var(--text-muted);
-        }
-        .footer-links ul { list-style: none; }
-        .footer-links li { margin-bottom: 12px; }
-        .footer-links a {
-            color: var(--text);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .footer-links a:hover { color: var(--accent); }
-        .footer-bottom {
+            padding: 40px 24px;
             text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid rgba(201,169,98,0.2);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Mobile */
-        @media (max-width: 1024px) {
-            .nav-links { display: none; }
-            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-            .portfolio-grid { grid-template-columns: 1fr; }
-            .pricing-card.featured { transform: none; }
-            .pricing-card.featured:hover { transform: translateY(-8px); }
-        }
-        @media (max-width: 768px) {
-            .hero-cta { flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .process-steps { grid-template-columns: 1fr; }
+            border-top: 1px solid #222;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation" id="bg-animation"></div>
-
-    <!-- Navigation -->
-    <nav class="nav">
-        <a href="#" class="logo">BeautifulWebsites</a>
-        <ul class="nav-links">
-            <li><a href="#services" class="nav-link">Services</a></li>
-            <li><a href="#pricing" class="nav-link">Pricing</a></li>
-            <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-            <li><a href="#process" class="nav-link">Process</a></li>
-        </ul>
-        <a href="#contact" class="btn-nav">Get Started →</a>
-    </nav>
-
     <!-- Hero -->
     <section class="hero">
-        <p class="hero-label">★ Cinematic Websites Built on Autopilot</p>
-        <h1>
-            Transform Your Website to a<br>
-            <span class="highlight">Cinematic Website</span>
-        </h1>
-        <p class="hero-subtitle">
-            I build stunning, animated websites for UK restaurants, cafes, and coffee shops. 
-            From concept to live in days, not weeks. Starting from £499.
-        </p>
-        <div class="hero-cta">
-            <a href="#pricing" class="btn btn-primary">View Pricing →</a>
-            <a href="#portfolio" class="btn btn-secondary">See My Work</a>
-        </div>
+        <h1>Transform Your Website to a Cinematic Website</h1>
+        <p>I build stunning, animated websites for UK restaurants, cafes, and coffee shops. From concept to live in days. Starting from £499.</p>
+        <a href="#pricing" class="btn">View Pricing →</a>
     </section>
 
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">50+</div>
-                <div class="stat-label">Leads Researched</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">3</div>
-                <div class="stat-label">Websites Live</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">5</div>
-                <div class="stat-label">Days Average</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">£15K</div>
-                <div class="stat-label">Pipeline Value</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Services -->
-    <section class="services" id="services">
-        <div class="section-header">
-            <p class="section-label">My Services</p>
-            <h2>Everything You Need for a Stunning Online Presence</h2>
-            <p>
-                I specialize in creating cinematic, animated websites that capture the essence 
-                of your food business and convert visitors into customers.
-            </p>
-        </div>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🎬</div>
-                <h3>Cinematic Website Design</h3>
-                <p>
-                    Premium, animated websites with scroll effects, custom cursors, and kinetic 
-                    typography that make your brand unforgettable.
-                </p>
-                <ul class="service-features">
-                    <li><span class="feature-check">✓</span> Custom animations & effects</li>
-                    <li><span class="feature-check">✓</span> Mobile-responsive design</li>
-                    <li><span class="feature-check">✓</span> Brand-aligned aesthetics</li>
-                    <li><span class="feature-check">✓</span> Fast loading optimization</li>
-                </ul>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🍽️</div>
-                <h3>Menu & Ordering System</h3>
-                <p>
-                    Beautiful menu displays with categories, pricing, and dietary information. 
-                    Optional online ordering integration.
-                </p>
-                <ul class="service-features">
-                    <li><span class="feature-check">✓</span> Animated menu showcase</li>
-                    <li><span class="feature-check">✓</span> Dietary info (vegan, GF)</li>
-                    <li><span class="feature-check">✓</span> Online ordering ready</li>
-                    <li><span class="feature-check">✓</span> Mobile-optimized</li>
-                </ul>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📅</div>
-                <h3>Booking & Reservations</h3>
-                <p>
-                    Integrated booking systems that let customers reserve tables directly 
-                    from your website. Reduce no-shows with automated reminders.
-                </p>
-                <ul class="service-features">
-                    <li><span class="feature-check">✓</span> Table reservation system</li>
-                    <li><span class="feature-check">✓</span> Calendar integration</li>
-                    <li><span class="feature-check">✓</span> Automated confirmations</li>
-                    <li><span class="feature-check">✓</span> Reminder emails/SMS</li>
-                </ul>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📍</div>
-                <h3>Local SEO & Google Maps</h3>
-                <p>
-                    Optimize your website for local search so customers can find you when 
-                    searching "restaurants near me" in your area.
-                </p>
-                <ul class="service-features">
-                    <li><span class="feature-check">✓</span> Google Maps integration</li>
-                    <li><span class="feature-check">✓</span> Local SEO optimization</li>
-                    <li><span class="feature-check">✓</span> Hours & location prominent</li>
-                    <li><span class="feature-check">✓</span> Click-to-call buttons</li>
-                </ul>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📸</div>
-                <h3>Instagram Integration</h3>
-                <p>
-                    Showcase your best food photos by integrating your Instagram feed 
-                    directly into your website. Keep content fresh automatically.
-                </p>
-                <ul class="service-features">
-                    <li><span class="feature-check">✓</span> Live Instagram feed</li>
-                    <li><span class="feature-check">✓</span> Auto-updating gallery</li>
-                    <li><span class="feature-check">✓</span> Social proof integration</li>
-                    <li><span class="feature-check">✓</span> Follow button integration</li>
-                </ul>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🛒</div>
-                <h3>E-Commerce Ready</h3>
-                <p>
-                    Sell coffee beans, merch, gift cards, or meal kits directly from your 
-                    website. Full e-commerce integration available.
-                </p>
-                <ul class="service-features">
-                    <li><span class="feature-check">✓</span> Product showcase</li>
-                    <li><span class="feature-check">✓</span> Shopping cart</li>
-                    <li><span class="feature-check">✓</span> Payment processing</li>
-                    <li><span class="feature-check">✓</span> Order management</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing -->
+    <!-- PRICING -->
     <section class="pricing" id="pricing">
-        <div class="section-header">
-            <p class="section-label">Pricing</p>
-            <h2>Simple, Transparent Pricing</h2>
-            <p>
-                No hidden fees. No surprise charges. Choose the package that fits 
-                your business needs.
-            </p>
-        </div>
+        <h2>Simple, Transparent Pricing</h2>
         <div class="pricing-grid">
             <!-- Basic -->
             <div class="pricing-card">
-                <h3 class="pricing-name">Basic</h3>
-                <div class="pricing-price">£499<span> one-time</span></div>
-                <p class="pricing-description">
-                    Perfect for coffee shops and small cafes looking to establish 
-                    their online presence.
-                </p>
-                <ul class="pricing-features">
-                    <li><span class="feature-check">✓</span> 1-page cinematic website</li>
-                    <li><span class="feature-check">✓</span> Custom animations</li>
-                    <li><span class="feature-check">✓</span> Mobile responsive</li>
-                    <li><span class="feature-check">✓</span> Menu display</li>
-                    <li><span class="feature-check">✓</span> Contact & location</li>
-                    <li><span class="feature-check">✓</span> Instagram integration</li>
-                    <li><span class="feature-check">✓</span> 1 month support</li>
+                <h3>Basic</h3>
+                <div class="price">£499<span>one-time</span></div>
+                <ul class="features">
+                    <li><span class="check">✓</span> 1-page cinematic website</li>
+                    <li><span class="check">✓</span> Custom animations</li>
+                    <li><span class="check">✓</span> Mobile responsive</li>
+                    <li><span class="check">✓</span> Menu display</li>
+                    <li><span class="check">✓</span> Contact & location</li>
+                    <li><span class="check">✓</span> Instagram integration</li>
+                    <li><span class="check">✓</span> 1 month support</li>
                 </ul>
-                <a href="#contact" class="btn btn-primary pricing-cta">Get Started</a>
+                <a href="#contact" class="btn">Get Started</a>
             </div>
 
             <!-- Pro -->
             <div class="pricing-card featured">
-                <div class="pricing-badge">Most Popular</div>
-                <h3 class="pricing-name">Pro</h3>
-                <div class="pricing-price">£999<span> one-time</span></div>
-                <p class="pricing-description">
-                    Ideal for restaurants and established cafes needing booking 
-                    systems and advanced features.
-                </p>
-                <ul class="pricing-features">
-                    <li><span class="feature-check">✓</span> Everything in Basic</li>
-                    <li><span class="feature-check">✓</span> Multi-page website</li>
-                    <li><span class="feature-check">✓</span> Booking/reservation system</li>
-                    <li><span class="feature-check">✓</span> Advanced animations</li>
-                    <li><span class="feature-check">✓</span> SEO optimization</li>
-                    <li><span class="feature-check">✓</span> Google Maps integration</li>
-                    <li><span class="feature-check">✓</span> 3 months support</li>
-                    <li><span class="feature-check">✓</span> Content updates included</li>
+                <div class="badge">Most Popular</div>
+                <h3>Pro</h3>
+                <div class="price">£999<span>one-time</span></div>
+                <ul class="features">
+                    <li><span class="check">✓</span> Everything in Basic</li>
+                    <li><span class="check">✓</span> Multi-page website</li>
+                    <li><span class="check">✓</span> Booking/reservation system</li>
+                    <li><span class="check">✓</span> Advanced animations</li>
+                    <li><span class="check">✓</span> SEO optimization</li>
+                    <li><span class="check">✓</span> Google Maps integration</li>
+                    <li><span class="check">✓</span> 3 months support</li>
+                    <li><span class="check">✓</span> Content updates included</li>
                 </ul>
-                <a href="#contact" class="btn btn-primary pricing-cta">Get Started</a>
+                <a href="#contact" class="btn">Get Started</a>
             </div>
 
             <!-- Premium -->
             <div class="pricing-card">
-                <h3 class="pricing-name">Premium</h3>
-                <div class="pricing-price">£1,999<span> one-time</span></div>
-                <p class="pricing-description">
-                    For restaurants ready to scale with e-commerce, 
-                    advanced booking, and full customization.
-                </p>
-                <ul class="pricing-features">
-                    <li><span class="feature-check">✓</span> Everything in Pro</li>
-                    <li><span class="feature-check">✓</span> E-commerce integration</li>
-                    <li><span class="feature-check">✓</span> Online ordering system</li>
-                    <li><span class="feature-check">✓</span> Custom domain setup</li>
-                    <li><span class="feature-check">✓</span> Email hosting setup</li>
-                    <li><span class="feature-check">✓</span> Analytics dashboard</li>
-                    <li><span class="feature-check">✓</span> 6 months support</li>
-                    <li><span class="feature-check">✓</span> Priority support</li>
+                <h3>Premium</h3>
+                <div class="price">£1,999<span>one-time</span></div>
+                <ul class="features">
+                    <li><span class="check">✓</span> Everything in Pro</li>
+                    <li><span class="check">✓</span> E-commerce integration</li>
+                    <li><span class="check">✓</span> Online ordering system</li>
+                    <li><span class="check">✓</span> Custom domain setup</li>
+                    <li><span class="check">✓</span> Email hosting setup</li>
+                    <li><span class="check">✓</span> Analytics dashboard</li>
+                    <li><span class="check">✓</span> 6 months support</li>
+                    <li><span class="check">✓</span> Priority support</li>
                 </ul>
-                <a href="#contact" class="btn btn-primary pricing-cta">Get Started</a>
+                <a href="#contact" class="btn">Get Started</a>
             </div>
         </div>
     </section>
 
     <!-- Portfolio -->
-    <section class="portfolio" id="portfolio">
-        <div class="section-header">
-            <p class="section-label">Portfolio</p>
-            <h2>Recent Work</h2>
-            <p>
-                See what I've built for other UK food businesses. 
-                Every website is custom-designed to match the brand.
-            </p>
-        </div>
+    <section class="portfolio">
+        <h2>Recent Work</h2>
         <div class="portfolio-grid">
             <div class="portfolio-card">
-                <div class="portfolio-image">
-                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80" alt="The Food Room Brixton">
-                </div>
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80" alt="The Food Room">
                 <div class="portfolio-info">
                     <h3>The Food Room Brixton</h3>
-                    <p>Specialty coffee & artisan brunch in Brixton. Light, warm design with green accents.</p>
-                    <a href="https://tigha66.github.io/beautiful-websites-agent/the-food-room.html" target="_blank" class="portfolio-link">
-                        View Live Site →
-                    </a>
+                    <p>Specialty coffee & artisan brunch in Brixton.</p>
+                    <a href="https://tigha66.github.io/beautiful-websites-agent/the-food-room.html" target="_blank" class="portfolio-link">View Live Site →</a>
                 </div>
             </div>
             <div class="portfolio-card">
-                <div class="portfolio-image">
-                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&q=80" alt="Clapham Coffee Co">
-                </div>
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&q=80" alt="Clapham Coffee">
                 <div class="portfolio-info">
                     <h3>Clapham Coffee Co</h3>
-                    <p>Independent coffee roasters in South London. Dark premium theme with gold accents.</p>
-                    <a href="https://tigha66.github.io/beautiful-websites-agent/clapham-coffee.html" target="_blank" class="portfolio-link">
-                        View Live Site →
-                    </a>
+                    <p>Independent coffee roasters in South London.</p>
+                    <a href="https://tigha66.github.io/beautiful-websites-agent/clapham-coffee.html" target="_blank" class="portfolio-link">View Live Site →</a>
                 </div>
             </div>
             <div class="portfolio-card">
-                <div class="portfolio-image">
-                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="Brixton Burger House">
-                </div>
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="Brixton Burger">
                 <div class="portfolio-info">
                     <h3>Brixton Burger House</h3>
-                    <p>Premium craft burgers in Brixton. Fire orange theme with energetic animations.</p>
-                    <a href="https://tigha66.github.io/beautiful-websites-agent/brixton-burger.html" target="_blank" class="portfolio-link">
-                        View Live Site →
-                    </a>
+                    <p>Premium craft burgers in Brixton.</p>
+                    <a href="https://tigha66.github.io/beautiful-websites-agent/brixton-burger.html" target="_blank" class="portfolio-link">View Live Site →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Process -->
-    <section class="process" id="process">
-        <div class="section-header">
-            <p class="section-label">Process</p>
-            <h2>How It Works</h2>
-            <p>
-                From initial contact to live website in 5 simple steps. 
-                I handle everything so you can focus on your business.
-            </p>
-        </div>
-        <div class="process-steps">
-            <div class="process-step">
-                <div class="process-number">1</div>
-                <h3>Discovery Call</h3>
-                <p>
-                    10-minute call to understand your brand, menu, and what makes your 
-                    business unique.
-                </p>
-            </div>
-            <div class="process-step">
-                <div class="process-number">2</div>
-                <h3>Design & Build</h3>
-                <p>
-                    I create your cinematic website with custom animations, menu, and 
-                    all essential features.
-                </p>
-            </div>
-            <div class="process-step">
-                <div class="process-number">3</div>
-                <h3>Review & Revise</h3>
-                <p>
-                    You review the website and request any changes. I refine until 
-                    it's perfect.
-                </p>
-            </div>
-            <div class="process-step">
-                <div class="process-number">4</div>
-                <h3>Launch</h3>
-                <p>
-                    I deploy your website live and set up your domain, hosting, and 
-                    all technical details.
-                </p>
-            </div>
-            <div class="process-step">
-                <div class="process-number">5</div>
-                <h3>Support</h3>
-                <p>
-                    Ongoing support and updates included. I'm here whenever you 
-                    need changes or help.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta" id="contact">
-        <div class="cta-content">
-            <h2>Ready to Transform Your Online Presence?</h2>
-            <p>
-                Book a free 10-minute demo call. I'll show you what a cinematic website 
-                can do for your business.
-            </p>
-            <div class="hero-cta">
-                <a href="mailto:tigha66@gmail.com" class="btn btn-primary">📧 Email Me</a>
-                <a href="https://tigha66.github.io/beautiful-websites-agent/dashboard.html" target="_blank" class="btn btn-secondary">View Dashboard</a>
-            </div>
-        </div>
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <h2>Ready to Transform Your Online Presence?</h2>
+        <p>Book a free 10-minute demo call.</p>
+        <a href="mailto:tigha66@gmail.com" class="contact-email">📧 tigha66@gmail.com</a>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>BeautifulWebsites</h3>
-                <p>
-                    Cinematic websites built on autopilot for UK restaurants, cafes, 
-                    and food businesses. From concept to live in days.
-                </p>
-            </div>
-            <div class="footer-links">
-                <h4>Services</h4>
-                <ul>
-                    <li><a href="#services">Website Design</a></li>
-                    <li><a href="#services">Menu Systems</a></li>
-                    <li><a href="#services">Booking System</a></li>
-                    <li><a href="#services">E-Commerce</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="mailto:tigha66@gmail.com">tigha66@gmail.com</a></li>
-                    <li>London, UK</li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Beautiful Websites Agent. All rights reserved.</p>
-        </div>
+        <p>© 2026 Beautiful Websites Agent. All rights reserved.</p>
     </footer>
-
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Create floating particles
-        const bgAnimation = document.getElementById('bg-animation');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'bg-particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-            bgAnimation.appendChild(particle);
-        }
-
-        // Hero animation
-        gsap.from('.hero h1', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' });
-        gsap.from('.hero-subtitle', { opacity: 0, y: 30, duration: 1, delay: 0.3, ease: 'power3.out' });
-        gsap.from('.hero-cta', { opacity: 0, y: 20, duration: 0.8, delay: 0.5, ease: 'power3.out' });
-
-        // Stats animation
-        gsap.from('.stat-item', {
-            scrollTrigger: { trigger: '.stats-bar', start: 'top 80%' },
-            opacity: 0, y: 30, duration: 0.8, stagger: 0.2, ease: 'power3.out'
-        });
-
-        // Services animation
-        gsap.from('.service-card', {
-            scrollTrigger: { trigger: '.services-grid', start: 'top 80%' },
-            opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out'
-        });
-
-        // Pricing animation
-        gsap.from('.pricing-card', {
-            scrollTrigger: { trigger: '.pricing-grid', start: 'top 80%' },
-            opacity: 0, y: 50, duration: 0.8, stagger: 0.3, ease: 'power3.out'
-        });
-
-        // Portfolio animation
-        gsap.from('.portfolio-card', {
-            scrollTrigger: { trigger: '.portfolio-grid', start: 'top 80%' },
-            opacity: 0, y: 50, duration: 0.8, stagger: 0.2, ease: 'power3.out'
-        });
-
-        // Process animation
-        gsap.from('.process-step', {
-            scrollTrigger: { trigger: '.process-steps', start: 'top 80%' },
-            opacity: 0, y: 30, duration: 0.8, stagger: 0.15, ease: 'power3.out'
-        });
-    </script>
 </body>
 </html>
