@@ -3,346 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautiful Websites Agent | Cinematic Websites</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>IslamicCalc - Islamic Financial Calculator Hub</title>
+    <meta name="description" content="Free Islamic financial calculators for halal mortgages, zakat, Islamic investments, and more. Sharia-compliant tools for Muslims worldwide.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3328888353688663" crossorigin="anonymous"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        calcblue: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+                        calcorange: { 50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c', 800: '#9a3412', 900: '#7c2d12' },
+                        islamicgreen: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d' }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #000;
-            color: #fff;
-            font-family: 'Outfit', sans-serif;
-            overflow-x: hidden;
+        :root { --primary: #1d4ed8; --secondary: #f97316; --islamic: #16a34a; --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; overflow-x: hidden; }
+        .calculator-card { background: var(--card); border-radius: 1rem; border: 1px solid var(--border); padding: 1.5rem; transition: all 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
+        .calculator-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+        .input-group { margin-bottom: 1rem; }
+        .input-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text); }
+        .input-field { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 1rem; transition: border-color 0.3s ease; }
+        .input-field:focus { outline: none; border-color: var(--islamic); box-shadow: 0 0 0 3px rgba(34,197,94,0.1); }
+        .btn { background: var(--islamic); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .btn:hover { background: #15803d; transform: translateY(-1px); }
+        .btn-secondary { background: var(--primary); }
+        .btn-secondary:hover { background: #1e40af; }
+        .result { margin-top: 1rem; padding: 1rem; background: #f1f5f9; border-radius: 0.5rem; border-left: 4px solid var(--islamic); display: none; }
+        .section-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--islamic); }
+        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .category-card { background: var(--card); border-radius: 1rem; border: 1px solid var(--border); padding: 2rem; transition: all 0.3s ease; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
+        .category-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+        .category-icon { font-size: 3rem; margin-bottom: 1rem; color: var(--islamic); }
+        .calculator-link { display: block; padding: 1rem; margin: 0.5rem 0; background: #f1f5f9; border-radius: 0.5rem; text-decoration: none; color: var(--text); transition: all 0.3s ease; border: 1px solid var(--border); }
+        .calculator-link:hover { background: #e2e8f0; transform: translateX(4px); }
+        .breadcrumb { padding: 1rem 0; font-size: 0.875rem; color: var(--muted); }
+        .breadcrumb a { color: var(--islamic); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        
+        /* AdSense Ad Styles */
+        .ad-container { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 0.5rem; padding: 1rem; margin: 1.5rem 0; text-align: center; }
+        .ad-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+        .ad-in-feed { background: #f1f5f9; border-radius: 0.5rem; padding: 1rem; margin: 2rem 0; }
+        .ad-sidebar { background: #f8fafc; border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; margin: 1rem 0; }
+        .ad-footer { background: #f1f5f9; border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem; }
+        .mobile-anchor { position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; background: white; border-top: 1px solid var(--border); padding: 0.5rem; }
+        
+        @media (max-width: 768px) {
+            .calc-grid { grid-template-columns: 1fr; }
+            .mobile-only { display: block; }
+            .desktop-only { display: none; }
         }
-
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 120px 24px 60px;
-            background: linear-gradient(180deg, #0a0a0f 0%, #000 100%);
-        }
-        .hero h1 {
-            font-size: clamp(2rem, 6vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #00d4ff 0%, #7b2fff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            color: #888;
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
-        .btn {
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #00d4ff 0%, #7b2fff 100%);
-            color: #000;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        /* PRICING - SUPER VISIBLE */
-        .pricing {
-            padding: 100px 24px;
-            background: #050508;
-        }
-        .pricing h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 60px;
-            color: #fff;
-        }
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .pricing-card {
-            background: linear-gradient(145deg, #111 0%, #0a0a0f 100%);
-            border: 3px solid #00d4ff;
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            position: relative;
-        }
-        .pricing-card.featured {
-            border-width: 4px;
-            transform: scale(1.05);
-            box-shadow: 0 0 50px rgba(0,212,255,0.3);
-        }
-        .badge {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #00d4ff 0%, #7b2fff 100%);
-            color: #000;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-        }
-        .pricing-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #fff;
-            text-transform: uppercase;
-        }
-        .price {
-            font-size: 5rem;
-            font-weight: 900;
-            color: #00d4ff;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(0,212,255,0.5);
-        }
-        .price span {
-            font-size: 1.2rem;
-            color: #7b2fff;
-            font-weight: 600;
-            display: block;
-        }
-        .features {
-            list-style: none;
-            margin: 30px 0;
-            text-align: left;
-            background: rgba(0,212,255,0.05);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(0,212,255,0.2);
-        }
-        .features li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0,212,255,0.15);
-            color: #fff;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .features li:last-child { border-bottom: none; }
-        .check {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #00d4ff 0%, #7b2fff 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-weight: 900;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-        .pricing-card .btn {
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        /* Portfolio */
-        .portfolio {
-            padding: 100px 24px;
-            background: #000;
-        }
-        .portfolio h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 60px;
-            color: #fff;
-        }
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .portfolio-card {
-            background: #0a0a0f;
-            border: 2px solid #333;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-        .portfolio-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        .portfolio-info {
-            padding: 25px;
-        }
-        .portfolio-info h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-        .portfolio-info p {
-            color: #888;
-            margin-bottom: 15px;
-        }
-        .portfolio-link {
-            color: #00d4ff;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        /* Contact */
-        .contact {
-            padding: 100px 24px;
-            text-align: center;
-            background: linear-gradient(180deg, #000 0%, #0a0a0f 100%);
-        }
-        .contact h2 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-        .contact p {
-            color: #888;
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-        }
-        .contact-email {
-            font-size: 1.5rem;
-            color: #00d4ff;
-            text-decoration: none;
-            font-weight: 700;
-        }
-
-        /* Footer */
-        .footer {
-            padding: 40px 24px;
-            text-align: center;
-            border-top: 1px solid #222;
-            color: #666;
+        @media (min-width: 769px) {
+            .mobile-only { display: none; }
+            .desktop-only { display: block; }
         }
     </style>
 </head>
-<body>
-    <!-- Hero -->
-    <section class="hero">
-        <h1>Transform Your Website to a Cinematic Website</h1>
-        <p>I build stunning, animated websites for UK restaurants, cafes, and coffee shops. From concept to live in days. Starting from £499.</p>
-        <a href="#pricing" class="btn">View Pricing →</a>
-    </section>
+<body class="min-h-screen">
 
-    <!-- PRICING -->
-    <section class="pricing" id="pricing">
-        <h2>Simple, Transparent Pricing</h2>
-        <div class="pricing-grid">
-            <!-- Basic -->
-            <div class="pricing-card">
-                <h3>Basic</h3>
-                <div class="price">£499<span>one-time</span></div>
-                <ul class="features">
-                    <li><span class="check">✓</span> 1-page cinematic website</li>
-                    <li><span class="check">✓</span> Custom animations</li>
-                    <li><span class="check">✓</span> Mobile responsive</li>
-                    <li><span class="check">✓</span> Menu display</li>
-                    <li><span class="check">✓</span> Contact & location</li>
-                    <li><span class="check">✓</span> Instagram integration</li>
-                    <li><span class="check">✓</span> 1 month support</li>
-                </ul>
-                <a href="#contact" class="btn">Get Started</a>
-            </div>
-
-            <!-- Pro -->
-            <div class="pricing-card featured">
-                <div class="badge">Most Popular</div>
-                <h3>Pro</h3>
-                <div class="price">£999<span>one-time</span></div>
-                <ul class="features">
-                    <li><span class="check">✓</span> Everything in Basic</li>
-                    <li><span class="check">✓</span> Multi-page website</li>
-                    <li><span class="check">✓</span> Booking/reservation system</li>
-                    <li><span class="check">✓</span> Advanced animations</li>
-                    <li><span class="check">✓</span> SEO optimization</li>
-                    <li><span class="check">✓</span> Google Maps integration</li>
-                    <li><span class="check">✓</span> 3 months support</li>
-                    <li><span class="check">✓</span> Content updates included</li>
-                </ul>
-                <a href="#contact" class="btn">Get Started</a>
-            </div>
-
-            <!-- Premium -->
-            <div class="pricing-card">
-                <h3>Premium</h3>
-                <div class="price">£1,999<span>one-time</span></div>
-                <ul class="features">
-                    <li><span class="check">✓</span> Everything in Pro</li>
-                    <li><span class="check">✓</span> E-commerce integration</li>
-                    <li><span class="check">✓</span> Online ordering system</li>
-                    <li><span class="check">✓</span> Custom domain setup</li>
-                    <li><span class="check">✓</span> Email hosting setup</li>
-                    <li><span class="check">✓</span> Analytics dashboard</li>
-                    <li><span class="check">✓</span> 6 months support</li>
-                    <li><span class="check">✓</span> Priority support</li>
-                </ul>
-                <a href="#contact" class="btn">Get Started</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio -->
-    <section class="portfolio">
-        <h2>Recent Work</h2>
-        <div class="portfolio-grid">
-            <div class="portfolio-card">
-                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80" alt="The Food Room">
-                <div class="portfolio-info">
-                    <h3>The Food Room Brixton</h3>
-                    <p>Specialty coffee & artisan brunch in Brixton.</p>
-                    <a href="https://tigha66.github.io/beautiful-websites-agent/the-food-room.html" target="_blank" class="portfolio-link">View Live Site →</a>
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-gray-900">Islamic<span class="text-islamicgreen-600">Calc</span></h1>
                 </div>
-            </div>
-            <div class="portfolio-card">
-                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&q=80" alt="Clapham Coffee">
-                <div class="portfolio-info">
-                    <h3>Clapham Coffee Co</h3>
-                    <p>Independent coffee roasters in South London.</p>
-                    <a href="https://tigha66.github.io/beautiful-websites-agent/clapham-coffee.html" target="_blank" class="portfolio-link">View Live Site →</a>
-                </div>
-            </div>
-            <div class="portfolio-card">
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="Brixton Burger">
-                <div class="portfolio-info">
-                    <h3>Brixton Burger House</h3>
-                    <p>Premium craft burgers in Brixton.</p>
-                    <a href="https://tigha66.github.io/beautiful-websites-agent/brixton-burger.html" target="_blank" class="portfolio-link">View Live Site →</a>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="/" class="text-gray-700 hover:text-islamicgreen-600">Home</a>
+                    <a href="#halal-mortgage" class="text-gray-700 hover:text-islamicgreen-600">Halal Mortgage</a>
+                    <a href="#zakat" class="text-gray-700 hover:text-islamicgreen-600">Zakat</a>
+                    <a href="#investment" class="text-gray-700 hover:text-islamicgreen-600">Investment</a>
+                    <a href="#planning" class="text-gray-700 hover:text-islamicgreen-600">Planning</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <input type="text" placeholder="Search calculators..." class="input-field w-48">
+                    <button class="btn">Search</button>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!-- Contact -->
-    <section class="contact" id="contact">
-        <h2>Ready to Transform Your Online Presence?</h2>
-        <p>Book a free 10-minute demo call.</p>
-        <a href="mailto:tigha66@gmail.com" class="contact-email">📧 tigha66@gmail.com</a>
-    </section>
+    <!-- AD: Header Banner (High Visibility) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Islamic Financial Calculator Hub</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                Free Sharia-compliant calculators for halal mortgages, zakat, Islamic investments, and financial planning. 
+                Essential tools for Muslims worldwide.
+            </p>
+            
+            <!-- AD: Hero In-Feed Native Ad -->
+            <div class="ad-in-feed">
+                <div class="ad-label">Sponsored</div>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="2345678901" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+            
+            <!-- Ad Space - Affiliate -->
+            <div class="bg-green-50 border-2 border-green-200 border-dashed rounded-xl p-6 mb-8">
+                <h3 class="text-lg font-semibold text-green-800 mb-2">Sharia-Compliant Services</h3>
+                <p class="text-green-600 mb-4">Find Islamic banking partners and certified financial advisors</p>
+                <button class="btn bg-green-500 text-gray-900 hover:bg-green-600">Partner With Us</button>
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="grid grid-cols-3 gap-4 mb-12 text-center">
+            <div class="bg-white rounded-xl p-4 shadow">
+                <div class="text-3xl font-bold text-islamicgreen-600">6</div>
+                <div class="text-gray-600">Calculators</div>
+            </div>
+            <div class="bg-white rounded-xl p-4 shadow">
+                <div class="text-3xl font-bold text-islamicgreen-600">100%</div>
+                <div class="text-gray-600">Halal</div>
+            </div>
+            <div class="bg-white rounded-xl p-4 shadow">
+                <div class="text-3xl font-bold text-islamicgreen-600">Free</div>
+                <div class="text-gray-600">To Use</div>
+            </div>
+        </div>
+
+        <!-- Halal Mortgage Calculators -->
+        <section id="halal-mortgage" class="mb-12">
+            <h2 class="section-title">Halal Mortgage / Home Finance Calculators</h2>
+            <p class="text-gray-600 mb-6">Calculate monthly payments for rent-based or profit-based financing (Diminishing Musharaka or Ijara) rather than interest-based lending.</p>
+            
+            <div class="calc-grid">
+                <!-- StrideUp Finance Calculator -->
+                <div class="calculator-card">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">StrideUp Finance Calculator</h3>
+                    <p class="text-gray-600 mb-4">Estimate payments based on co-ownership structure (Sharia-compliant alternative to traditional mortgages)</p>
+                    <div class="input-group">
+                        <label class="input-label">Property Value ($)</label>
+                        <input type="number" id="strideup-property-value" class="input-field" placeholder="Enter property value" value="500000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Deposit Amount ($)</label>
+                        <input type="number" id="strideup-deposit" class="input-field" placeholder="Enter deposit amount" value="100000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Finance Term (years)</label>
+                        <input type="number" id="strideup-term" class="input-field" placeholder="Enter finance term" value="25">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Monthly Rental ($)</label>
+                        <input type="number" id="strideup-rental" class="input-field" placeholder="Enter monthly rental" value="2000">
+                    </div>
+                    <button onclick="calculateStrideUp()" class="btn">Calculate Finance</button>
+                    <div id="strideup-result" class="result"></div>
+                </div>
+
+                <!-- Gatehouse Bank Calculator -->
+                <div class="calculator-card">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Gatehouse Bank Home Finance</h3>
+                    <p class="text-gray-600 mb-4">Estimate costs for residential or buy-to-let property finance based on Acquisition & Rent agreements</p>
+                    <div class="input-group">
+                        <label class="input-label">Purchase Price ($)</label>
+                        <input type="number" id="gatehouse-price" class="input-field" placeholder="Enter purchase price" value="450000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Initial Payment ($)</label>
+                        <input type="number" id="gatehouse-initial" class="input-field" placeholder="Enter initial payment" value="90000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Finance Period (years)</label>
+                        <input type="number" id="gatehouse-period" class="input-field" placeholder="Enter finance period" value="20">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Annual Rental Rate (%)</label>
+                        <input type="number" id="gatehouse-rate" class="input-field" placeholder="Enter rental rate" value="4.5">
+                    </div>
+                    <button onclick="calculateGatehouse()" class="btn">Calculate Finance</button>
+                    <div id="gatehouse-result" class="result"></div>
+                </div>
+            </div>
+            
+            <!-- AD: After Mortgage Section -->
+            <div class="ad-container">
+                <div class="ad-label">Advertisement</div>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="3456789012" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </section>
+
+        <!-- Zakat Calculators -->
+        <section id="zakat" class="mb-12">
+            <h2 class="section-title">Zakat Calculators</h2>
+            <p class="text-gray-600 mb-6">Calculate the mandatory 2.5% donation on wealth, usually broken down by asset class (cash, gold, stocks).</p>
+            
+            <div class="calc-grid">
+                <!-- IFG Zakat Calculator -->
+                <div class="calculator-card">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">IFG Zakat Calculator</h3>
+                    <p class="text-gray-600 mb-4">Calculate zakat on diverse asset classes (cash, gold, silver, stocks, business assets)</p>
+                    <div class="input-group">
+                        <label class="input-label">Cash & Savings ($)</label>
+                        <input type="number" id="zakat-cash" class="input-field" placeholder="Enter cash amount" value="15000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Gold Value ($)</label>
+                        <input type="number" id="zakat-gold" class="input-field" placeholder="Enter gold value" value="5000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Silver Value ($)</label>
+                        <input type="number" id="zakat-silver" class="input-field" placeholder="Enter silver value" value="1000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Stock Investments ($)</label>
+                        <input type="number" id="zakat-stocks" class="input-field" placeholder="Enter stock value" value="10000">
+                    </div>
+                    <button onclick="calculateZakat()" class="btn">Calculate Zakat</button>
+                    <div id="zakat-result" class="result"></div>
+                </div>
+
+                <!-- Business Zakat Calculator -->
+                <div class="calculator-card">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Business Zakat Calculator</h3>
+                    <p class="text-gray-600 mb-4">Calculate zakat on business inventory, receivables, and other commercial assets</p>
+                    <div class="input-group">
+                        <label class="input-label">Inventory Value ($)</label>
+                        <input type="number" id="business-inventory" class="input-field" placeholder="Enter inventory value" value="25000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Accounts Receivable ($)</label>
+                        <input type="number" id="business-receivable" class="input-field" placeholder="Enter receivables" value="15000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Business Cash ($)</label>
+                        <input type="number" id="business-cash" class="input-field" placeholder="Enter business cash" value="8000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Outstanding Debts ($)</label>
+                        <input type="number" id="business-debts" class="input-field" placeholder="Enter debts to deduct" value="5000">
+                    </div>
+                    <button onclick="calculateBusinessZakat()" class="btn">Calculate Business Zakat</button>
+                    <div id="business-zakat-result" class="result"></div>
+                </div>
+            </div>
+            
+            <!-- AD: After Zakat Section -->
+            <div class="ad-in-feed">
+                <div class="ad-label">Sponsored</div>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="4567890123" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </section>
+
+        <!-- Islamic Investment Calculators -->
+        <section id="investment" class="mb-12">
+            <h2 class="section-title">Islamic Investment & Savings Calculators</h2>
+            <p class="text-gray-600 mb-6">Calculate potential returns from Shariah-compliant investing, such as Sukuk (Islamic bonds) or Shariah-compliant stocks.</p>
+            
+            <div class="calc-grid">
+                <!-- Wahed Returns Calculator -->
+                <div class="calculator-card">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Wahed Returns Calculator</h3>
+                    <p class="text-gray-600 mb-4">Forecast returns on investment portfolios composed of US stocks, Sukuk, and global stocks</p>
+                    <div class="input-group">
+                        <label class="input-label">Initial Investment ($)</label>
+                        <input type="number" id="wahed-initial" class="input-field" placeholder="Enter initial investment" value="10000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Monthly Contribution ($)</label>
+                        <input type="number" id="wahed-monthly" class="input-field" placeholder="Enter monthly contribution" value="500">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Expected Annual Return (%)</label>
+                        <input type="number" id="wahed-return" class="input-field" placeholder="Enter expected return" value="6.5">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Investment Period (years)</label>
+                        <input type="number" id="wahed-period" class="input-field" placeholder="Enter investment period" value="10">
+                    </div>
+                    <button onclick="calculateWahedReturns()" class="btn">Calculate Returns</button>
+                    <div id="wahed-result" class="result"></div>
+                </div>
+
+                <!-- Al Rayan Savings Calculator -->
+                <div class="calculator-card">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Al Rayan Savings Calculator</h3>
+                    <p class="text-gray-600 mb-4">Determine potential returns from Sharia-compliant profit-sharing savings accounts</p>
+                    <div class="input-group">
+                        <label class="input-label">Deposit Amount ($)</label>
+                        <input type="number" id="rayan-deposit" class="input-field" placeholder="Enter deposit amount" value="5000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Expected Profit Rate (%)</label>
+                        <input type="number" id="rayan-profit" class="input-field" placeholder="Enter expected profit rate" value="3.2">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Term (months)</label>
+                        <input type="number" id="rayan-term" class="input-field" placeholder="Enter term in months" value="24">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Additional Contributions ($/month)</label>
+                        <input type="number" id="rayan-additional" class="input-field" placeholder="Enter monthly additions" value="100">
+                    </div>
+                    <button onclick="calculateRayanSavings()" class="btn">Calculate Savings</button>
+                    <div id="rayan-result" class="result"></div>
+                </div>
+            </div>
+            
+            <!-- AD: After Investment Section -->
+            <div class="ad-container">
+                <div class="ad-label">Advertisement</div>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="5678901234" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </section>
+
+        <!-- Islamic Financial Planning -->
+        <section id="planning" class="mb-12">
+            <h2 class="section-title">Islamic Financial Planning</h2>
+            <p class="text-gray-600 mb-6">Tools to assist in calculating monthly income against expenses to ensure financial health.</p>
+            
+            <div class="calc-grid">
+                <!-- Budget Calculator -->
+                <div class="calculator-card">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Islamic Budget Calculator</h3>
+                    <p class="text-gray-600 mb-4">Assess your monthly income versus expenses to maintain financial health and plan for zakat</p>
+                    <div class="input-group">
+                        <label class="input-label">Monthly Income ($)</label>
+                        <input type="number" id="budget-income" class="input-field" placeholder="Enter monthly income" value="6000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Housing Expenses ($)</label>
+                        <input type="number" id="budget-housing" class="input-field" placeholder="Enter housing costs" value="1500">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Food & Groceries ($)</label>
+                        <input type="number" id="budget-food" class="input-field" placeholder="Enter food costs" value="600">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Transportation ($)</label>
+                        <input type="number" id="budget-transport" class="input-field" placeholder="Enter transport costs" value="400">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Other Expenses ($)</label>
+                        <input type="number" id="budget-other" class="input-field" placeholder="Enter other expenses" value="1200">
+                    </div>
+                    <button onclick="calculateBudget()" class="btn">Analyze Budget</button>
+                    <div id="budget-result" class="result"></div>
+                </div>
+
+                <!-- Islamic Finance Structure Calculator -->
+                <div class="calculator-card">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Islamic Finance Structure</h3>
+                    <p class="text-gray-600 mb-4">Evaluate Murabaha (cost-plus), Musharaka (partnership), and Mudaraba (profit-sharing) structures</p>
+                    <div class="input-group">
+                        <label class="input-label">Transaction Amount ($)</label>
+                        <input type="number" id="finance-amount" class="input-field" placeholder="Enter transaction amount" value="30000">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Markup/Profit Margin (%)</label>
+                        <input type="number" id="finance-margin" class="input-field" placeholder="Enter markup percentage" value="10">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Payment Term (months)</label>
+                        <input type="number" id="finance-term" class="input-field" placeholder="Enter payment term" value="36">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Partnership Share (%)</label>
+                        <input type="number" id="finance-share" class="input-field" placeholder="Your share in partnership" value="70">
+                    </div>
+                    <button onclick="calculateIslamicFinance()" class="btn">Calculate Structure</button>
+                    <div id="finance-result" class="result"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AD: Before Affiliate Section -->
+        <div class="ad-in-feed">
+            <div class="ad-label">Sponsored</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="6789012345" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Affiliate Links Section -->
+        <section class="bg-white rounded-xl p-6 shadow-lg mb-8">
+            <h2 class="section-title text-center mb-4">Recommended Islamic Financial Services</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a href="#" class="calculator-link">Islamic Banks</a>
+                <a href="#" class="calculator-link">Sharia Advisors</a>
+                <a href="#" class="calculator-link">Halal Investment Funds</a>
+                <a href="#" class="calculator-link">Takaful Insurance</a>
+                <a href="#" class="calculator-link">Sukuk Bonds</a>
+                <a href="#" class="calculator-link">Islamic Wealth Managers</a>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="text-center bg-gradient-to-r from-islamicgreen-500 to-islamicgreen-600 rounded-xl p-8 text-white mb-8">
+            <h2 class="text-2xl font-bold mb-4">Download Islamic Finance Toolkit</h2>
+            <p class="mb-6 opacity-90">Get all calculators as printable PDFs with Islamic finance guides</p>
+            <button class="bg-white text-islamicgreen-600 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                Download Toolkit ($14.99)
+            </button>
+        </section>
+
+        <!-- Email Capture -->
+        <section class="bg-white rounded-xl p-6 shadow-lg">
+            <h2 class="section-title text-center mb-4">Get Islamic Finance Updates</h2>
+            <p class="text-center text-gray-600 mb-6">Join our newsletter for exclusive Islamic finance tips and resources</p>
+            <div class="max-w-md mx-auto flex">
+                <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:border-islamicgreen-500">
+                <button class="bg-islamicgreen-500 text-white px-6 py-2 rounded-r-lg hover:bg-islamicgreen-600 transition-colors">Subscribe</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- AD: Footer Ad -->
+    <div class="ad-footer">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="ad-container">
+                <div class="ad-label">Advertisement</div>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="7890123456" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <p>© 2026 Beautiful Websites Agent. All rights reserved.</p>
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p>&copy; 2026 IslamicCalc. All rights reserved.</p>
+                <p class="mt-2 text-gray-400">Sharia-compliant financial tools for Muslims worldwide.</p>
+                <div class="mt-4 space-x-4">
+                    <a href="/privacy" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="/terms" class="text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="/contact" class="text-gray-400 hover:text-white">Contact</a>
+                </div>
+            </div>
+        </div>
     </footer>
+
+    <!-- Mobile Anchor Ad (Sticky Bottom) -->
+    <div class="mobile-only mobile-anchor">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="8901234567" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <script>
+        // StrideUp Finance Calculator
+        function calculateStrideUp() {
+            const propertyValue = parseFloat(document.getElementById('strideup-property-value').value) || 0;
+            const deposit = parseFloat(document.getElementById('strideup-deposit').value) || 0;
+            const term = parseInt(document.getElementById('strideup-term').value) || 0;
+            const rental = parseFloat(document.getElementById('strideup-rental').value) || 0;
+            const financedAmount = propertyValue - deposit;
+            const totalPayments = rental * term * 12;
+            const totalCost = totalPayments + deposit;
+            const effectiveRate = ((totalCost - propertyValue) / propertyValue / term) * 100;
+            const resultDiv = document.getElementById('strideup-result');
+            resultDiv.innerHTML = '<div class="text-lg font-semibold">Finance Structure:</div><div>Financed Amount: $' + financedAmount.toLocaleString() + '</div><div>Monthly Rental: $' + rental.toLocaleString() + '</div><div>Total Payments: $' + totalPayments.toLocaleString() + '</div><div>Total Cost: $' + totalCost.toLocaleString() + '</div><div>Effective Annual Rate: ' + effectiveRate.toFixed(2) + '%</div>';
+            resultDiv.style.display = 'block';
+        }
+
+        // Gatehouse Bank Calculator
+        function calculateGatehouse() {
+            const price = parseFloat(document.getElementById('gatehouse-price').value) || 0;
+            const initial = parseFloat(document.getElementById('gatehouse-initial').value) || 0;
+            const period = parseInt(document.getElementById('gatehouse-period').value) || 0;
+            const rate = parseFloat(document.getElementById('gatehouse-rate').value) || 0;
+            const financeAmount = price - initial;
+            const monthlyRental = (financeAmount * (rate / 100)) / 12;
+            const totalRentals = monthlyRental * period * 12;
+            const totalCost = initial + totalRentals;
+            const effectiveCost = ((totalCost - price) / price) * 100;
+            const resultDiv = document.getElementById('gatehouse-result');
+            resultDiv.innerHTML = '<div class="text-lg font-semibold">Finance Summary:</div><div>Finance Amount: $' + financeAmount.toLocaleString() + '</div><div>Monthly Rental: $' + monthlyRental.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Rentals: $' + totalRentals.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Cost: $' + totalCost.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Effective Cost Increase: ' + effectiveCost.toFixed(2) + '%</div>';
+            resultDiv.style.display = 'block';
+        }
+
+        // Zakat Calculator
+        function calculateZakat() {
+            const cash = parseFloat(document.getElementById('zakat-cash').value) || 0;
+            const gold = parseFloat(document.getElementById('zakat-gold').value) || 0;
+            const silver = parseFloat(document.getElementById('zakat-silver').value) || 0;
+            const stocks = parseFloat(document.getElementById('zakat-stocks').value) || 0;
+            const totalWealth = cash + gold + silver + stocks;
+            const nisab = 3813;
+            const zakatDue = totalWealth >= nisab ? totalWealth * 0.025 : 0;
+            const resultDiv = document.getElementById('zakat-result');
+            resultDiv.innerHTML = '<div class="text-lg font-semibold">Zakat Calculation:</div><div>Total Wealth: $' + totalWealth.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Nisab Threshold: $' + nisab.toLocaleString() + '</div><div>Zakat Due (2.5%): $' + zakatDue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Status: ' + (totalWealth >= nisab ? 'Obligatory' : 'Below Nisab') + '</div>';
+            resultDiv.style.display = 'block';
+        }
+
+        // Business Zakat Calculator
+        function calculateBusinessZakat() {
+            const inventory = parseFloat(document.getElementById('business-inventory').value) || 0;
+            const receivable = parseFloat(document.getElementById('business-receivable').value) || 0;
+            const businessCash = parseFloat(document.getElementById('business-cash').value) || 0;
+            const debts = parseFloat(document.getElementById('business-debts').value) || 0;
+            const zakatableAssets = inventory + receivable + businessCash;
+            const netAssets = zakatableAssets - debts;
+            const nisab = 3813;
+            const zakatDue = netAssets >= nisab ? netAssets * 0.025 : 0;
+            const resultDiv = document.getElementById('business-zakat-result');
+            resultDiv.innerHTML = '<div class="text-lg font-semibold">Business Zakat:</div><div>Zakatable Assets: $' + zakatableAssets.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Less Debts: $' + debts.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Net Assets: $' + netAssets.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Zakat Due (2.5%): $' + zakatDue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Status: ' + (netAssets >= nisab ? 'Obligatory' : 'Below Nisab') + '</div>';
+            resultDiv.style.display = 'block';
+        }
+
+        // Wahed Returns Calculator
+        function calculateWahedReturns() {
+            const initial = parseFloat(document.getElementById('wahed-initial').value) || 0;
+            const monthly = parseFloat(document.getElementById('wahed-monthly').value) || 0;
+            const annualReturn = parseFloat(document.getElementById('wahed-return').value) || 0;
+            const years = parseInt(document.getElementById('wahed-period').value) || 0;
+            const monthlyReturn = annualReturn / 100 / 12;
+            const months = years * 12;
+            let futureValue = initial * Math.pow(1 + monthlyReturn, months);
+            if (monthlyReturn > 0) { futureValue += monthly * (Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn; } else { futureValue += monthly * months; }
+            const totalContributions = initial + (monthly * months);
+            const totalProfit = futureValue - totalContributions;
+            const roi = (totalProfit / totalContributions) * 100;
+            const resultDiv = document.getElementById('wahed-result');
+            resultDiv.innerHTML = '<div class="text-lg font-semibold">Investment Projection:</div><div>Total Contributions: $' + totalContributions.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Projected Value: $' + futureValue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Profit: $' + totalProfit.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>ROI: ' + roi.toFixed(2) + '%</div>';
+            resultDiv.style.display = 'block';
+        }
+
+        // Al Rayan Savings Calculator
+        function calculateRayanSavings() {
+            const deposit = parseFloat(document.getElementById('rayan-deposit').value) || 0;
+            const profitRate = parseFloat(document.getElementById('rayan-profit').value) || 0;
+            const term = parseInt(document.getElementById('rayan-term').value) || 0;
+            const additional = parseFloat(document.getElementById('rayan-additional').value) || 0;
+            const monthlyRate = profitRate / 100 / 12;
+            let futureValue = deposit * Math.pow(1 + monthlyRate, term);
+            if (monthlyRate > 0) { futureValue += additional * (Math.pow(1 + monthlyRate, term) - 1) / monthlyRate; } else { futureValue += additional * term; }
+            const totalContributions = deposit + (additional * term);
+            const totalProfit = futureValue - totalContributions;
+            const resultDiv = document.getElementById('rayan-result');
+            resultDiv.innerHTML = '<div class="text-lg font-semibold">Savings Projection:</div><div>Initial Deposit: $' + deposit.toLocaleString() + '</div><div>Monthly Additions: $' + additional.toLocaleString() + '</div><div>Total Contributions: $' + totalContributions.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Projected Value: $' + futureValue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Profit: $' + totalProfit.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div>';
+            resultDiv.style.display = 'block';
+        }
+
+        // Budget Calculator
+        function calculateBudget() {
+            const income = parseFloat(document.getElementById('budget-income').value) || 0;
+            const housing = parseFloat(document.getElementById('budget-housing').value) || 0;
+            const food = parseFloat(document.getElementById('budget-food').value) || 0;
+            const transport = parseFloat(document.getElementById('budget-transport').value) || 0;
+            const other = parseFloat(document.getElementById('budget-other').value) || 0;
+            const totalExpenses = housing + food + transport + other;
+            const savings = income - totalExpenses;
+            const savingsRate = (savings / income) * 100;
+            const zakatEligible = savings > 0 ? savings + housing + food + transport : housing + food + transport;
+            const resultDiv = document.getElementById('budget-result');
+            resultDiv.innerHTML = '<div class="text-lg font-semibold">Budget Analysis:</div><div>Monthly Income: $' + income.toLocaleString() + '</div><div>Total Expenses: $' + totalExpenses.toLocaleString() + '</div><div>Monthly Savings: $' + savings.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Savings Rate: ' + savingsRate.toFixed(2) + '%</div><div>Zakat Eligible (if savings > nisab): $' + zakatEligible.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div>';
+            resultDiv.style.display = 'block';
+        }
+
+        // Islamic Finance Structure Calculator
+        function calculateIslamicFinance() {
+            const amount = parseFloat(document.getElementById('finance-amount').value) || 0;
+            const margin = parseFloat(document.getElementById('finance-margin').value) || 0;
+            const term = parseInt(document.getElementById('finance-term').value) || 0;
+            const share = parseFloat(document.getElementById('finance-share').value) || 0;
+            const markupAmount = amount * (margin / 100);
+            const totalAmount = amount + markupAmount;
+            const monthlyPayment = totalAmount / term;
+            const yourShare = totalAmount * (share / 100);
+            const partnerShare = totalAmount - yourShare;
+            const resultDiv = document.getElementById('finance-result');
+            resultDiv.innerHTML = '<div class="text-lg font-semibold">Finance Structure:</div><div>Base Amount: $' + amount.toLocaleString() + '</div><div>Markup (Profit): $' + markupAmount.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Amount: $' + totalAmount.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Monthly Payment: $' + monthlyPayment.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Your Share (' + share + '%): $' + yourShare.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Partner Share (' + (100 - share).toFixed(0) + '%): $' + partnerShare.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div>';
+            resultDiv.style.display = 'block';
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
 </body>
 </html>
