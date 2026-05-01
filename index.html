@@ -5,602 +5,1355 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IslamicCalc - Islamic Financial Calculator Hub</title>
     <meta name="description" content="Free Islamic financial calculators for halal mortgages, zakat, Islamic investments, and more. Sharia-compliant tools for Muslims worldwide.">
-    
+
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3328888353688663" crossorigin="anonymous"></script>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
-                    colors: {
-                        calcblue: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
-                        calcorange: { 50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c', 800: '#9a3412', 900: '#7c2d12' },
-                        islamicgreen: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d' }
-                    }
-                }
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --bg-secondary: #111114;
+            --surface: #1a1a1f;
+            --text: #eae7e2;
+            --muted: #6b6b73;
+            --border: #1e1e22;
+            --islamic-green: #22c55e;
+            --islamic-green-glow: rgba(34, 197, 94, 0.3);
+            --islamic-gold: #c8a97e;
+            --islamic-gold-glow: rgba(200, 169, 126, 0.3);
+            --accent: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            transition: background 0.8s, color 0.8s;
+        }
+
+        /* ─── Header ─── */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 24px;
+            background: rgba(10, 10, 11, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .logo span { color: var(--islamic-green); }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--text); }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+        }
+
+        /* ─── Hero Section with Mesh Gradient ─── */
+        .hero {
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .mesh-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        .hero-label {
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--islamic-green);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .hero-label::before,
+        .hero-label::after {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--islamic-green);
+            opacity: 0.5;
+        }
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 80px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+        .hero h1 .highlight {
+            color: var(--islamic-green);
+            position: relative;
+        }
+        .hero p {
+            font-size: clamp(16px, 2vw, 20px);
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 40px;
+            background: var(--islamic-green);
+            color: #0a0a0b;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+        }
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px var(--islamic-green-glow);
+        }
+        .scroll-hint {
+            margin-top: 60px;
+            font-size: 13px;
+            color: var(--muted);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+        /* ─── Odometer Stats Section ─── */
+        .stats-section {
+            padding: 80px 24px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .stats-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            text-align: center;
+        }
+        .stat-item {
+            padding: 40px 20px;
+        }
+        .odometer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700;
+            color: var(--islamic-green);
+            letter-spacing: -0.03em;
+            overflow: hidden;
+            height: 1.15em;
+            display: flex;
+            justify-content: center;
+        }
+        .odo-digit {
+            display: inline-block;
+            overflow: hidden;
+            height: 1.15em;
+            position: relative;
+        }
+        .odo-strip {
+            display: flex;
+            flex-direction: column;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .odo-strip span {
+            display: block;
+            height: 1.15em;
+            line-height: 1.15;
+        }
+        .stat-suffix {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(24px, 4vw, 40px);
+            font-weight: 700;
+            color: var(--islamic-green);
+            vertical-align: top;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ─── Kinetic Marquee ─── */
+        .marquee-section {
+            padding: 40px 0;
+            overflow: hidden;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+        .marquee-row {
+            display: flex;
+            white-space: nowrap;
+            will-change: transform;
+            padding: 16px 0;
+        }
+        .marquee-content {
+            display: flex;
+            align-items: center;
+        }
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 40px;
+            font-size: clamp(24px, 5vw, 48px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+        .marquee-item .sep {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: var(--islamic-green);
+            border-radius: 50%;
+            margin: 0 32px;
+            opacity: 0.6;
+        }
+
+        /* ─── Section Labels ─── */
+        .section-label {
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--islamic-green);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .section-desc {
+            font-size: 18px;
+            color: var(--muted);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+        }
+
+        /* ─── Calculator Cards with Spotlight Effect ─── */
+        .calculators-section {
+            padding: 100px 24px;
+            transition: background 0.8s, color 0.8s;
+        }
+        .calc-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        .calc-card {
+            background: var(--bg);
+            padding: 40px 32px;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            transition: all 0.3s;
+        }
+        .calc-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 0;
+            background: radial-gradient(circle 200px at var(--mx, 50%) var(--my, 50%), var(--islamic-green-glow), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .calc-card:hover::before { opacity: 1; }
+        .calc-card .card-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .calc-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+        .calc-card .card-desc {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* ─── Form Inputs ─── */
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--islamic-green);
+            box-shadow: 0 0 0 3px var(--islamic-green-glow);
+        }
+        .input-field::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        /* ─── Particle Button ─── */
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: var(--islamic-green);
+            color: #0a0a0b;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 2;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--islamic-green-glow);
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .btn-gold {
+            background: var(--islamic-gold);
+        }
+        .btn-gold:hover {
+            box-shadow: 0 10px 30px var(--islamic-gold-glow);
+        }
+        .particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .ring {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            border: 2px solid;
+            opacity: 0;
+        }
+
+        /* ─── Result Display ─── */
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+            display: none;
+        }
+        .result .result-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--islamic-green);
+            margin-bottom: 12px;
+        }
+        .result .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+        }
+        .result .result-row:last-child {
+            border-bottom: none;
+        }
+        .result .result-row .label {
+            color: var(--muted);
+        }
+        .result .result-row .value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .result .result-row.highlight .value {
+            color: var(--islamic-green);
+            font-size: 18px;
+        }
+
+        /* ─── Color Shift Sections ─── */
+        .section[data-bg] {
+            transition: background 0.8s, color 0.8s;
+        }
+
+        /* ─── Sticky Cards for Calculator Categories ─── */
+        .sticky-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px 200px;
+        }
+        .sticky-card {
+            position: sticky;
+            top: 100px;
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-bottom: 32px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: transform 0.1s ease;
+            will-change: transform;
+        }
+        .sticky-card:nth-child(1) { top: 80px; background: linear-gradient(135deg, #1a1a1f 0%, #0d1f15 100%); z-index: 1; }
+        .sticky-card:nth-child(2) { top: 100px; background: linear-gradient(135deg, #1f1a12 0%, #2a1f12 100%); z-index: 2; }
+        .sticky-card:nth-child(3) { top: 120px; background: linear-gradient(135deg, #121a1f 0%, #1a2535 100%); z-index: 3; }
+        .sticky-card:nth-child(4) { top: 140px; background: linear-gradient(135deg, #1a121f 0%, #251a35 100%); z-index: 4; }
+
+        .sticky-card .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .sticky-card .card-num {
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.5;
+            font-weight: 400;
+        }
+        .sticky-card h3 {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            line-height: 1.15;
+        }
+        .sticky-card .card-intro {
+            font-size: 15px;
+            opacity: 0.7;
+            line-height: 1.6;
+            max-width: 50ch;
+            margin-bottom: 32px;
+        }
+        .sticky-card .calc-inputs {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .sticky-card { padding: 32px 24px; min-height: 550px; }
+        }
+
+        /* ─── CTA Section ─── */
+        .cta-section {
+            padding: 120px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section .mesh-canvas {
+            opacity: 0.5;
+        }
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        /* ─── Newsletter ─── */
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .newsletter-form input {
+            flex: 1;
+            padding: 16px 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+        }
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--islamic-green);
+        }
+        .newsletter-form button {
+            padding: 16px 32px;
+            background: var(--islamic-green);
+            color: #0a0a0b;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--islamic-green-glow);
+        }
+
+        @media (max-width: 480px) {
+            .newsletter-form {
+                flex-direction: column;
             }
         }
-    </script>
-    <style>
-        :root { --primary: #1d4ed8; --secondary: #f97316; --islamic: #16a34a; --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; overflow-x: hidden; }
-        .calculator-card { background: var(--card); border-radius: 1rem; border: 1px solid var(--border); padding: 1.5rem; transition: all 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
-        .calculator-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
-        .input-group { margin-bottom: 1rem; }
-        .input-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text); }
-        .input-field { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 1rem; transition: border-color 0.3s ease; }
-        .input-field:focus { outline: none; border-color: var(--islamic); box-shadow: 0 0 0 3px rgba(34,197,94,0.1); }
-        .btn { background: var(--islamic); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
-        .btn:hover { background: #15803d; transform: translateY(-1px); }
-        .btn-secondary { background: var(--primary); }
-        .btn-secondary:hover { background: #1e40af; }
-        .result { margin-top: 1rem; padding: 1rem; background: #f1f5f9; border-radius: 0.5rem; border-left: 4px solid var(--islamic); display: none; }
-        .section-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--islamic); }
-        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .category-card { background: var(--card); border-radius: 1rem; border: 1px solid var(--border); padding: 2rem; transition: all 0.3s ease; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
-        .category-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
-        .category-icon { font-size: 3rem; margin-bottom: 1rem; color: var(--islamic); }
-        .calculator-link { display: block; padding: 1rem; margin: 0.5rem 0; background: #f1f5f9; border-radius: 0.5rem; text-decoration: none; color: var(--text); transition: all 0.3s ease; border: 1px solid var(--border); }
-        .calculator-link:hover { background: #e2e8f0; transform: translateX(4px); }
-        .breadcrumb { padding: 1rem 0; font-size: 0.875rem; color: var(--muted); }
-        .breadcrumb a { color: var(--islamic); text-decoration: none; }
-        .breadcrumb a:hover { text-decoration: underline; }
-        
-        /* AdSense Ad Styles */
-        .ad-container { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 0.5rem; padding: 1rem; margin: 1.5rem 0; text-align: center; }
-        .ad-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
-        .ad-in-feed { background: #f1f5f9; border-radius: 0.5rem; padding: 1rem; margin: 2rem 0; }
-        .ad-sidebar { background: #f8fafc; border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; margin: 1rem 0; }
-        .ad-footer { background: #f1f5f9; border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem; }
-        .mobile-anchor { position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; background: white; border-top: 1px solid var(--border); padding: 0.5rem; }
-        
-        @media (max-width: 768px) {
-            .calc-grid { grid-template-columns: 1fr; }
-            .mobile-only { display: block; }
-            .desktop-only { display: none; }
+
+        /* ─── Ad Containers ─── */
+        .ad-container {
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 40px auto;
+            max-width: 800px;
+            text-align: center;
         }
-        @media (min-width: 769px) {
-            .mobile-only { display: none; }
-            .desktop-only { display: block; }
+        .ad-label {
+            font-size: 10px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        /* ─── Footer ─── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 60px 24px 100px;
+            background: var(--bg-secondary);
+        }
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        .footer-logo span { color: var(--islamic-green); }
+        .footer-tagline {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        .footer-links a {
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: var(--text); }
+        .footer-copy {
+            font-size: 12px;
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        /* ─── Fade Up Animation ─── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* ─── Quick Calculator Grid ─── */
+        .quick-calc-section {
+            padding: 100px 24px;
+        }
+
+        /* ─── Partners Marquee ─── */
+        .partners-section {
+            padding: 60px 0;
+            overflow: hidden;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .partners-label {
+            text-align: center;
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+        .partners-row {
+            display: flex;
+            white-space: nowrap;
+            will-change: transform;
+        }
+        .partners-content {
+            display: flex;
+            align-items: center;
+        }
+        .partner-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 40px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            margin: 0 8px;
+            background: var(--surface);
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
     <!-- Header -->
-    <header class="bg-white shadow-sm border-b sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <h1 class="text-2xl font-bold text-gray-900">Islamic<span class="text-islamicgreen-600">Calc</span></h1>
-                </div>
-                <nav class="hidden md:flex space-x-6">
-                    <a href="/" class="text-gray-700 hover:text-islamicgreen-600">Home</a>
-                    <a href="#halal-mortgage" class="text-gray-700 hover:text-islamicgreen-600">Halal Mortgage</a>
-                    <a href="#zakat" class="text-gray-700 hover:text-islamicgreen-600">Zakat</a>
-                    <a href="#investment" class="text-gray-700 hover:text-islamicgreen-600">Investment</a>
-                    <a href="#planning" class="text-gray-700 hover:text-islamicgreen-600">Planning</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <input type="text" placeholder="Search calculators..." class="input-field w-48">
-                    <button class="btn">Search</button>
-                </div>
-            </div>
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo">Islamic<span>Calc</span></a>
+            <nav>
+                <a href="#halal-mortgage">Halal Mortgage</a>
+                <a href="#zakat">Zakat</a>
+                <a href="#investment">Investment</a>
+                <a href="#planning">Planning</a>
+            </nav>
         </div>
     </header>
 
-    <!-- AD: Header Banner (High Visibility) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="ad-container">
-            <div class="ad-label">Advertisement</div>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <!-- Hero Section with Mesh Gradient Background -->
+    <section class="hero">
+        <canvas class="mesh-canvas" id="heroMesh"></canvas>
+        <div class="hero-content fade-up">
+            <div class="hero-label">Sharia-Compliant Financial Tools</div>
+            <h1>Islamic Finance<br><span class="highlight">Made Simple</span></h1>
+            <p>Free Sharia-compliant calculators for halal mortgages, zakat, Islamic investments, and financial planning. Essential tools for Muslims worldwide.</p>
+            <a href="#calculators" class="hero-cta">Explore Calculators</a>
+            <div class="scroll-hint">Scroll to discover</div>
         </div>
-    </div>
+    </section>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Hero Section -->
-        <section class="text-center mb-12">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">Islamic Financial Calculator Hub</h2>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                Free Sharia-compliant calculators for halal mortgages, zakat, Islamic investments, and financial planning. 
-                Essential tools for Muslims worldwide.
-            </p>
-            
-            <!-- AD: Hero In-Feed Native Ad -->
-            <div class="ad-in-feed">
-                <div class="ad-label">Sponsored</div>
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="2345678901" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <!-- Odometer Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="odometer" data-value="8"></div>
+                <div class="stat-label">Calculators</div>
             </div>
-            
-            <!-- Ad Space - Affiliate -->
-            <div class="bg-green-50 border-2 border-green-200 border-dashed rounded-xl p-6 mb-8">
-                <h3 class="text-lg font-semibold text-green-800 mb-2">Sharia-Compliant Services</h3>
-                <p class="text-green-600 mb-4">Find Islamic banking partners and certified financial advisors</p>
-                <button class="btn bg-green-500 text-gray-900 hover:bg-green-600">Partner With Us</button>
+            <div class="stat-item">
+                <div class="odometer" data-value="100" data-suffix="%"></div>
+                <div class="stat-label">Halal Compliant</div>
             </div>
-        </section>
-
-        <!-- Stats Bar -->
-        <div class="grid grid-cols-3 gap-4 mb-12 text-center">
-            <div class="bg-white rounded-xl p-4 shadow">
-                <div class="text-3xl font-bold text-islamicgreen-600">6</div>
-                <div class="text-gray-600">Calculators</div>
-            </div>
-            <div class="bg-white rounded-xl p-4 shadow">
-                <div class="text-3xl font-bold text-islamicgreen-600">100%</div>
-                <div class="text-gray-600">Halal</div>
-            </div>
-            <div class="bg-white rounded-xl p-4 shadow">
-                <div class="text-3xl font-bold text-islamicgreen-600">Free</div>
-                <div class="text-gray-600">To Use</div>
+            <div class="stat-item">
+                <div class="odometer" data-value="0" data-suffix="$"></div>
+                <div class="stat-label">Always Free</div>
             </div>
         </div>
+    </section>
 
-        <!-- Halal Mortgage Calculators -->
-        <section id="halal-mortgage" class="mb-12">
-            <h2 class="section-title">Halal Mortgage / Home Finance Calculators</h2>
-            <p class="text-gray-600 mb-6">Calculate monthly payments for rent-based or profit-based financing (Diminishing Musharaka or Ijara) rather than interest-based lending.</p>
-            
-            <div class="calc-grid">
-                <!-- StrideUp Finance Calculator -->
-                <div class="calculator-card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-900">StrideUp Finance Calculator</h3>
-                    <p class="text-gray-600 mb-4">Estimate payments based on co-ownership structure (Sharia-compliant alternative to traditional mortgages)</p>
-                    <div class="input-group">
-                        <label class="input-label">Property Value ($)</label>
-                        <input type="number" id="strideup-property-value" class="input-field" placeholder="Enter property value" value="500000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Deposit Amount ($)</label>
-                        <input type="number" id="strideup-deposit" class="input-field" placeholder="Enter deposit amount" value="100000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Finance Term (years)</label>
-                        <input type="number" id="strideup-term" class="input-field" placeholder="Enter finance term" value="25">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Monthly Rental ($)</label>
-                        <input type="number" id="strideup-rental" class="input-field" placeholder="Enter monthly rental" value="2000">
-                    </div>
-                    <button onclick="calculateStrideUp()" class="btn">Calculate Finance</button>
-                    <div id="strideup-result" class="result"></div>
-                </div>
-
-                <!-- Gatehouse Bank Calculator -->
-                <div class="calculator-card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Gatehouse Bank Home Finance</h3>
-                    <p class="text-gray-600 mb-4">Estimate costs for residential or buy-to-let property finance based on Acquisition & Rent agreements</p>
-                    <div class="input-group">
-                        <label class="input-label">Purchase Price ($)</label>
-                        <input type="number" id="gatehouse-price" class="input-field" placeholder="Enter purchase price" value="450000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Initial Payment ($)</label>
-                        <input type="number" id="gatehouse-initial" class="input-field" placeholder="Enter initial payment" value="90000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Finance Period (years)</label>
-                        <input type="number" id="gatehouse-period" class="input-field" placeholder="Enter finance period" value="20">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Annual Rental Rate (%)</label>
-                        <input type="number" id="gatehouse-rate" class="input-field" placeholder="Enter rental rate" value="4.5">
-                    </div>
-                    <button onclick="calculateGatehouse()" class="btn">Calculate Finance</button>
-                    <div id="gatehouse-result" class="result"></div>
-                </div>
-            </div>
-            
-            <!-- AD: After Mortgage Section -->
-            <div class="ad-container">
-                <div class="ad-label">Advertisement</div>
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="3456789012" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-        </section>
-
-        <!-- Zakat Calculators -->
-        <section id="zakat" class="mb-12">
-            <h2 class="section-title">Zakat Calculators</h2>
-            <p class="text-gray-600 mb-6">Calculate the mandatory 2.5% donation on wealth, usually broken down by asset class (cash, gold, stocks).</p>
-            
-            <div class="calc-grid">
-                <!-- IFG Zakat Calculator -->
-                <div class="calculator-card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-900">IFG Zakat Calculator</h3>
-                    <p class="text-gray-600 mb-4">Calculate zakat on diverse asset classes (cash, gold, silver, stocks, business assets)</p>
-                    <div class="input-group">
-                        <label class="input-label">Cash & Savings ($)</label>
-                        <input type="number" id="zakat-cash" class="input-field" placeholder="Enter cash amount" value="15000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Gold Value ($)</label>
-                        <input type="number" id="zakat-gold" class="input-field" placeholder="Enter gold value" value="5000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Silver Value ($)</label>
-                        <input type="number" id="zakat-silver" class="input-field" placeholder="Enter silver value" value="1000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Stock Investments ($)</label>
-                        <input type="number" id="zakat-stocks" class="input-field" placeholder="Enter stock value" value="10000">
-                    </div>
-                    <button onclick="calculateZakat()" class="btn">Calculate Zakat</button>
-                    <div id="zakat-result" class="result"></div>
-                </div>
-
-                <!-- Business Zakat Calculator -->
-                <div class="calculator-card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Business Zakat Calculator</h3>
-                    <p class="text-gray-600 mb-4">Calculate zakat on business inventory, receivables, and other commercial assets</p>
-                    <div class="input-group">
-                        <label class="input-label">Inventory Value ($)</label>
-                        <input type="number" id="business-inventory" class="input-field" placeholder="Enter inventory value" value="25000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Accounts Receivable ($)</label>
-                        <input type="number" id="business-receivable" class="input-field" placeholder="Enter receivables" value="15000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Business Cash ($)</label>
-                        <input type="number" id="business-cash" class="input-field" placeholder="Enter business cash" value="8000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Outstanding Debts ($)</label>
-                        <input type="number" id="business-debts" class="input-field" placeholder="Enter debts to deduct" value="5000">
-                    </div>
-                    <button onclick="calculateBusinessZakat()" class="btn">Calculate Business Zakat</button>
-                    <div id="business-zakat-result" class="result"></div>
-                </div>
-            </div>
-            
-            <!-- AD: After Zakat Section -->
-            <div class="ad-in-feed">
-                <div class="ad-label">Sponsored</div>
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="4567890123" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-        </section>
-
-        <!-- Islamic Investment Calculators -->
-        <section id="investment" class="mb-12">
-            <h2 class="section-title">Islamic Investment & Savings Calculators</h2>
-            <p class="text-gray-600 mb-6">Calculate potential returns from Shariah-compliant investing, such as Sukuk (Islamic bonds) or Shariah-compliant stocks.</p>
-            
-            <div class="calc-grid">
-                <!-- Wahed Returns Calculator -->
-                <div class="calculator-card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Wahed Returns Calculator</h3>
-                    <p class="text-gray-600 mb-4">Forecast returns on investment portfolios composed of US stocks, Sukuk, and global stocks</p>
-                    <div class="input-group">
-                        <label class="input-label">Initial Investment ($)</label>
-                        <input type="number" id="wahed-initial" class="input-field" placeholder="Enter initial investment" value="10000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Monthly Contribution ($)</label>
-                        <input type="number" id="wahed-monthly" class="input-field" placeholder="Enter monthly contribution" value="500">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Expected Annual Return (%)</label>
-                        <input type="number" id="wahed-return" class="input-field" placeholder="Enter expected return" value="6.5">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Investment Period (years)</label>
-                        <input type="number" id="wahed-period" class="input-field" placeholder="Enter investment period" value="10">
-                    </div>
-                    <button onclick="calculateWahedReturns()" class="btn">Calculate Returns</button>
-                    <div id="wahed-result" class="result"></div>
-                </div>
-
-                <!-- Al Rayan Savings Calculator -->
-                <div class="calculator-card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Al Rayan Savings Calculator</h3>
-                    <p class="text-gray-600 mb-4">Determine potential returns from Sharia-compliant profit-sharing savings accounts</p>
-                    <div class="input-group">
-                        <label class="input-label">Deposit Amount ($)</label>
-                        <input type="number" id="rayan-deposit" class="input-field" placeholder="Enter deposit amount" value="5000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Expected Profit Rate (%)</label>
-                        <input type="number" id="rayan-profit" class="input-field" placeholder="Enter expected profit rate" value="3.2">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Term (months)</label>
-                        <input type="number" id="rayan-term" class="input-field" placeholder="Enter term in months" value="24">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Additional Contributions ($/month)</label>
-                        <input type="number" id="rayan-additional" class="input-field" placeholder="Enter monthly additions" value="100">
-                    </div>
-                    <button onclick="calculateRayanSavings()" class="btn">Calculate Savings</button>
-                    <div id="rayan-result" class="result"></div>
-                </div>
-            </div>
-            
-            <!-- AD: After Investment Section -->
-            <div class="ad-container">
-                <div class="ad-label">Advertisement</div>
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="5678901234" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-        </section>
-
-        <!-- Islamic Financial Planning -->
-        <section id="planning" class="mb-12">
-            <h2 class="section-title">Islamic Financial Planning</h2>
-            <p class="text-gray-600 mb-6">Tools to assist in calculating monthly income against expenses to ensure financial health.</p>
-            
-            <div class="calc-grid">
-                <!-- Budget Calculator -->
-                <div class="calculator-card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Islamic Budget Calculator</h3>
-                    <p class="text-gray-600 mb-4">Assess your monthly income versus expenses to maintain financial health and plan for zakat</p>
-                    <div class="input-group">
-                        <label class="input-label">Monthly Income ($)</label>
-                        <input type="number" id="budget-income" class="input-field" placeholder="Enter monthly income" value="6000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Housing Expenses ($)</label>
-                        <input type="number" id="budget-housing" class="input-field" placeholder="Enter housing costs" value="1500">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Food & Groceries ($)</label>
-                        <input type="number" id="budget-food" class="input-field" placeholder="Enter food costs" value="600">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Transportation ($)</label>
-                        <input type="number" id="budget-transport" class="input-field" placeholder="Enter transport costs" value="400">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Other Expenses ($)</label>
-                        <input type="number" id="budget-other" class="input-field" placeholder="Enter other expenses" value="1200">
-                    </div>
-                    <button onclick="calculateBudget()" class="btn">Analyze Budget</button>
-                    <div id="budget-result" class="result"></div>
-                </div>
-
-                <!-- Islamic Finance Structure Calculator -->
-                <div class="calculator-card">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Islamic Finance Structure</h3>
-                    <p class="text-gray-600 mb-4">Evaluate Murabaha (cost-plus), Musharaka (partnership), and Mudaraba (profit-sharing) structures</p>
-                    <div class="input-group">
-                        <label class="input-label">Transaction Amount ($)</label>
-                        <input type="number" id="finance-amount" class="input-field" placeholder="Enter transaction amount" value="30000">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Markup/Profit Margin (%)</label>
-                        <input type="number" id="finance-margin" class="input-field" placeholder="Enter markup percentage" value="10">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Payment Term (months)</label>
-                        <input type="number" id="finance-term" class="input-field" placeholder="Enter payment term" value="36">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Partnership Share (%)</label>
-                        <input type="number" id="finance-share" class="input-field" placeholder="Your share in partnership" value="70">
-                    </div>
-                    <button onclick="calculateIslamicFinance()" class="btn">Calculate Structure</button>
-                    <div id="finance-result" class="result"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- AD: Before Affiliate Section -->
-        <div class="ad-in-feed">
-            <div class="ad-label">Sponsored</div>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="6789012345" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-
-        <!-- Affiliate Links Section -->
-        <section class="bg-white rounded-xl p-6 shadow-lg mb-8">
-            <h2 class="section-title text-center mb-4">Recommended Islamic Financial Services</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <a href="#" class="calculator-link">Islamic Banks</a>
-                <a href="#" class="calculator-link">Sharia Advisors</a>
-                <a href="#" class="calculator-link">Halal Investment Funds</a>
-                <a href="#" class="calculator-link">Takaful Insurance</a>
-                <a href="#" class="calculator-link">Sukuk Bonds</a>
-                <a href="#" class="calculator-link">Islamic Wealth Managers</a>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="text-center bg-gradient-to-r from-islamicgreen-500 to-islamicgreen-600 rounded-xl p-8 text-white mb-8">
-            <h2 class="text-2xl font-bold mb-4">Download Islamic Finance Toolkit</h2>
-            <p class="mb-6 opacity-90">Get all calculators as printable PDFs with Islamic finance guides</p>
-            <button class="bg-white text-islamicgreen-600 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors">
-                Download Toolkit ($14.99)
-            </button>
-        </section>
-
-        <!-- Email Capture -->
-        <section class="bg-white rounded-xl p-6 shadow-lg">
-            <h2 class="section-title text-center mb-4">Get Islamic Finance Updates</h2>
-            <p class="text-center text-gray-600 mb-6">Join our newsletter for exclusive Islamic finance tips and resources</p>
-            <div class="max-w-md mx-auto flex">
-                <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:border-islamicgreen-500">
-                <button class="bg-islamicgreen-500 text-white px-6 py-2 rounded-r-lg hover:bg-islamicgreen-600 transition-colors">Subscribe</button>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- AD: Footer Ad -->
-    <div class="ad-footer">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="ad-container">
-                <div class="ad-label">Advertisement</div>
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="7890123456" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <!-- Kinetic Marquee -->
+    <section class="marquee-section">
+        <div class="marquee-row" data-speed="0.8" data-direction="left">
+            <div class="marquee-content">
+                <span class="marquee-item">ZAKAT<span class="sep"></span></span>
+                <span class="marquee-item">HALAL MORTGAGE<span class="sep"></span></span>
+                <span class="marquee-item">SUKUK<span class="sep"></span></span>
+                <span class="marquee-item">MURABAHA<span class="sep"></span></span>
+                <span class="marquee-item">MUSHARAKA<span class="sep"></span></span>
+                <span class="marquee-item">TAKAFUL<span class="sep"></span></span>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <p>&copy; 2026 IslamicCalc. All rights reserved.</p>
-                <p class="mt-2 text-gray-400">Sharia-compliant financial tools for Muslims worldwide.</p>
-                <div class="mt-4 space-x-4">
-                    <a href="/privacy" class="text-gray-400 hover:text-white">Privacy Policy</a>
-                    <a href="/terms" class="text-gray-400 hover:text-white">Terms of Service</a>
-                    <a href="/contact" class="text-gray-400 hover:text-white">Contact</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Mobile Anchor Ad (Sticky Bottom) -->
-    <div class="mobile-only mobile-anchor">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="8901234567" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <!-- AD: After Hero -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
+    <!-- Quick Calculator Grid with Spotlight Effect -->
+    <section class="quick-calc-section" id="calculators">
+        <div class="section-label fade-up">Quick Access</div>
+        <h2 class="section-title fade-up">Choose Your Calculator</h2>
+        <p class="section-desc fade-up">Select a calculator category to get started with your Islamic financial calculations</p>
+
+        <div class="calc-grid" id="calcGrid">
+            <div class="calc-card">
+                <span class="card-icon">&#127969;</span>
+                <h3>Halal Mortgage</h3>
+                <p class="card-desc">Calculate payments for rent-based or profit-based financing structures like Diminishing Musharaka or Ijara</p>
+            </div>
+            <div class="calc-card">
+                <span class="card-icon">&#128176;</span>
+                <h3>Zakat Calculator</h3>
+                <p class="card-desc">Calculate the mandatory 2.5% donation on wealth, broken down by asset class including cash, gold, and stocks</p>
+            </div>
+            <div class="calc-card">
+                <span class="card-icon">&#128200;</span>
+                <h3>Investment Returns</h3>
+                <p class="card-desc">Project returns from Shariah-compliant investing including Sukuk and halal stock portfolios</p>
+            </div>
+            <div class="calc-card">
+                <span class="card-icon">&#128181;</span>
+                <h3>Budget Planner</h3>
+                <p class="card-desc">Assess monthly income vs expenses to maintain financial health and plan for zakat obligations</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sticky Card Stack Calculators -->
+    <section class="sticky-section" id="halal-mortgage">
+        <div class="section-label fade-up">Full Calculators</div>
+        <h2 class="section-title fade-up">Detailed Calculations</h2>
+        <p class="section-desc fade-up">Scroll through each calculator to find the one that fits your needs</p>
+
+        <!-- Card 1: StrideUp Finance -->
+        <div class="sticky-card">
+            <div class="card-num">Calculator 01</div>
+            <h3>StrideUp Home Finance</h3>
+            <p class="card-intro">Estimate payments based on co-ownership structure - a Sharia-compliant alternative to traditional mortgages</p>
+            <div class="calc-inputs">
+                <div class="input-group">
+                    <label class="input-label">Property Value ($)</label>
+                    <input type="number" id="strideup-property-value" class="input-field" placeholder="500000" value="500000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Deposit Amount ($)</label>
+                    <input type="number" id="strideup-deposit" class="input-field" placeholder="100000" value="100000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Finance Term (years)</label>
+                    <input type="number" id="strideup-term" class="input-field" placeholder="25" value="25">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Monthly Rental ($)</label>
+                    <input type="number" id="strideup-rental" class="input-field" placeholder="2000" value="2000">
+                </div>
+                <button onclick="calculateStrideUp()" class="btn" data-type="particles" data-color="#22c55e">Calculate Finance</button>
+                <div id="strideup-result" class="result"></div>
+            </div>
+        </div>
+
+        <!-- Card 2: Zakat Calculator -->
+        <div class="sticky-card" id="zakat">
+            <div class="card-num">Calculator 02</div>
+            <h3>IFG Zakat Calculator</h3>
+            <p class="card-intro">Calculate zakat on diverse asset classes including cash, gold, silver, and stocks</p>
+            <div class="calc-inputs">
+                <div class="input-group">
+                    <label class="input-label">Cash & Savings ($)</label>
+                    <input type="number" id="zakat-cash" class="input-field" placeholder="15000" value="15000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Gold Value ($)</label>
+                    <input type="number" id="zakat-gold" class="input-field" placeholder="5000" value="5000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Silver Value ($)</label>
+                    <input type="number" id="zakat-silver" class="input-field" placeholder="1000" value="1000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Stock Investments ($)</label>
+                    <input type="number" id="zakat-stocks" class="input-field" placeholder="10000" value="10000">
+                </div>
+                <button onclick="calculateZakat()" class="btn btn-gold" data-type="particles" data-color="#c8a97e">Calculate Zakat</button>
+                <div id="zakat-result" class="result"></div>
+            </div>
+        </div>
+
+        <!-- Card 3: Investment Returns -->
+        <div class="sticky-card" id="investment">
+            <div class="card-num">Calculator 03</div>
+            <h3>Wahed Investment Returns</h3>
+            <p class="card-intro">Forecast returns on investment portfolios composed of US stocks, Sukuk, and global equities</p>
+            <div class="calc-inputs">
+                <div class="input-group">
+                    <label class="input-label">Initial Investment ($)</label>
+                    <input type="number" id="wahed-initial" class="input-field" placeholder="10000" value="10000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Monthly Contribution ($)</label>
+                    <input type="number" id="wahed-monthly" class="input-field" placeholder="500" value="500">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Expected Annual Return (%)</label>
+                    <input type="number" id="wahed-return" class="input-field" placeholder="6.5" value="6.5">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Investment Period (years)</label>
+                    <input type="number" id="wahed-period" class="input-field" placeholder="10" value="10">
+                </div>
+                <button onclick="calculateWahedReturns()" class="btn" data-type="particles" data-color="#22c55e">Calculate Returns</button>
+                <div id="wahed-result" class="result"></div>
+            </div>
+        </div>
+
+        <!-- Card 4: Budget Calculator -->
+        <div class="sticky-card" id="planning">
+            <div class="card-num">Calculator 04</div>
+            <h3>Islamic Budget Planner</h3>
+            <p class="card-intro">Assess your monthly income versus expenses to maintain financial health and plan for zakat</p>
+            <div class="calc-inputs">
+                <div class="input-group">
+                    <label class="input-label">Monthly Income ($)</label>
+                    <input type="number" id="budget-income" class="input-field" placeholder="6000" value="6000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Housing Expenses ($)</label>
+                    <input type="number" id="budget-housing" class="input-field" placeholder="1500" value="1500">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Food & Groceries ($)</label>
+                    <input type="number" id="budget-food" class="input-field" placeholder="600" value="600">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Other Expenses ($)</label>
+                    <input type="number" id="budget-other" class="input-field" placeholder="1600" value="1600">
+                </div>
+                <button onclick="calculateBudget()" class="btn btn-gold" data-type="ring" data-color="#c8a97e">Analyze Budget</button>
+                <div id="budget-result" class="result"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AD: Middle Section -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Partners Marquee -->
+    <section class="partners-section">
+        <div class="partners-label">Trusted Islamic Finance Resources</div>
+        <div class="partners-row" data-speed="0.4" data-direction="right">
+            <div class="partners-content">
+                <span class="partner-item">Islamic Banks</span>
+                <span class="partner-item">Sharia Advisors</span>
+                <span class="partner-item">Halal Investment Funds</span>
+                <span class="partner-item">Takaful Insurance</span>
+                <span class="partner-item">Sukuk Bonds</span>
+                <span class="partner-item">Islamic Wealth Managers</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section with Mesh Gradient -->
+    <section class="cta-section">
+        <canvas class="mesh-canvas" id="ctaMesh"></canvas>
+        <div class="cta-content fade-up">
+            <h2>Get Islamic Finance Updates</h2>
+            <p>Join our newsletter for exclusive Islamic finance tips, new calculator releases, and educational resources</p>
+            <form class="newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- AD: Footer Section -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3328888353688663" data-ad-slot="3456789012" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-logo">Islamic<span>Calc</span></div>
+            <p class="footer-tagline">Sharia-compliant financial tools for Muslims worldwide</p>
+            <div class="footer-links">
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <p class="footer-copy">&copy; 2026 IslamicCalc. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script>
-        // StrideUp Finance Calculator
-        function calculateStrideUp() {
-            const propertyValue = parseFloat(document.getElementById('strideup-property-value').value) || 0;
-            const deposit = parseFloat(document.getElementById('strideup-deposit').value) || 0;
-            const term = parseInt(document.getElementById('strideup-term').value) || 0;
-            const rental = parseFloat(document.getElementById('strideup-rental').value) || 0;
-            const financedAmount = propertyValue - deposit;
-            const totalPayments = rental * term * 12;
-            const totalCost = totalPayments + deposit;
-            const effectiveRate = ((totalCost - propertyValue) / propertyValue / term) * 100;
-            const resultDiv = document.getElementById('strideup-result');
-            resultDiv.innerHTML = '<div class="text-lg font-semibold">Finance Structure:</div><div>Financed Amount: $' + financedAmount.toLocaleString() + '</div><div>Monthly Rental: $' + rental.toLocaleString() + '</div><div>Total Payments: $' + totalPayments.toLocaleString() + '</div><div>Total Cost: $' + totalCost.toLocaleString() + '</div><div>Effective Annual Rate: ' + effectiveRate.toFixed(2) + '%</div>';
-            resultDiv.style.display = 'block';
+    (function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ═══════════════════════════════════════════════════════════
+        // MESH GRADIENT BACKGROUNDS
+        // ═══════════════════════════════════════════════════════════
+        function initMesh(canvas, colors, speed) {
+            var ctx = canvas.getContext('2d');
+            var blobs = colors.map(function(c, i) {
+                return {
+                    x: Math.random(),
+                    y: Math.random(),
+                    vx: (Math.random() - 0.5) * speed,
+                    vy: (Math.random() - 0.5) * speed,
+                    r: 0.3 + Math.random() * 0.2,
+                    color: c
+                };
+            });
+
+            function resize() {
+                canvas.width = canvas.offsetWidth * 2;
+                canvas.height = canvas.offsetHeight * 2;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function draw() {
+                var w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0b';
+                ctx.fillRect(0, 0, w, h);
+
+                blobs.forEach(function(b) {
+                    b.x += b.vx / w;
+                    b.y += b.vy / h;
+                    if (b.x < -0.2 || b.x > 1.2) b.vx *= -1;
+                    if (b.y < -0.2 || b.y > 1.2) b.vy *= -1;
+
+                    var grd = ctx.createRadialGradient(b.x * w, b.y * h, 0, b.x * w, b.y * h, b.r * Math.max(w, h));
+                    grd.addColorStop(0, b.color);
+                    grd.addColorStop(1, 'transparent');
+                    ctx.globalCompositeOperation = 'lighter';
+                    ctx.fillStyle = grd;
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.globalCompositeOperation = 'source-over';
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
         }
 
-        // Gatehouse Bank Calculator
-        function calculateGatehouse() {
-            const price = parseFloat(document.getElementById('gatehouse-price').value) || 0;
-            const initial = parseFloat(document.getElementById('gatehouse-initial').value) || 0;
-            const period = parseInt(document.getElementById('gatehouse-period').value) || 0;
-            const rate = parseFloat(document.getElementById('gatehouse-rate').value) || 0;
-            const financeAmount = price - initial;
-            const monthlyRental = (financeAmount * (rate / 100)) / 12;
-            const totalRentals = monthlyRental * period * 12;
-            const totalCost = initial + totalRentals;
-            const effectiveCost = ((totalCost - price) / price) * 100;
-            const resultDiv = document.getElementById('gatehouse-result');
-            resultDiv.innerHTML = '<div class="text-lg font-semibold">Finance Summary:</div><div>Finance Amount: $' + financeAmount.toLocaleString() + '</div><div>Monthly Rental: $' + monthlyRental.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Rentals: $' + totalRentals.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Cost: $' + totalCost.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Effective Cost Increase: ' + effectiveCost.toFixed(2) + '%</div>';
-            resultDiv.style.display = 'block';
-        }
+        // Hero mesh with Islamic green tones
+        initMesh(document.getElementById('heroMesh'), [
+            'rgba(34, 197, 94, 0.2)',
+            'rgba(200, 169, 126, 0.15)',
+            'rgba(16, 163, 74, 0.15)',
+            'rgba(20, 83, 45, 0.2)'
+        ], 0.3);
 
-        // Zakat Calculator
-        function calculateZakat() {
-            const cash = parseFloat(document.getElementById('zakat-cash').value) || 0;
-            const gold = parseFloat(document.getElementById('zakat-gold').value) || 0;
-            const silver = parseFloat(document.getElementById('zakat-silver').value) || 0;
-            const stocks = parseFloat(document.getElementById('zakat-stocks').value) || 0;
-            const totalWealth = cash + gold + silver + stocks;
-            const nisab = 3813;
-            const zakatDue = totalWealth >= nisab ? totalWealth * 0.025 : 0;
-            const resultDiv = document.getElementById('zakat-result');
-            resultDiv.innerHTML = '<div class="text-lg font-semibold">Zakat Calculation:</div><div>Total Wealth: $' + totalWealth.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Nisab Threshold: $' + nisab.toLocaleString() + '</div><div>Zakat Due (2.5%): $' + zakatDue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Status: ' + (totalWealth >= nisab ? 'Obligatory' : 'Below Nisab') + '</div>';
-            resultDiv.style.display = 'block';
-        }
+        // CTA mesh
+        initMesh(document.getElementById('ctaMesh'), [
+            'rgba(34, 197, 94, 0.15)',
+            'rgba(200, 169, 126, 0.1)',
+            'rgba(94, 173, 181, 0.1)'
+        ], 0.25);
 
-        // Business Zakat Calculator
-        function calculateBusinessZakat() {
-            const inventory = parseFloat(document.getElementById('business-inventory').value) || 0;
-            const receivable = parseFloat(document.getElementById('business-receivable').value) || 0;
-            const businessCash = parseFloat(document.getElementById('business-cash').value) || 0;
-            const debts = parseFloat(document.getElementById('business-debts').value) || 0;
-            const zakatableAssets = inventory + receivable + businessCash;
-            const netAssets = zakatableAssets - debts;
-            const nisab = 3813;
-            const zakatDue = netAssets >= nisab ? netAssets * 0.025 : 0;
-            const resultDiv = document.getElementById('business-zakat-result');
-            resultDiv.innerHTML = '<div class="text-lg font-semibold">Business Zakat:</div><div>Zakatable Assets: $' + zakatableAssets.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Less Debts: $' + debts.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Net Assets: $' + netAssets.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Zakat Due (2.5%): $' + zakatDue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Status: ' + (netAssets >= nisab ? 'Obligatory' : 'Below Nisab') + '</div>';
-            resultDiv.style.display = 'block';
-        }
+        // ═══════════════════════════════════════════════════════════
+        // ODOMETER COUNTERS
+        // ═══════════════════════════════════════════════════════════
+        document.querySelectorAll('.odometer').forEach(function(odo) {
+            var val = odo.dataset.value;
+            var suffix = odo.dataset.suffix || '';
+            var digits = val.split('');
+            odo.innerHTML = '';
 
-        // Wahed Returns Calculator
-        function calculateWahedReturns() {
-            const initial = parseFloat(document.getElementById('wahed-initial').value) || 0;
-            const monthly = parseFloat(document.getElementById('wahed-monthly').value) || 0;
-            const annualReturn = parseFloat(document.getElementById('wahed-return').value) || 0;
-            const years = parseInt(document.getElementById('wahed-period').value) || 0;
-            const monthlyReturn = annualReturn / 100 / 12;
-            const months = years * 12;
-            let futureValue = initial * Math.pow(1 + monthlyReturn, months);
-            if (monthlyReturn > 0) { futureValue += monthly * (Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn; } else { futureValue += monthly * months; }
-            const totalContributions = initial + (monthly * months);
-            const totalProfit = futureValue - totalContributions;
-            const roi = (totalProfit / totalContributions) * 100;
-            const resultDiv = document.getElementById('wahed-result');
-            resultDiv.innerHTML = '<div class="text-lg font-semibold">Investment Projection:</div><div>Total Contributions: $' + totalContributions.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Projected Value: $' + futureValue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Profit: $' + totalProfit.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>ROI: ' + roi.toFixed(2) + '%</div>';
-            resultDiv.style.display = 'block';
-        }
+            digits.forEach(function(d) {
+                var digit = document.createElement('div');
+                digit.className = 'odo-digit';
+                var strip = document.createElement('div');
+                strip.className = 'odo-strip';
+                for (var i = 0; i <= 9; i++) {
+                    var s = document.createElement('span');
+                    s.textContent = i;
+                    strip.appendChild(s);
+                }
+                digit.appendChild(strip);
+                odo.appendChild(digit);
+            });
 
-        // Al Rayan Savings Calculator
-        function calculateRayanSavings() {
-            const deposit = parseFloat(document.getElementById('rayan-deposit').value) || 0;
-            const profitRate = parseFloat(document.getElementById('rayan-profit').value) || 0;
-            const term = parseInt(document.getElementById('rayan-term').value) || 0;
-            const additional = parseFloat(document.getElementById('rayan-additional').value) || 0;
-            const monthlyRate = profitRate / 100 / 12;
-            let futureValue = deposit * Math.pow(1 + monthlyRate, term);
-            if (monthlyRate > 0) { futureValue += additional * (Math.pow(1 + monthlyRate, term) - 1) / monthlyRate; } else { futureValue += additional * term; }
-            const totalContributions = deposit + (additional * term);
-            const totalProfit = futureValue - totalContributions;
-            const resultDiv = document.getElementById('rayan-result');
-            resultDiv.innerHTML = '<div class="text-lg font-semibold">Savings Projection:</div><div>Initial Deposit: $' + deposit.toLocaleString() + '</div><div>Monthly Additions: $' + additional.toLocaleString() + '</div><div>Total Contributions: $' + totalContributions.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Projected Value: $' + futureValue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Profit: $' + totalProfit.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div>';
-            resultDiv.style.display = 'block';
-        }
+            if (suffix) {
+                var s = document.createElement('span');
+                s.className = 'stat-suffix';
+                s.textContent = suffix;
+                odo.appendChild(s);
+            }
 
-        // Budget Calculator
-        function calculateBudget() {
-            const income = parseFloat(document.getElementById('budget-income').value) || 0;
-            const housing = parseFloat(document.getElementById('budget-housing').value) || 0;
-            const food = parseFloat(document.getElementById('budget-food').value) || 0;
-            const transport = parseFloat(document.getElementById('budget-transport').value) || 0;
-            const other = parseFloat(document.getElementById('budget-other').value) || 0;
-            const totalExpenses = housing + food + transport + other;
-            const savings = income - totalExpenses;
-            const savingsRate = (savings / income) * 100;
-            const zakatEligible = savings > 0 ? savings + housing + food + transport : housing + food + transport;
-            const resultDiv = document.getElementById('budget-result');
-            resultDiv.innerHTML = '<div class="text-lg font-semibold">Budget Analysis:</div><div>Monthly Income: $' + income.toLocaleString() + '</div><div>Total Expenses: $' + totalExpenses.toLocaleString() + '</div><div>Monthly Savings: $' + savings.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Savings Rate: ' + savingsRate.toFixed(2) + '%</div><div>Zakat Eligible (if savings > nisab): $' + zakatEligible.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div>';
-            resultDiv.style.display = 'block';
-        }
-
-        // Islamic Finance Structure Calculator
-        function calculateIslamicFinance() {
-            const amount = parseFloat(document.getElementById('finance-amount').value) || 0;
-            const margin = parseFloat(document.getElementById('finance-margin').value) || 0;
-            const term = parseInt(document.getElementById('finance-term').value) || 0;
-            const share = parseFloat(document.getElementById('finance-share').value) || 0;
-            const markupAmount = amount * (margin / 100);
-            const totalAmount = amount + markupAmount;
-            const monthlyPayment = totalAmount / term;
-            const yourShare = totalAmount * (share / 100);
-            const partnerShare = totalAmount - yourShare;
-            const resultDiv = document.getElementById('finance-result');
-            resultDiv.innerHTML = '<div class="text-lg font-semibold">Finance Structure:</div><div>Base Amount: $' + amount.toLocaleString() + '</div><div>Markup (Profit): $' + markupAmount.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Total Amount: $' + totalAmount.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Monthly Payment: $' + monthlyPayment.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Your Share (' + share + '%): $' + yourShare.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div><div>Partner Share (' + (100 - share).toFixed(0) + '%): $' + partnerShare.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</div>';
-            resultDiv.style.display = 'block';
-        }
-
-        // Smooth scrolling for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            ScrollTrigger.create({
+                trigger: odo,
+                start: 'top 85%',
+                once: true,
+                onEnter: function() {
+                    var strips = odo.querySelectorAll('.odo-strip');
+                    strips.forEach(function(strip, i) {
+                        var target = parseInt(digits[i]);
+                        var h = strip.children[0].offsetHeight;
+                        strip.style.transform = 'translateY(-' + (target * h) + 'px)';
+                        strip.style.transitionDelay = (i * 0.12) + 's';
+                    });
+                }
             });
         });
+
+        // ═══════════════════════════════════════════════════════════
+        // KINETIC MARQUEE
+        // ═══════════════════════════════════════════════════════════
+        document.querySelectorAll('.marquee-row, .partners-row').forEach(function(row) {
+            var content = row.querySelector('.marquee-content, .partners-content');
+            if (!content) return;
+            var clone = content.cloneNode(true);
+            row.appendChild(clone);
+        });
+
+        var marqueeRows = document.querySelectorAll('.marquee-row, .partners-row');
+        var baseSpeed = 60;
+        var scrollVelocity = 0;
+
+        ScrollTrigger.create({
+            onUpdate: function(self) {
+                scrollVelocity = Math.abs(self.getVelocity());
+            }
+        });
+
+        marqueeRows.forEach(function(row) {
+            var content = row.querySelector('.marquee-content, .partners-content');
+            if (!content) return;
+            var direction = row.dataset.direction === 'right' ? 1 : -1;
+            var speedMult = parseFloat(row.dataset.speed) || 1;
+            var contentWidth = content.offsetWidth;
+            var x = direction === -1 ? 0 : -contentWidth;
+
+            function animate() {
+                var speed = (baseSpeed + scrollVelocity * 0.1) * speedMult;
+                x += direction * -1 * speed / 60;
+
+                if (direction === -1 && x <= -contentWidth) x += contentWidth;
+                if (direction === 1 && x >= 0) x -= contentWidth;
+
+                row.style.transform = 'translateX(' + x + 'px)';
+                requestAnimationFrame(animate);
+            }
+            animate();
+        });
+
+        // ═══════════════════════════════════════════════════════════
+        // SPOTLIGHT BORDER CARDS
+        // ═══════════════════════════════════════════════════════════
+        var calcGrid = document.getElementById('calcGrid');
+        if (calcGrid) {
+            calcGrid.addEventListener('mousemove', function(e) {
+                var cards = calcGrid.querySelectorAll('.calc-card');
+                cards.forEach(function(c) {
+                    var r = c.getBoundingClientRect();
+                    c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                    c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+                });
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        // STICKY CARDS SCALE ANIMATION
+        // ═══════════════════════════════════════════════════════════
+        var stickyCards = document.querySelectorAll('.sticky-card');
+        stickyCards.forEach(function(card, i) {
+            if (i < stickyCards.length - 1) {
+                gsap.to(card, {
+                    scale: 0.95,
+                    opacity: 0.6,
+                    scrollTrigger: {
+                        trigger: stickyCards[i + 1],
+                        start: 'top 80%',
+                        end: 'top 20%',
+                        scrub: true
+                    }
+                });
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════
+        // FADE UP ANIMATIONS
+        // ═══════════════════════════════════════════════════════════
+        gsap.utils.toArray('.fade-up').forEach(function(el) {
+            gsap.to(el, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%'
+                }
+            });
+        });
+
+        // ═══════════════════════════════════════════════════════════
+        // PARTICLE EXPLOSION BUTTONS
+        // ═══════════════════════════════════════════════════════════
+        document.querySelectorAll('.btn[data-type]').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                var rect = btn.getBoundingClientRect();
+                var cx = rect.left + rect.width / 2;
+                var cy = rect.top + rect.height / 2;
+                var type = btn.dataset.type;
+                var color = btn.dataset.color;
+
+                if (type === 'particles') spawnParticles(cx, cy, color);
+                else if (type === 'ring') spawnRing(cx, cy, color);
+            });
+        });
+
+        function spawnParticles(cx, cy, color) {
+            for (var i = 0; i < 16; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                p.style.background = color;
+                p.style.left = cx + 'px';
+                p.style.top = cy + 'px';
+                document.body.appendChild(p);
+
+                var angle = Math.random() * Math.PI * 2;
+                var dist = 30 + Math.random() * 60;
+                var dx = Math.cos(angle) * dist;
+                var dy = Math.sin(angle) * dist - 30;
+
+                p.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                p.offsetHeight; // Force reflow
+                p.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) scale(0)';
+                p.style.opacity = '0';
+
+                setTimeout(function(el) { el.remove(); }, 700, p);
+            }
+        }
+
+        function spawnRing(cx, cy, color) {
+            var r = document.createElement('div');
+            r.className = 'ring';
+            r.style.borderColor = color;
+            r.style.left = cx + 'px';
+            r.style.top = cy + 'px';
+            r.style.width = '10px';
+            r.style.height = '10px';
+            r.style.marginLeft = '-5px';
+            r.style.marginTop = '-5px';
+            document.body.appendChild(r);
+
+            r.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+            r.offsetHeight;
+            r.style.width = '100px';
+            r.style.height = '100px';
+            r.style.marginLeft = '-50px';
+            r.style.marginTop = '-50px';
+            r.style.opacity = '1';
+
+            setTimeout(function() { r.style.opacity = '0'; }, 200);
+            setTimeout(function() { r.remove(); }, 600);
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    })();
+
+    // ═══════════════════════════════════════════════════════════════
+    // CALCULATOR FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    function calculateStrideUp() {
+        var propertyValue = parseFloat(document.getElementById('strideup-property-value').value) || 0;
+        var deposit = parseFloat(document.getElementById('strideup-deposit').value) || 0;
+        var term = parseInt(document.getElementById('strideup-term').value) || 0;
+        var rental = parseFloat(document.getElementById('strideup-rental').value) || 0;
+
+        var financedAmount = propertyValue - deposit;
+        var totalPayments = rental * term * 12;
+        var totalCost = totalPayments + deposit;
+        var effectiveRate = ((totalCost - propertyValue) / propertyValue / term) * 100;
+
+        var resultDiv = document.getElementById('strideup-result');
+        resultDiv.innerHTML =
+            '<div class="result-title">Finance Structure</div>' +
+            '<div class="result-row"><span class="label">Financed Amount</span><span class="value">$' + financedAmount.toLocaleString() + '</span></div>' +
+            '<div class="result-row"><span class="label">Monthly Rental</span><span class="value">$' + rental.toLocaleString() + '</span></div>' +
+            '<div class="result-row"><span class="label">Total Payments</span><span class="value">$' + totalPayments.toLocaleString() + '</span></div>' +
+            '<div class="result-row"><span class="label">Total Cost</span><span class="value">$' + totalCost.toLocaleString() + '</span></div>' +
+            '<div class="result-row highlight"><span class="label">Effective Annual Rate</span><span class="value">' + effectiveRate.toFixed(2) + '%</span></div>';
+        resultDiv.style.display = 'block';
+    }
+
+    function calculateZakat() {
+        var cash = parseFloat(document.getElementById('zakat-cash').value) || 0;
+        var gold = parseFloat(document.getElementById('zakat-gold').value) || 0;
+        var silver = parseFloat(document.getElementById('zakat-silver').value) || 0;
+        var stocks = parseFloat(document.getElementById('zakat-stocks').value) || 0;
+
+        var totalWealth = cash + gold + silver + stocks;
+        var nisab = 3813;
+        var zakatDue = totalWealth >= nisab ? totalWealth * 0.025 : 0;
+
+        var resultDiv = document.getElementById('zakat-result');
+        resultDiv.innerHTML =
+            '<div class="result-title">Zakat Calculation</div>' +
+            '<div class="result-row"><span class="label">Total Wealth</span><span class="value">$' + totalWealth.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span></div>' +
+            '<div class="result-row"><span class="label">Nisab Threshold</span><span class="value">$' + nisab.toLocaleString() + '</span></div>' +
+            '<div class="result-row"><span class="label">Status</span><span class="value">' + (totalWealth >= nisab ? 'Obligatory' : 'Below Nisab') + '</span></div>' +
+            '<div class="result-row highlight"><span class="label">Zakat Due (2.5%)</span><span class="value">$' + zakatDue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span></div>';
+        resultDiv.style.display = 'block';
+    }
+
+    function calculateWahedReturns() {
+        var initial = parseFloat(document.getElementById('wahed-initial').value) || 0;
+        var monthly = parseFloat(document.getElementById('wahed-monthly').value) || 0;
+        var annualReturn = parseFloat(document.getElementById('wahed-return').value) || 0;
+        var years = parseInt(document.getElementById('wahed-period').value) || 0;
+
+        var monthlyReturn = annualReturn / 100 / 12;
+        var months = years * 12;
+        var futureValue = initial * Math.pow(1 + monthlyReturn, months);
+
+        if (monthlyReturn > 0) {
+            futureValue += monthly * (Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn;
+        } else {
+            futureValue += monthly * months;
+        }
+
+        var totalContributions = initial + (monthly * months);
+        var totalProfit = futureValue - totalContributions;
+        var roi = (totalProfit / totalContributions) * 100;
+
+        var resultDiv = document.getElementById('wahed-result');
+        resultDiv.innerHTML =
+            '<div class="result-title">Investment Projection</div>' +
+            '<div class="result-row"><span class="label">Total Contributions</span><span class="value">$' + totalContributions.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span></div>' +
+            '<div class="result-row"><span class="label">Projected Value</span><span class="value">$' + futureValue.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span></div>' +
+            '<div class="result-row"><span class="label">Total Profit</span><span class="value">$' + totalProfit.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span></div>' +
+            '<div class="result-row highlight"><span class="label">ROI</span><span class="value">' + roi.toFixed(2) + '%</span></div>';
+        resultDiv.style.display = 'block';
+    }
+
+    function calculateBudget() {
+        var income = parseFloat(document.getElementById('budget-income').value) || 0;
+        var housing = parseFloat(document.getElementById('budget-housing').value) || 0;
+        var food = parseFloat(document.getElementById('budget-food').value) || 0;
+        var other = parseFloat(document.getElementById('budget-other').value) || 0;
+
+        var totalExpenses = housing + food + other;
+        var savings = income - totalExpenses;
+        var savingsRate = (savings / income) * 100;
+        var annualSavings = savings * 12;
+        var potentialZakat = annualSavings > 3813 ? annualSavings * 0.025 : 0;
+
+        var resultDiv = document.getElementById('budget-result');
+        resultDiv.innerHTML =
+            '<div class="result-title">Budget Analysis</div>' +
+            '<div class="result-row"><span class="label">Monthly Income</span><span class="value">$' + income.toLocaleString() + '</span></div>' +
+            '<div class="result-row"><span class="label">Total Expenses</span><span class="value">$' + totalExpenses.toLocaleString() + '</span></div>' +
+            '<div class="result-row"><span class="label">Monthly Savings</span><span class="value">$' + savings.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span></div>' +
+            '<div class="result-row"><span class="label">Savings Rate</span><span class="value">' + savingsRate.toFixed(1) + '%</span></div>' +
+            '<div class="result-row highlight"><span class="label">Est. Annual Zakat</span><span class="value">$' + potentialZakat.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span></div>';
+        resultDiv.style.display = 'block';
+    }
     </script>
 </body>
 </html>
